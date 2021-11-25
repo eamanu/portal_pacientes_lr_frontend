@@ -6,31 +6,41 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Login from './pages/Login/index';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Login from './pages/Login';
 import Register from './pages/Register';
 import Main from './pages/Main';
-import Footer from './pages/Main/Footer'
+import FamilyGroup from './pages/FamilyGroup';
+import DigitalHC from './pages/DigitalHC';
+import Program from './pages/Program';
+import Calendar from './pages/Calendar';
+
 
 
 function App() {
   return (
     <div className="App">
-        <h1>Portal del Paciente - La Rioja</h1>  
-        <Router>
+      <Header></Header>
+      <Router>
 
-          <Link to="/">Iniciar Sesión</Link>
-          <Link to="/register">Registrarse</Link>
-          <Link to="/main">Ingresar</Link>
-      
-          <Routes>
-            <Route path="/" exact element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/main" element={<Main/>}/>
-          </Routes>
-       
-        <Footer/>
+        <Link className="me-2" to="/">Iniciar Sesión</Link>
+        <Link className="me-2" to="/register">Registrarse</Link>
+        <Link className="me-2" to="/main">Ingresar</Link>
+
+        <Routes>
+          <Route path="/" exact element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/grupo-familiar" exact element={<FamilyGroup />} />
+          <Route path="/hc-digital" element={<DigitalHC />} />
+          <Route path="/programa-sumar" element={<Program />} />
+          <Route path="/calendario-de-vacunacion" element={<Calendar />} />
+        </Routes>
+
+        <Footer />
       </Router>
-      
+
     </div>
   );
 }
