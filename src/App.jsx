@@ -11,11 +11,10 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Main from './pages/Main';
-import FamilyGroup from './pages/FamilyGroup';
-import DigitalHC from './pages/DigitalHC';
-import Program from './pages/Program';
-import Calendar from './pages/Calendar';
-
+import GrupoFamiliar from './pages/GrupoFamiliar';
+import HistoriaClinicaDigital from './pages/HistoriaClinicaDigital';
+import ProgramaSumar from './pages/ProgramaSumar';
+import CalendarioVacunacion from './pages/CalendarioVacunacion';
 
 
 function App() {
@@ -24,18 +23,17 @@ function App() {
       <Header></Header>
       <Router>
 
-        <Link className="me-2" to="/">Iniciar Sesión</Link>
-        <Link className="me-2" to="/register">Registrarse</Link>
-        <Link className="me-2" to="/main">Ingresar</Link>
+        <Link className="me-2" to="/inicio-de-sesion">Iniciar Sesión</Link>
+        <Link className="me-2" to="/rigistro">Registrarse</Link>
 
         <Routes>
-          <Route path="/" exact element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/grupo-familiar" exact element={<FamilyGroup />} />
-          <Route path="/hc-digital" element={<DigitalHC />} />
-          <Route path="/programa-sumar" element={<Program />} />
-          <Route path="/calendario-de-vacunacion" element={<Calendar />} />
+          <Route path="/inicio-de-sesion" exact element={<Login />} />
+          <Route path="/rigistro" element={<Register />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/grupo-familiar" exact element={<GrupoFamiliar />} />
+          <Route path="/hc-digital" element={<HistoriaClinicaDigital />} />
+          <Route path="/programa-sumar" element={<ProgramaSumar />} />
+          <Route path="/calendario-de-vacunacion" element={<CalendarioVacunacion />} />
         </Routes>
 
         <Footer />

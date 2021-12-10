@@ -1,6 +1,6 @@
 import React from 'react';
 
-function FamilyGroup() {
+function GrupoFamiliar() {
     return (
         <div>
             <h1>Grupo familiar</h1>
@@ -8,4 +8,4 @@ function FamilyGroup() {
     )
 }
 
-export default FamilyGroup;
+export default GrupoFamiliar;
