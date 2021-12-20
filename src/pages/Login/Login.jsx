@@ -1,66 +1,60 @@
 import React from 'react';
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import useDb from '../../hooks/useDb';
-import axios from 'axios';
-import Cookies from 'universal-cookie/es6';
-
-const API = "http://localhost:3001/users";
+import { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { Form, Button } from 'react-bootstrap';
+import useAuth from '../../auth/useAuth';
 
 function Login() {
 
-    const db = API
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const auth = useAuth();
+    const history = useHistory();
+    const location = useLocation();
+    const previousObjetURL = location.state?.from
+    // console.log(previousObjetURL);
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    let navigate = useNavigate()
+    useEffect(() => {
+        if (auth.isLogged()) history.push(previousObjetURL || "/usuario")
+    }, [auth, history, previousObjetURL])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        login()
-    }
-
-    const login = async () => {
-        await axios.get(db, { params: { email: email, password: password, } })
-            .then(response => {
-                console.log(response.data);
-                return response.data;
-            })
-            .then(response => {
-                if(response.length>0){
-                    navigate("/")
-                } else {
-                    alert('usuario o contraseña incorrecto')
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        auth.login(username, password)
     }
 
     return (
         <div>
-            <h1>Login</h1>
-            <div className="form-group">
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="">Usuario: email</label>
-                    <input
-                        name="email"
+            <h1>Iniciar Sesión</h1>
+            <Form className="form-group" onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Usuario</Form.Label>
+                    <Form.Control
+                        name="username"
                         type="text"
                         className="form-control"
-                        onChange={(e) => { setEmail(e.target.value) }}
+                        onChange={(e) => { setUsername(e.target.value) }}
                     />
-                    <label htmlFor="">Contraseña:</label>
-                    <input
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
                         name="password"
                         type="password"
                         className="form-control"
                         onChange={(e) => { setPassword(e.target.value) }}
                     />
-                    <button className="btn btn-primary" >Iniciar Sesión</button>
-                </form>
-            </div>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                    <Form.Check type="checkbox" label="Check me out" />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Iniciar Sesión
+                </Button>
+            </Form>
         </div>
+
     )
 }
 
