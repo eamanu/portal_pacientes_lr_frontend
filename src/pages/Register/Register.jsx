@@ -1,10 +1,91 @@
-import React from 'react';
+import { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import useAuth from '../../auth/useAuth';
 
 function Register() {
     return (
-        <div>
-            <h1>Register</h1>
-        </div>
+        <Container className='h-100 d-flex align-items-center justify-content-center'>
+            {/* <h1>Iniciar Sesión</h1> */}
+            <Row className='w-100 h-75 d-flex align-items-center justify-content-center'>
+                <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
+                    <div className='w-100 h-100 bg-secondary'></div>
+                </Col>
+                <Col xs={8} sm={7} lg={5}>
+                    <h2>Registrarse</h2>
+                    <Form className="form-group" >
+                        <Row>
+                            <Col xs={12} sm={6}>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>Nombre</Form.Label>
+                                    <Form.Control
+                                        name="name"
+                                        type="text"
+                                        className="form-control"
+                                    // onChange={(e) => { setUsername(e.target.value) }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12} sm={6}>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Label>Apellido</Form.Label>
+                                    <Form.Control
+                                        name="lastname"
+                                        type="text"
+                                        className="form-control"
+                                    // onChange={(e) => { setPassword(e.target.value) }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} sm={6}>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Label>DNI</Form.Label>
+                                    <Form.Control
+                                        name="dni"
+                                        type="text"
+                                        className="form-control"
+                                    // onChange={(e) => { setUsername(e.target.value) }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12} sm={6}>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Label>Fecha de Nacimiento</Form.Label>
+                                    <Form.Control
+                                        name="date"
+                                        type="text"
+                                        className="form-control"
+                                    // onChange={(e) => { setPassword(e.target.value) }}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control
+                                        name="password"
+                                        type="text"
+                                        className="form-control"
+                                    // onChange={(e) => { setPassword(e.target.value) }}
+                                    />
+                                </Form.Group>
+                                <p>Una vez que los datos hayan sido verificados, recibirás una contraseña por mail.</p>
+                            </Col>
+                        </Row>
+
+
+                        <Button variant="primary" type="submit">
+                            Rgistrarse
+                        </Button>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 

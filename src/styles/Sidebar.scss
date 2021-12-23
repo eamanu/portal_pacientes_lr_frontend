@@ -1,16 +1,47 @@
-.sidebar {
-    width: 14rem;
-    height: calc(100vh - 3.5rem);
-    border-right: 1px solid gray;
+@import "Vars.scss";
 
-    ul {
-        list-style: none;
-        padding: 1rem  2rem;
-        li{
-            margin-bottom: 1rem;
-            a{
-                text-decoration: none;
-            }
-        }
+.sidebar {
+  position: fixed;
+  top: 4.4rem;
+  width: 7rem;
+  height: calc(100vh - 3.5rem);
+  padding: 0.5rem;
+  border-right: 1px solid $secondary;
+  background-color: $secondary;
+  color: $text-primary;
+  transition: transform 0.2s;
+
+  @media only screen and (min-width: $tablet) {
+    width: 14rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0.5rem 0rem;
+
+    @media only screen and (min-width: $tablet) {
+      padding: 0.5rem 1rem;
     }
+    li {
+      margin-bottom: 1rem;
+      a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        color: $text-light;
+        text-decoration: none;
+        padding: 1rem;
+        .menu-icon {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+}
+.close {
+  transform: translateX(-100%);
+}
+.show {
+  transform: translateX(0);
 }

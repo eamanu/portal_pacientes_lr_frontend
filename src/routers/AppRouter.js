@@ -12,14 +12,17 @@ export default function AppRouter() {
     return (
         <Router>
             <Header />
+            <div className="main-container">
             <Switch>
                 <PublicRoute exact path='/login' component={Login}/>
                 <PublicRoute exact path='/register' component={Register}/>
                 <PrivateRoute path='/usuario' component={UserRouter}/>   
-                <PrivateRoute path='/'><Redirect to="/usuario"/> </PrivateRoute>  
+                {/* <PrivateRoute path='/' component={UserRouter}/> */}
+                <Route path='/'><Redirect to='/usuario'/></Route>  
                 <Route path='/404' component={NotFound}/>   
-                <Route path='*' component={NotFound}/>   
+                <Route path='*' component={NotFound}/>    
             </Switch>
+            </div>
             <Footer />
         </Router>
     )

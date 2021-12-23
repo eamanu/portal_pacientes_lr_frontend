@@ -1,24 +1,23 @@
 import React from 'react';
 import '../../styles/Sidebar.scss';
 import { NavLink } from 'react-router-dom';
+import { SidebarData } from './SidebarData';
+import * as MdIcon from 'react-icons/md'
 
-function Sidebar() {
+function Sidebar({isActive, action}) {
     return (
-        <div className="sidebar">
+        <div className={`sidebar ${isActive}`}>
+        {/* <div className="sidebar close"> */}
+            <button className='btn text-light' onClick={action}><MdIcon.MdClose className='menu-icon'></MdIcon.MdClose></button>
             <ul>
-                <li>
-                    <NavLink activeClassName="active" className="me-2" exact to="/usuario/grupo-familair">Grupo Familiar</NavLink>
+                {SidebarData.map((item, index) => {
+                    return (
+                        <li key={index} className={item.cName} onClick={action}>
+                    <NavLink activeClassName="active" exact to={item.path}>{item.icon} <span>{item.title}</span></NavLink>
                 </li>
-                <li>
-                    <NavLink activeClassName="active" className="me-2" exact to="/usuario/historia-clinica">Historia Clínica</NavLink>
-                </li>
-                <li>
-                    <NavLink activeClassName="active" className="me-2" exact to="/usuario/calendario-vacunacion">Calendario de vacunación</NavLink>
-                </li>
-                <li>
-                    <NavLink activeClassName="active" className="me-2" exact to="/usuario/programa-sumar">Programa Sumar</NavLink>
-                </li>
-               
+                    )
+                })
+                }
             </ul>
         </div>
     )

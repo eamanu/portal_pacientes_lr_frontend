@@ -1,5 +1,25 @@
+@import 'Vars.scss';
+
 * {
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  
+  @media only screen and (min-width: $tablet) {
+      font-size: 14px;
+  }
+  @media only screen and (min-width: $desktop) {
+    font-size: 16px;
+}
+}
+html{
+  background-color: $primary;
+}
+body{
+  color: $text-light !important;
+}
+a{
+  text-decoration: none !important;
 }

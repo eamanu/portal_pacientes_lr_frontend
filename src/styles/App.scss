@@ -1,7 +1,30 @@
-* {
-    margin: 0;
-    padding: 0;
-}
+@import 'Vars.scss';
+
 .active{
-    background-color: rgb(223, 223, 223);
+    background-color: $accent;
+    border-radius: 5px;
+    color: $text-light;
+    a {
+        color: $text-light;
+    }
+}
+.navbar{
+    background-color: $primary;
+    color: $text-light;
+}
+.main-container{
+    height: calc(100vh - 4.4rem);
+    background-color: $primary;
+}
+.user-header{
+    height: 3rem;
+}
+.user-container{
+    display: block;
+    height: 100%;
+    background-color: $third;
+    color: $text-primary;
+}
+.menu-icon{
+    font-size: 1.5rem;
 }
