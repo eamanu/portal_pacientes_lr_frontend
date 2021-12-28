@@ -27,10 +27,10 @@ function Login() {
         <Container className='h-100 d-flex align-items-center justify-content-center'>
             {/* <h1>Iniciar Sesión</h1> */}
             <Row className='w-100 h-75 d-flex align-items-center justify-content-center'>
-                <Col xs={12} sm={5} md={4} className='h-100 d-none d-sm-flex'>
+                <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
                    <div className='w-100 h-100 bg-secondary'></div> 
                 </Col>
-                <Col xs={8} sm={7} md={5}>
+                <Col xs={8} sm={7} lg={5}>
                         <h2>Iniciar sesión</h2>
                     <Form className="form-group" onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">

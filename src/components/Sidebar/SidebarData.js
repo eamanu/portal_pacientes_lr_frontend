@@ -1,5 +1,6 @@
 import React from "react";
 import * as MdIcon from 'react-icons/md'
+import * as FaIcon from 'react-icons/fa'
 
 export const SidebarData = [
     {
@@ -24,6 +25,12 @@ export const SidebarData = [
         title: "Programa Sumar",
         path: "/usuario/programa-sumar",
         icon: <MdIcon.MdAddCircleOutline className="menu-icon"/>,
+        cName: "sidebar-text"
+    },
+    {
+        title: "Instituciones",
+        path: "/usuario/instituciones",
+        icon: <FaIcon.FaHospital className="menu-icon"/>,
         cName: "sidebar-text"
     }
 ]

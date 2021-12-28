@@ -17,14 +17,14 @@ function UserHeader() {
     return (
         <>
             <Container fluid className='user-header'>
-                <Row>
+                <Row className='w-100'>
                     <Col xs={3} className='d-flex align-items-center '>
                         <button className='btn' onClick={showSidebar}><MdIcon.MdViewHeadline className='menu-icon' /> </button>
                     </Col>
                     <Col xs={6} className='d-flex align-items-center'>
                         <p className='mb-0'>{`Paciente: ${auth.user.nombre} ${auth.user.apellido}`}</p>
                     </Col>
-                    <Col xs={3} className='d-flex align-items-center '>
+                    <Col xs={3} className='d-flex align-items-center justify-content-end'>
                         {thisLocation !== "/usuario/grupo-familiar" && <NavLink to="/usuario/grupo-familiar">Cambiar paciente</NavLink>}
                     </Col>
                 </Row>

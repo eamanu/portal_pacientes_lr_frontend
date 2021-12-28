@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Navbar, Container, NavDropdown } from 'react-bootstrap';
 import useAuth from '../../auth/useAuth';
-// import * as MdIcon from 'react-icons/md'
-// import Sidebar from '../Sidebar';
+import PerfilUsuario from '../../pages/PerfilUsuario';
 
 function Header() {
     const auth = useAuth();
     const user = auth.user;
     console.log(user)
 
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleClick = e => {
         e.preventDefault();
@@ -18,19 +20,19 @@ function Header() {
 
     return (
         <div>
-            <Navbar variant="none" className="navbar">
+            <Navbar variant="none" className="navbar" fixed="top">
                 <Container fluid>
-                    <Navbar.Brand href='/' className='text-light'>LOGO</Navbar.Brand>
+                    <Navbar.Brand className='text-light'>LOGO</Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
                             {auth.isLogged() &&
                                 <>
                                     {/* <NavLink activeClassName="active" className="me-2 p-2 text-light" to="/usuario">Home</NavLink> */}
                                     <NavDropdown title={`${auth.user.nombre} ${auth.user.apellido}`} id="basic-nav-dropdown">
-                                        <NavDropdown.Item><NavLink activeClassName="none" to="/usuario">Perfil del usuario</NavLink></NavDropdown.Item>
-                                        <NavDropdown.Item><NavLink activeClassName="none" to="/usuario/grupo-familiar">Cambiar paciente</NavLink></NavDropdown.Item>
-                                        <NavDropdown.Divider  />
-                                        <NavDropdown.Item  onClick={handleClick}>Cerrar sesión</NavDropdown.Item>
+                                        <button className="btn dropdown-item" onClick={handleShow}>Perfil del usuario</button>
+                                        <NavLink className="dropdown-item" activeClassName="none" to="/usuario/grupo-familiar">Cambiar paciente</NavLink>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item onClick={handleClick}>Cerrar sesión</NavDropdown.Item>
                                     </NavDropdown>
                                 </>
                             }
@@ -45,6 +47,7 @@ function Header() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+            <PerfilUsuario show={show} handleClose={handleClose} />
         </div>
     )
 }
