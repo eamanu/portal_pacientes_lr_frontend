@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+// import { useState, useEffect } from "react";
+// import { useHistory, useLocation } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import useAuth from '../../auth/useAuth';
+import DatePickerComponent from '../../components/DatePickerComponent';
+import DniType from '../../components/DniType/DniType';
+// import useAuth from '../../auth/useAuth';
 
 function Register() {
     return (
@@ -42,23 +44,25 @@ function Register() {
                             <Col xs={12} sm={6}>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Label>DNI</Form.Label>
-                                    <Form.Control
-                                        name="dni"
-                                        type="text"
-                                        className="form-control"
-                                    // onChange={(e) => { setUsername(e.target.value) }}
-                                    />
+                                    <Row>
+                                        <Col className="pe-0" xs={7}>
+                                           <DniType/>
+                                        </Col>
+                                        <Col className="ps-0" xs={5}>
+                                            <Form.Control
+                                                name="name"
+                                                type="text"
+                                                className="form-control"
+                                            // onChange={(e) => { setUsername(e.target.value) }}
+                                            />
+                                        </Col>
+                                    </Row>
                                 </Form.Group>
                             </Col>
                             <Col xs={12} sm={6}>
                                 <Form.Group className="mb-3" controlId="formBasicPassword">
                                     <Form.Label>Fecha de Nacimiento</Form.Label>
-                                    <Form.Control
-                                        name="date"
-                                        type="text"
-                                        className="form-control"
-                                    // onChange={(e) => { setPassword(e.target.value) }}
-                                    />
+                                    <DatePickerComponent />
                                 </Form.Group>
                             </Col>
                         </Row>

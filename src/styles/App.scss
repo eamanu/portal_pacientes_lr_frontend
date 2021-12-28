@@ -13,15 +13,33 @@
     color: $text-light;
 }
 .main-container{
+    position: absolute;
+    top: 4.4rem;
     height: calc(100vh - 4.4rem);
+    width: 100%;
     background-color: $primary;
 }
 .user-header{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 4.4rem;
     height: 3rem;
+    width: 100%;
+    background-color: $third;
+    border-bottom: 1px solid $secondary;
+    a {
+        line-height: 1rem;
+    }
 }
 .user-container{
+    position: absolute;
+    top: 3rem;
     display: block;
-    height: 100%;
+    height: auto;
+    min-height: calc(100% - 3rem) ;
+    width: 100%;
     background-color: $third;
     color: $text-primary;
 }
