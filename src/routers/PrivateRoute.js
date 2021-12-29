@@ -3,7 +3,7 @@ import {
   Redirect,
   useLocation,
 } from "react-router-dom";
-import useAuth from "../auth/useAuth";
+import useAuth from "../hooks/useAuth";
 
 export default function PrivateRoute({ component: Component, ...res }) {
   const auth = useAuth();

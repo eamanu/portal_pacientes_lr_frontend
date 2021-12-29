@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import useAuth from '../../auth/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 function Login() {
 

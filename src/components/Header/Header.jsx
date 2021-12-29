@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Navbar, Container, NavDropdown } from 'react-bootstrap';
-import useAuth from '../../auth/useAuth';
+import useAuth from '../../hooks/useAuth';
 import PerfilUsuario from '../../pages/PerfilUsuario';
 
 function Header() {
     const auth = useAuth();
-    const user = auth.user;
-    console.log(user)
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);

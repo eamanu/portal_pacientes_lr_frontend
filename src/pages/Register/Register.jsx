@@ -3,7 +3,7 @@
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import DatePickerComponent from '../../components/DatePickerComponent';
 import DniType from '../../components/DniType/DniType';
-// import useAuth from '../../auth/useAuth';
+// import useAuth from '../../hookss/useAuth';
 
 function Register() {
     return (

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import useAuth from '../../auth/useAuth';
+import usePatient from '../../hooks/usePatient'
 import * as MdIcon from 'react-icons/md'
 import Sidebar from '../Sidebar';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 function UserHeader() {
-    const auth = useAuth();
+    const p = usePatient();
 
     const [sidebar, setSidebar] = useState(false);
     const showSidebar = () => setSidebar(!sidebar);
@@ -22,7 +22,7 @@ function UserHeader() {
                         <button className='btn' onClick={showSidebar}><MdIcon.MdViewHeadline className='menu-icon' /> </button>
                     </Col>
                     <Col xs={6} className='d-flex align-items-center'>
-                        <p className='mb-0'>{`Paciente: ${auth.user.nombre} ${auth.user.apellido}`}</p>
+                        <p className='mb-0'>{`Paciente: ${p.patient.nombre} ${p.patient.apellido}`}</p>
                     </Col>
                     <Col xs={3} className='d-flex align-items-center justify-content-end'>
                         {thisLocation !== "/usuario/grupo-familiar" && <NavLink to="/usuario/grupo-familiar">Cambiar paciente</NavLink>}

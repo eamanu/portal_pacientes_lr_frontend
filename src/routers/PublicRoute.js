@@ -2,7 +2,7 @@ import { Route } from "react-router-dom";
 import {
   Redirect,
 } from "react-router-dom";
-import useAuth from "../auth/useAuth";
+import useAuth from "../hooks/useAuth";
 
 export default function PublicRoute({ component: Component, ...res }) {
   const auth = useAuth();
