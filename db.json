@@ -11,14 +11,17 @@
             "grupo_familiar": {
                 "pacientes": [
                     {
+                        "id": "1a",
                         "nombre": "Nombre",
                         "apellido": "Apellido"
                     },
                     {
+                        "id": "1b",
                         "nombre": "Nombre2",
                         "apellido": "Apellido2"
                     },
                     {
+                        "id": "1c",
                         "nombre": "Nombre3",
                         "apellido": "Apellido3"
                     }
