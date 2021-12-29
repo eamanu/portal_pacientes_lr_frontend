@@ -46,3 +46,24 @@
 .menu-icon{
     font-size: 1.5rem;
 }
+// Grupo familiar
+.patient{
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    background-color: $third;
+    border-radius: 5px;
+    // border: 0.5px solid #585858;
+    box-shadow: 0px 0px 2px 1px #00000060;
+    div {
+        display: flex;
+        align-items: center;
+    }
+    .patient-name {
+        cursor: pointer;
+    }
+    .patient-actions {
+        justify-content: flex-end;
+    }
+}
