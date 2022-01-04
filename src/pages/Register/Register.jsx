@@ -1,11 +1,20 @@
 // import { useState, useEffect } from "react";
 // import { useHistory, useLocation } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import DatePickerComponent from '../../components/DatePickerComponent';
 import DniType from '../../components/DniType/DniType';
 // import useAuth from '../../hookss/useAuth';
 
 function Register() {
+
+    const history = useHistory()
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        history.push("/verificacion");
+    }
+
     return (
         <Container className='h-100 d-flex align-items-center justify-content-center'>
             {/* <h1>Iniciar Sesión</h1> */}
@@ -15,7 +24,7 @@ function Register() {
                 </Col>
                 <Col xs={8} sm={7} lg={5}>
                     <h2>Registrarse</h2>
-                    <Form className="form-group" >
+                    <Form className="form-group" onSubmit={handleSubmit}>
                         <Row>
                             <Col xs={12} sm={6}>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -81,7 +90,6 @@ function Register() {
                                 <p>Una vez que los datos hayan sido verificados, recibirás una contraseña por mail.</p>
                             </Col>
                         </Row>
-
 
                         <Button variant="primary" type="submit">
                             Rgistrarse
