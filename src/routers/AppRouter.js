@@ -7,6 +7,7 @@ import Login from "../pages/Login"
 import Register from "../pages/Register"
 import UserRouter from "./UserRouter"
 import NotFound from "../pages/NotFound/NotFound"
+import AvisoVerificacion from "../pages/AvisoVerificacion"
 
 export default function AppRouter() {
     return (
@@ -16,9 +17,9 @@ export default function AppRouter() {
             <Switch>
                 <PublicRoute exact path='/login' component={Login}/>
                 <PublicRoute exact path='/register' component={Register}/>
+                <PublicRoute exact path='/verificacion' component={AvisoVerificacion}/>
                 <PrivateRoute path='/usuario' component={UserRouter}/>   
-                {/* <PrivateRoute path='/' component={UserRouter}/> */}
-                <Route path='/'><Redirect to='/usuario'/></Route>  
+                <Route exact path='/'><Redirect to='/usuario'/></Route>  
                 <Route path='/404' component={NotFound}/>   
                 <Route path='*' component={NotFound}/>    
             </Switch>

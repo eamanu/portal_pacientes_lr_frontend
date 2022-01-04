@@ -7,6 +7,7 @@ import HistoriaClinicaDigital from '../pages/HistoriaClinicaDigital';
 import Instituciones from '../pages/Instituciones';
 import ProgramaSumar from '../pages/ProgramaSumar';
 import PatientProvider from '../contexts/PatientProvider';
+import Main from '../pages/Main/Main';
 
 export default function UserRouter() {
 
@@ -15,6 +16,7 @@ export default function UserRouter() {
         <PatientProvider>
         <UserHeader/>
             <Switch>
+                <Route exact path='/usuario' component={Main}/>
                 <Route path='/usuario/grupo-familiar' component={GrupoFamiliar}/>
                 <Route path='/usuario/historia-clinica' component={HistoriaClinicaDigital}/>
                 <Route path='/usuario/programa-sumar' component={ProgramaSumar}/>
