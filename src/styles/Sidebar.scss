@@ -10,6 +10,7 @@
   background-color: $secondary;
   color: $text-primary;
   transition: transform 0.2s;
+  z-index: 1;
 
   @media only screen and (min-width: $tablet) {
     width: 14rem;

@@ -14,7 +14,7 @@ function GrupoFamiliar() {
 
 
     return (
-        <Container>
+        <Container className='px-5'>
             <h1 className='text-center mt-5'>Grupo familiar</h1>
             <div className='mt-5'>
             {p.allPatients.map((patient) => {
