@@ -15,6 +15,7 @@ export default function UserRouter() {
         <div className='user-container'>
         <PatientProvider>
         <UserHeader/>
+        <div className='patient-container'>
             <Switch>
                 <Route exact path='/usuario' component={Main}/>
                 <Route path='/usuario/grupo-familiar' component={GrupoFamiliar}/>
@@ -23,6 +24,7 @@ export default function UserRouter() {
                 <Route path='/usuario/calendario-vacunacion' component={CalendarioVacunacion}/>    
                 <Route path='/usuario/instituciones' component={Instituciones}/>    
             </Switch>
+        </div>
         </PatientProvider>
         </div>
     )

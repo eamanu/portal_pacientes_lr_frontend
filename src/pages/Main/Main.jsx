@@ -5,8 +5,8 @@ import * as MdIcon from 'react-icons/md';
 const Main = () => {
 
     return (
-        <Container className="main">
-            <h1 className='text-center mt-5'>Te damos la bienvenida al Portal de Pacientes de La Rioja</h1>
+        <Container className="main pt-5">
+            <h1 className='text-center '>Bienvenido al Portal del Paciente de La Rioja</h1>
             <Row className="mt-5 d-flex justify-content-center p-3">
                 <Col xs={12} md={5} className='main-card'><Link to="/usuario/grupo-familiar"><MdIcon.MdFamilyRestroom className="main-icon"/><h5>Grupo Familiar</h5></Link></Col>
                 <Col xs={12} md={5} className='main-card'><Link to="/usuario/historia-clinica"><MdIcon.MdFolderShared className="main-icon"/><h5>Historia Clinica</h5></Link></Col>
