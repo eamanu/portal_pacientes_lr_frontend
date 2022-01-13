@@ -1,7 +1,10 @@
-import { Container, Row, Col} from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-  
+import useAuth from '../../hooks/useAuth';
+
 function AvisoVerificacion() {
+    const auth = useAuth();
+
     return (
         <Container className='h-100 d-flex align-items-center justify-content-center'>
             {/* <h1>Iniciar Sesión</h1> */}
@@ -10,10 +13,19 @@ function AvisoVerificacion() {
                     <div className='w-100 h-100 bg-secondary'></div>
                 </Col>
                 <Col xs={8} sm={7} lg={5}>
-                    <h2>Confirmá tu correo electrónico</h2> 
-                    <p className='mb-5'>Hemos enviado un correo a la casilla name@mail.com. Haz click en el link que figura en el correo para confirmar tu usuario.</p> 
-                    <p>Si no encuentras el correo en tu bandeja de entrada, no olvides verificar en la carpeta de spam.</p>  
-                    <Link to="/login">¿Ya tenés una cuenta? ¡Iniciá sesión!</Link>
+                    {auth.newUser ? <>
+                        <h2>Confirmá tu correo electrónico</h2>
+                        <p className='mb-5'>Hemos enviado un correo a la casilla {auth.newUser.email} Haz click en el link que figura en el correo para confirmar tu usuario.</p>
+                        <p>Si no encuentras el correo en tu bandeja de entrada, no olvides verificar en la carpeta de spam.</p>
+                        <Link to="/login">¿Ya tenés una cuenta? ¡Iniciá sesión!</Link>
+                    </> :
+                        <>
+                            <h2 className='mb-5'>Hubo un error en la registración.</h2>
+                            <Link to="/register">Haz click aquí paar intentarlo nuevamente</Link>
+                            <br></br>
+                            <Link to="/login">¿Ya tienes una cuenta? ¡Iniciá sesión!</Link>
+                        </>
+                    }
                 </Col>
             </Row>
         </Container>
