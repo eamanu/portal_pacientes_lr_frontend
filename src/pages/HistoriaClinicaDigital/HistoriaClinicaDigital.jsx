@@ -6,9 +6,9 @@ import HCDRouter from './HCDRouter';
 
 const HistoriaClinicaDigital = () => {
     return (
-        <Container className='historia-clinica'>
-            <h1 className='mt-5'>Historia Clinica Digital</h1>
-            <div className='mt-3'>
+        <Container className='historia-clinica pt-5'>
+            <h1 className=''>Historia Clinica Digital</h1>
+            <div className='mt-3 p-2'>
                 <DatosPaciente />
                 <Row className='mt-3 d-flex justify-content-between'>
                     <Col className='switch p-0 me-2'><NavLink activeClassName='active-switch' to='/usuario/historia-clinica/signos-vitales'>Signos vitales</NavLink></Col>

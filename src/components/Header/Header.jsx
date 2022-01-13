@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Navbar, Container, NavDropdown } from 'react-bootstrap';
 import useAuth from '../../hooks/useAuth';
 import PerfilUsuario from '../../pages/PerfilUsuario';
+import * as MdIcon from 'react-icons/md'
 
 function Header() {
     const auth = useAuth();
@@ -20,24 +21,24 @@ function Header() {
         <div>
             <Navbar variant="none" className="navbar" fixed="top">
                 <Container fluid>
-                    <Navbar.Brand className='text-light'>LOGO</Navbar.Brand>
+                    <Link to='/usuario'><Navbar.Brand className='text-light'>Portal del Paciente</Navbar.Brand></Link>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
                             {auth.isLogged() &&
                                 <>
                                     {/* <NavLink activeClassName="active" className="me-2 p-2 text-light" to="/usuario">Home</NavLink> */}
                                     <NavDropdown title={`${auth.user.nombre} ${auth.user.apellido}`} id="basic-nav-dropdown">
-                                        <button className="btn dropdown-item" onClick={handleShow}>Perfil del usuario</button>
-                                        <NavLink className="dropdown-item" activeClassName="none" to="/usuario/grupo-familiar">Cambiar paciente</NavLink>
+                                        <button className="btn dropdown-item" onClick={handleShow}><MdIcon.MdPerson className='me-2'/>Perfil del usuario</button>
+                                        {/* <NavLink className="dropdown-item" activeClassName="none" to="/usuario/grupo-familiar"><MdIcon.MdCompareArrows className='me-2' />Cambiar paciente</NavLink> */}
                                         <NavDropdown.Divider />
-                                        <NavDropdown.Item onClick={handleClick}>Cerrar sesión</NavDropdown.Item>
+                                        <NavDropdown.Item onClick={handleClick}><MdIcon.MdLogout className='me-2' />Cerrar sesión</NavDropdown.Item>
                                     </NavDropdown>
                                 </>
                             }
                             {!auth.isLogged() &&
                                 <>
-                                    <NavLink activeClassName="active" className="me-2 p-2 text-light" exact to="/login">Iniciar Sesión</NavLink>
-                                    <NavLink activeClassName="active" className="me-2 p-2 text-light" exact to="/register">Registrarse</NavLink>
+                                    <NavLink activeClassName="active" className="p-2 text-light" exact to="/login">Iniciar Sesión</NavLink>
+                                    <NavLink activeClassName="active" className="p-2 text-light" exact to="/register">Registrarse</NavLink>
                                 </>
                             }
 
