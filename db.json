@@ -2,28 +2,28 @@
     "users": [
         {
             "id": 1,
-            "nombre": "Nombre",
-            "apellido": "Apellido",
+            "nombre": "Juan",
+            "apellido": "Pérez",
             "username": "usuario",
             "email": "nombre@mail.com",
-            "password": 123546,
+            "password": 123,
             "dni": 12345678,
             "grupo_familiar": {
                 "pacientes": [
                     {
                         "id": "1a",
-                        "nombre": "Nombre",
-                        "apellido": "Apellido"
+                        "nombre": "Juan",
+                        "apellido": "Pérez"
                     },
                     {
                         "id": "1b",
-                        "nombre": "Nombre2",
-                        "apellido": "Apellido2"
+                        "nombre": "Micaela",
+                        "apellido": "Pérez"
                     },
                     {
                         "id": "1c",
-                        "nombre": "Nombre3",
-                        "apellido": "Apellido3"
+                        "nombre": "Ignacio",
+                        "apellido": "Pérez"
                     }
                 ]
             }
@@ -39,14 +39,17 @@
             "grupo_familiar": {
                 "pacientes": [
                     {
+                        "id": "2a",
                         "nombre": "Otro Usuario",
                         "apellido": "Otro Apellido"
                     },
                     {
+                        "id": "2b",
                         "nombre": "Otro2",
                         "apellido": "OtroApellido2"
                     },
                     {
+                        "id": "2c",
                         "nombre": "Otro3",
                         "apellido": "OtroApellido3"
                     }

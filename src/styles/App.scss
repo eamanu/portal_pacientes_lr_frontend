@@ -1,40 +1,84 @@
 @import "Vars.scss";
 
 .active {
-  background-color: $accent;
-  border-radius: 5px;
+  background-color: $primary;
   color: $text-light;
   a {
     color: $text-light;
   }
 }
+.btn-check:focus + .btn,
+.btn:focus,
+.btn-close:focus {
+  outline: 0;
+  box-shadow: $shadow-primary;
+}
 .navbar {
   background-color: $primary;
   color: $text-light;
+  height: 3rem;
+  box-shadow: $shadow-primary;
+
+  .nav-link{
+    font-size: 0.8rem;
+    color: $text-light;
+  }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    a{
+      color: $text-primary;
+    }
+  }
 }
 .main-container {
   position: absolute;
-  top: 4.4rem;
-  height: calc(100vh - 4.4rem);
+  top: 3rem;
+  height: calc(100vh - 3rem);
   width: 100%;
-  background-color: $primary;
+  background-color: $third
 }
 .user-header {
   position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  top: 4.4rem;
-  height: 3rem;
+  top: 3rem;
+  height: 3.5rem;
   width: 100%;
-  background-color: $third;
+  background-color: $secondary;
+  color: $text-light;
   border-bottom: 1px solid $secondary;
+  z-index: 1;
+  .user-header__name{
+    padding-left: 0;
+    @media only screen and (min-width: $tablet) {
+      padding-left: 15rem;
+    }
+  }
   a {
+    padding: 0;
+    font-size: 0.8rem;
+    padding-left: 1rem;
     line-height: 1rem;
+    color: $text-light;   
+  }
+  a:hover{
+    color: $text-secondary;
+  }
+  a:focus{
+    color: $text-secondary;
+  }
+  a:active{
+    color: $text-secondary;
+  }
+  .dropdown-item{
+    font-size: 1rem;
+    color: $text-primary;
   }
 }
 .user-container {
-  position: absolute;
+  position: relative;
   top: 3rem;
   display: block;
   height: auto;
@@ -43,43 +87,101 @@
   background-color: $third;
   color: $text-primary;
 }
+.dropdown-menu[data-bs-popper] {
+  left: -70%;
+}
+.patient-container {
+  width: 100%;
+  @media only screen and (min-width: $tablet) {
+    width: calc(100% - 14rem);
+    transform: translateX(14rem);
+  }
+}
+// Forms
+.form-control, .form-select {
+  background-color: $third;
+  border: none;
+  border-bottom: 1px solid $text-primary;
+  color: $text-primary;
+  padding: 0.1rem 2.25rem 0.1rem 0.75rem;
+}
+.form-control:focus, .form-select:focus{
+  background-color: $third;
+  border: none;
+  border-bottom: 1px solid $text-primary;
+  box-shadow: $shadow-focus;
+}
+.form-label{
+  font-size: 0.8rem;
+}
+// Iconos y botones
+.btn-icon,
+.btn-close {
+  transition: 0.2s;
+  height: 3rem;
+  width: 3rem;
+  min-width: 3rem;
+  border-radius: 50%;
+  padding: 0;
+  margin-left: 0.5rem;
+}
+.btn-close:hover {
+  background-color: rgba(128, 128, 128, 0.452);
+}
+.dangger:hover {
+  background-color: #dc354657;
+}
+.success:hover {
+  background-color: #19875444;
+}
+.primary:hover {
+  background-color: #0d6dfd46;
+}
+.menu-btn {
+  transition: 0.2s;
+  color: $text-light;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+}
+.menu-btn:hover {
+  background-color: $accent;
+  color: $text-light;
+}
 .menu-icon {
   font-size: 1.5rem;
+  transition: 0.2s;
 }
-// Grupo familiar
-.patient {
-  display: flex;
-  align-items: center;
-  height: 60px;
-  margin-bottom: 1rem;
-  padding: 0.5rem 0;
-  background-color: $third;
-  border-radius: 5px;
-  // border: 0.5px solid #585858;
-  box-shadow: 0px 0px 2px 1px #00000060;
-  div {
-    display: flex;
-    align-items: center;
+// Tooltip
+.error-form__container{
+  .error-form{
+    transition: 0.2s;
+    color: $secondary;
+    p{
+      font-size: 0.8rem;
+      margin: 0;
+    }
   }
-  .patient-name {
-    height: 100%;
-    cursor: pointer;
+  .show{
+    display: block;
   }
-  .patient-actions {
-    justify-content: flex-end;
+  .close{
+    display: none;
   }
-}
+  }
+
 // Main
 .main {
-  // display: flex;
-  // align-items: center;
   .main-card {
     position: relative;
     height: 7rem;
+    max-width: 300px;
     margin: 1rem;
     padding: 0;
-    border-radius: 20px;
-    box-shadow: 0px 0px 2px 1px #00000060;
+    // border-radius: 20px;
+    background-color: $text-third;
+    box-shadow: 0px 2px 2px 1px #00000060;
+    transition: 0.2s;
     a {
       position: absolute;
       display: flex;
@@ -88,41 +190,91 @@
       height: 100%;
       padding: 1rem;
       border-radius: 20px;
-      color: $text-primary;
-      .main-icon{
-          font-size: 4rem;    
+      color: $text-secondary;
+      .main-icon {
+        font-size: 4rem;
       }
-      h5{
-          padding-left: 1rem;
-          font-size: 1.5rem;
+      h5 {
+        margin: 0;
+        padding-left: 1rem;
+        font-size: 1.5rem;
       }
     }
   }
 }
+.main-card:hover {
+  transform: scale(1.1);
+}
+
+// Grupo familiar
+.patient {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: $third;
+  box-shadow: 0px 0px 2px 1px #00000060;
+  transition: 0.2s;
+
+  @media only screen and (min-width: $tablet) {
+    flex-direction: row;
+    justify-content: center;
+    height: 5.5rem;
+    padding: 0.5rem 0;
+  }
+  div {
+    display: flex;
+    align-items: center;
+  }
+  .patient-name {
+    height: 100%;
+    margin: 0 0 1rem 0;
+    cursor: pointer;
+    @media only screen and (min-width: $tablet) {
+      margin: 0;
+    }
+    h6{
+      font-weight: 700;
+    }
+  }
+  .patient-actions {
+    justify-content: space-around;
+    @media only screen and (min-width: $tablet) {
+      justify-content: flex-end;
+    }
+  }
+}
 // Historial Clinica
-.historia-clinica{
-  .switch{
+.historia-clinica {
+  .switch {
     position: relative;
     height: 2rem;
-    // margin-right: 1rem;
-    a{
+    a {
       position: absolute;
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
       height: 100%;
-      border-radius: 10px 10px 0 0 ;
+      border-radius: 10px 10px 0 0;
       padding: 0.5rem;
       background-color: $secondary;
       color: $text-light;
     }
-    .active-switch{
+    a:hover {
+      background-color: $primary;
+    }
+    a:focus {
+      outline: 0;
+      box-shadow: $shadow-primary;
+    }
+    .active-switch {
       background-color: $accent;
     }
   }
-  .switch-container{
+  .switch-container {
     border: 2px solid $accent;
-    border-top: 1rem solid $accent;
   }
 }

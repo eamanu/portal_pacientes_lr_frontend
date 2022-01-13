@@ -7,6 +7,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
+  const [newUser, setNewUser] = useState(false)
 
   useEffect(() => {
     try {
@@ -18,11 +19,11 @@ const AuthProvider = ({ children }) => {
   }, [user]);
 
   const login = useCallback(
-    (u, p) => {
-      loginService(u, p)
+    (em, p) => {
+      loginService(em, p)
         .then((response) => {
           const getUser = response.find((user) => {
-            return user.username === u;
+            return user.email === em;
           });
           return getUser;
         })
@@ -40,6 +41,14 @@ const AuthProvider = ({ children }) => {
     [user]
   );
 
+  const register = useCallback(
+    (objet) =>{
+      console.log(objet);
+      setNewUser(objet);
+    },
+    []
+  )
+
   const contextValue = {
     user,
     login,
@@ -49,6 +58,8 @@ const AuthProvider = ({ children }) => {
     isLogged() {
       return !!user;
     },
+    newUser,
+    register
   };
 
   return (

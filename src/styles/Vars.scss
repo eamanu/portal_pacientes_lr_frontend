@@ -1,9 +1,25 @@
-$primary: #202020;
-$secondary: #333333;
-$third: #f8f8f8;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+$primary-font: 'Roboto', sans-serif;
+
+// $primary: #202020;
+// $secondary: #333333;
+// $third: #f8f8f8;
+// $accent: #000000;
+// $text-primary: #0f0f0f;
+// $text-secondary: #292929;
+// $text-third: #cfcece;
+// $text-light: #f8f8f8;
+
+
+$primary: #E9002D;
+$secondary: #fd214d;
+$secondary-light: #fd214d6b;
+$third: #ebebeb;
 $accent: #000000;
 $text-primary: #0f0f0f;
 $text-secondary: #292929;
+$text-third: #cfcece;
 $text-light: #f8f8f8;
 
 // Media Queries
@@ -12,3 +28,6 @@ $tablet: 768px;
 $desktop: 1024px;
 $desktop-pro: 1400px;
 
+// Shadows
+$shadow-primary: 0 0 5px 2.25px rgba(0, 0, 0, 0.192);
+$shadow-focus: 0 0 0 0.25rem #fd214d6b;
