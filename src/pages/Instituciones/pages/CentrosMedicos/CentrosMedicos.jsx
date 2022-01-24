@@ -21,7 +21,7 @@ export default function CentrosMedicos() {
 
     return (
         <div>
-            <h5>CentrosMedicos</h5>
+            <h5>Centros Médicos</h5>
             {institutions ? institutions.map((ins) => {
                 return (
                     <p key={ins.id}>{ins.name}</p>
