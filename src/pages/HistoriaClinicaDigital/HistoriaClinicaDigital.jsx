@@ -1,24 +1,33 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import DatosPaciente from './components/DatosPaciente';
+import DatosPaciente from './pages/DatosPaciente';
+import { SidebarData } from '../../components/Sidebar/SidebarData'
 import HCDRouter from './HCDRouter';
 
 const HistoriaClinicaDigital = () => {
+
+    const routes = SidebarData.perfilDelPaciente[4].options;
+
     return (
-        <Container className='historia-clinica pt-5'>
-            <h1 className=''>Historia Clinica Digital</h1>
-            <div className='mt-3 p-2'>
-                <DatosPaciente />
-                <Row className='mt-3 d-flex justify-content-between'>
-                    <Col className='switch p-0 me-2'><NavLink activeClassName='active-switch' to='/usuario/historia-clinica/signos-vitales'>Signos vitales</NavLink></Col>
-                    <Col className='switch p-0 me-2'><NavLink activeClassName='active-switch' to='/usuario/historia-clinica/estudios'>Estudios</NavLink></Col>
-                    <Col className='switch p-0'><NavLink activeClassName='active-switch' to='/usuario/historia-clinica/prestaciones'>Prestaciones</NavLink></Col>
-                </Row>
-                <Row className='switch-container'>
+        <Container className='historia-clinica p-3'>
+            <h5 className='section-title'>Historia Clínica Digital</h5>
+            <Row>
+                <Col className='switch-container'>
+                {routes.map((route) => {
+                    return(
+                        <NavLink key={route.path} className='me-2' activeClassName='active-switch' to={route.path}>{route.title}</NavLink>
+                    )
+                })}
+                </Col>
+            </Row>
+            {/* <DatosPaciente /> */}
+            <Row>
+                <Col className='switch-container__hc'>
                     <HCDRouter></HCDRouter>
-                </Row>
-            </div>
+                </Col>
+            </Row>
+
         </Container>
     )
 }

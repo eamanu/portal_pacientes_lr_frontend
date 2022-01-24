@@ -10,12 +10,12 @@ function AvisoVerificacion() {
             {/* <h1>Iniciar Sesión</h1> */}
             <Row className='w-100 h-75 d-flex align-items-center justify-content-center'>
                 <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
-                    <div className='w-100 h-100 bg-secondary'></div>
+                    <div className='w-100 h-100 pic'></div>
                 </Col>
                 <Col xs={8} sm={7} lg={5}>
                     {auth.newUser ? <>
                         <h2>Confirmá tu correo electrónico</h2>
-                        <p className='mb-5'>Hemos enviado un correo a la casilla {auth.newUser.email} Haz click en el link que figura en el correo para confirmar tu usuario.</p>
+                        <p className='mb-5'>Hemos enviado un correo a la casilla {auth.newUser.email}. Haz click en el link que figura en el correo para confirmar tu usuario.</p>
                         <p>Si no encuentras el correo en tu bandeja de entrada, no olvides verificar en la carpeta de spam.</p>
                         <Link to="/login">¿Ya tenés una cuenta? ¡Iniciá sesión!</Link>
                     </> :
