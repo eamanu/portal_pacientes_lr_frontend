@@ -42,7 +42,7 @@ function GrupoFamiliar() {
                         </Row>
                     )
                 })}
-            <button className='btn btn-success mb-5'><FaIcon.FaUserPlus className='me-2' style={{ fontSize: '1.5rem' }}/>Agregar miembro</button>
+            <button className='btn btn-success mb-5 disabled'><FaIcon.FaUserPlus className='me-2' style={{ fontSize: '1.5rem' }}/>Agregar miembro</button>
             </div>
         </Container >
     )

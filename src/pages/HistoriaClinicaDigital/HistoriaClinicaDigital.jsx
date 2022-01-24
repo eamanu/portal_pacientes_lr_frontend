@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import DatosPaciente from './pages/DatosPaciente';
 import { SidebarData } from '../../components/Sidebar/SidebarData'
 import HCDRouter from './HCDRouter';
 
@@ -21,7 +20,6 @@ const HistoriaClinicaDigital = () => {
                 })}
                 </Col>
             </Row>
-            {/* <DatosPaciente /> */}
             <Row>
                 <Col className='switch-container__hc'>
                     <HCDRouter></HCDRouter>

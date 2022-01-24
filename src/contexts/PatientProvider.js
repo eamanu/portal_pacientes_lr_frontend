@@ -31,7 +31,7 @@ const PatientProvider = ({ children }) => {
     })
     return patient
    },
-   [patient, allPatients],
+   [patient, allPatients, Toast],
  )
 
   const contextValue = {

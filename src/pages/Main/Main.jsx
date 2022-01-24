@@ -1,11 +1,8 @@
-// import { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
-// import logoFondoRojo from '../../assets/statics/logo-fondo-rojo.jpg'
+import { Link } from 'react-router-dom';
 import logoFondoBlanco from '../../assets/statics/logo-fondo-blanco.jpg'
-import Swal from 'sweetalert2';
 import * as MdIcon from 'react-icons/md';
-import { useEffect } from 'react';
+
 
 const Main = () => {
 
@@ -16,22 +13,6 @@ const Main = () => {
         { id: 4, path: "/usuario/programa-sumar", namePath: "Programa Sumar", icon: <MdIcon.MdAddCircleOutline className="main__icon" /> }
     ]
     
-    // const history = useHistory();
-
-    // useEffect(() => {
-    //     Swal.fire({
-    //         title: '¡Bienvenido!',
-    //         text: 'Hay datos incompletos en el Perfil del Paciente. ¿Te gustaría completarlos ahora?',
-    //         showCancelButton: true,
-    //         cancelButtonText: 'No, completar Luego',
-    //         confirmButtonText: 'Sí, ir al Perfil del Paciente',
-    //         confirmButtonColor: '#000000'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             history.push('/usuario/perfil-paciente');
-    //         }
-    //     })
-    // }, [history])
     
     return (
         <Container className="main pt-5">

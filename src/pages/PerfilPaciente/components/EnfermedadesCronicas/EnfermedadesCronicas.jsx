@@ -9,7 +9,7 @@ function EnfermedadesCronicas() {
   return (
     <Row className='mb-4'>
       <h6 className='mt-3 fw-bold'>Afecciones y enfermedades crónicas</h6>
-      <Col xs={6} className='d-flex'>
+      <Col xs={12} md={6} className='d-flex'>
         {activeForm &&
           <Form>
             <Form.Group className='mb-4'>

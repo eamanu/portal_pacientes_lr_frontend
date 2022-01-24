@@ -17,7 +17,7 @@ export default function CentrosMedicos() {
  
     useEffect(() => {
         getInstitutions()
-    }, [institutions]);
+    });
 
     return (
         <div>
