@@ -37,7 +37,7 @@ function Sidebar({ isActive, action }) {
         <>
             <div className={`sidebar ${isActive} `} >
                 <button
-                    className='btn text-light menu-btn d-block d-md-none'
+                    className='btn text-dark menu-btn d-block d-md-none ps-4'
                     onClick={action}><MdIcon.MdClose className='menu-icon'>
                     </MdIcon.MdClose>
                 </button>
@@ -77,7 +77,7 @@ function Sidebar({ isActive, action }) {
                                 </NavLink>
                                 {item.options ?
                                     <ul
-                                        className={`sidebar-acordeon__container ${item.a ? 'active' : 'inactive'}`}
+                                        className={`sidebar-acordeon__container ${item.a ? 'active-acordeon' : 'inactive'}`}
                                     >
                                         {item.options.map((option) => {
                                             return (
@@ -159,6 +159,7 @@ function Sidebar({ isActive, action }) {
                     })
                     }
                 </ul>
+            <p className='footer-text'>v0.1.0 - 2022</p>
             </div>
         </>
     )

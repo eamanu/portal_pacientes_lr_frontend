@@ -1,11 +1,11 @@
-import React from 'react';
+import { Container } from "react-bootstrap";
+import DataNotFound from "../../components/DataNotFound";
 
-function ProgramaSumar() {
+export default function ProgramaSumar() {
     return (
-        <div>
-            <h1>ProgramaSumar</h1>
-        </div>
+        <Container className='programa-sumar p-3'>
+            <h5 className='section-title'>Programa Sumar</h5>
+            <DataNotFound text="programa sumar"></DataNotFound>
+        </Container>
     )
 }
-
-export default ProgramaSumar;

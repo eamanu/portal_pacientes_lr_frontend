@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Navbar, Container, NavDropdown } from 'react-bootstrap';
+import logo from '../../assets/statics/logo-ligth.png'
 import useAuth from '../../hooks/useAuth';
 import PerfilUsuario from '../../pages/PerfilUsuario';
 import * as MdIcon from 'react-icons/md'
@@ -21,7 +22,7 @@ function Header() {
         <div>
             <Navbar variant="none" className="navbar" fixed="top">
                 <Container fluid>
-                    <Link to='/usuario'><Navbar.Brand className='text-light'>Portal del Paciente</Navbar.Brand></Link>
+                    <Link to='/usuario'><Navbar.Brand className='text-light'><img className="logo" src={logo} alt="logo portal del paciente - La Rioja" /></Navbar.Brand></Link>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
                             {auth.isLogged() &&
@@ -37,8 +38,8 @@ function Header() {
                             }
                             {!auth.isLogged() &&
                                 <>
-                                    <NavLink activeClassName="active" className="p-2 text-light" exact to="/login">Iniciar Sesión</NavLink>
-                                    <NavLink activeClassName="active" className="p-2 text-light" exact to="/register">Registrarse</NavLink>
+                                    <NavLink activeClassName="active-link" className="p-2 text-light" exact to="/login">Iniciar Sesión</NavLink>
+                                    <NavLink activeClassName="active-link" className="p-2 text-light" exact to="/register">Registrarse</NavLink>
                                 </>
                             }
 

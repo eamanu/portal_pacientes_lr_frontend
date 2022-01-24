@@ -3,11 +3,11 @@
 .sidebar {
   position: fixed;
   top: 3rem;
-  width: 14rem;
+  width: 15rem;
   height: calc(100vh - 3rem);
   border-right: 1px solid $secondary;
   background-color: $secondary;
-  color: $text-light;
+  color: $text-primary;
   font-size: 0.8rem;
   transition: transform 0.2s;
   z-index: 1;
@@ -26,17 +26,17 @@
       font-size: 0.8rem;
       text-transform: uppercase;
       padding: 1rem 0 0 1rem;
-      margin: 0;
+      margin: 0 0 0.5rem 0;
     }
     li {
       margin-bottom: 0rem;
       a {
         display: flex;
         align-items: center;
-        color: $text-light;
+        color: $text-primary;
         font-weight: lighter;
         text-decoration: none;
-        padding: 0.3rem 0 0.3rem 1rem;
+        padding: 1rem 0 1rem 1rem;
         .menu-icon {
           margin-right: 0.5rem;
           font-size: 1rem;
@@ -44,6 +44,7 @@
       }
       a:hover {
         background-color: $accent;
+        color: $text-light;
       }
     }
   }
@@ -51,16 +52,14 @@
     height: 0;
     overflow: hidden;
     transition: 0.5s ease-out;
+    background-color: $secondary-light;
     span{
       padding-left: 1.8rem;
     }
   }
-  .active{
+  .active-acordeon{
     overflow: visible;
     height: auto;
-  }
-  .acordeon:active{
-    background-color: $primary;
   }
   .rotate{
     .menu-icon{

@@ -22,7 +22,7 @@ export const SidebarData = {
     {
       id: 2,
       title: "Ver Perfil",
-      path: "/usuario/perfil-del-paciente",
+      path: "/usuario/perfil-paciente",
       icon: <MdIcon.MdPerson className="menu-icon" />,
       acordeon: false,
       a: false,
@@ -56,8 +56,8 @@ export const SidebarData = {
           path: "/usuario/turnos"
         }, 
         {
-          title: "Reservar turno",
-          path: "/usuario/turnos/reservar-turno"
+          title: "Reservar turnos",
+          path: "/usuario/turnos/reservar-turnos"
         }, 
         {
           title: "Historial",
@@ -87,9 +87,45 @@ export const SidebarData = {
       aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
       options: [
         {
-          title: "Controles",
-          path: "/usuario/historia-clinica"
-        }, 
+          title: "Alergias",
+          path: "/usuario/historia-clinica/alergias"
+        },
+        {
+          title: "Antecedentes personales",
+          path: "/usuario/historia-clinica/antecedentes-personales"
+        },
+        {
+          title: "Antecedentes familiares",
+          path: "/usuario/historia-clinica/antecedentes-familiares"
+        },
+        {
+          title: "Datos antropométricos",
+          path: "/usuario/historia-clinica/datos-antropometricos"
+        },
+        {
+          title: "Datos crónicos",
+          path: "/usuario/historia-clinica/datos-cronicos"
+        },
+        {
+          title: "Hospitalización",
+          path: "/usuario/historia-clinica/hospitalizacion"
+        },
+        {
+          title: "Inmunización",
+          path: "/usuario/historia-clinica/inmunizacion"
+        },
+        {
+          title: "Medicación",
+          path: "/usuario/historia-clinica/medicacion"
+        },
+        {
+          title: "Problemas activos",
+          path: "/usuario/historia-clinica/problemas-activos"
+        },
+        {
+          title: "Registros dentales",
+          path: "/usuario/historia-clinica/registros-dentales"
+        },
         {
           title: "Signos vitales",
           path: "/usuario/historia-clinica/signos-vitales"
@@ -107,13 +143,13 @@ export const SidebarData = {
       aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
       options:[
         {
-          title: "Turno de vacunación",
-          path: "/usuario/calendario-vacunacion"
-        }, 
-        {
           title: "Historial",
           path: "/usuario/calendario-vacunacion/historial"
-        }
+        },
+        {
+          title: "Turno de vacunación",
+          path: "/usuario/calendario-vacunacion/turno-vacunacion"
+        } 
       ],
     },
     {
@@ -156,7 +192,7 @@ export const SidebarData = {
     {
       id: 11,
       title: "Centros de salud",
-      path: "/usuario/instituciones",
+      path: "/usuario/instituciones/centros-medicos",
       icon: <FaIcon.FaHospital className="menu-icon" />,
       acordeon: false,
       a: false,
@@ -167,7 +203,7 @@ export const SidebarData = {
     {
       id: 12,
       title: "Guardias",
-      path: "/usuario/instituciones",
+      path: "/usuario/instituciones/guardias",
       icon: <MdIcon.MdEmergency className="menu-icon" />,
       acordeon: false,
       a: false,
@@ -178,7 +214,7 @@ export const SidebarData = {
     {
       id: 13,
       title: "Teléfonos importantes",
-      path: "/usuario/instituciones",
+      path: "/usuario/instituciones/telefonos",
       icon: <MdIcon.MdLocalPhone className="menu-icon" />,
       acordeon: false,
       a: false,

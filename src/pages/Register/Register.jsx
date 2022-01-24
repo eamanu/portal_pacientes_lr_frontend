@@ -51,7 +51,7 @@ function Register() {
         <Container className='h-100 d-flex align-items-center justify-content-center'>
             <Row className='w-100 h-75  d-flex align-items-center justify-content-center'>
                 <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
-                    <div className='w-100 h-100 bg-secondary'></div>
+                    <div className='w-100 h-100 pic'></div>
                 </Col>
                 <Col xs={8} sm={7} lg={5}>
                     <h2>Registrarse</h2>
@@ -225,7 +225,7 @@ function Register() {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Button variant="dark" type="submit">
+                        <Button variant="outline-danger" type="submit">
                             Rgistrarse
                         </Button>
                     </Form>

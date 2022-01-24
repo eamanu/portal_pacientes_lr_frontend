@@ -21,7 +21,7 @@ export default function AppRouter() {
                 <PrivateRoute path='/usuario' component={UserRouter}/>   
                 <Route exact path='/'><Redirect to='/usuario'/></Route>  
                 <Route path='/404' component={NotFound}/>   
-                <Route path='*' component={NotFound}/>    
+                <Route path='*'><Redirect to='/404'/></Route>    
             </Switch>
             </div>
             <Footer />

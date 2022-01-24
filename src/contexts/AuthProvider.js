@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, createContext } from "react";
 import loginService from "../services/loginService";
+import Swal from 'sweetalert2'
 
 export const AuthContext = createContext();
 
@@ -22,7 +23,8 @@ const AuthProvider = ({ children }) => {
     (em, p) => {
       loginService(em, p)
         .then((response) => {
-          const getUser = response.find((user) => {
+          // console.log("1", response.users)
+          const getUser = response.users.find((user) => {
             return user.email === em;
           });
           return getUser;
@@ -33,7 +35,12 @@ const AuthProvider = ({ children }) => {
             setUser(response);
             return user;
           } else {
-            alert("Error al ingresar nombre de usuario o contraseña");
+            Swal.fire({
+              text: 'Error al ingresar nombre de usuario o contraseña.',
+              icon: 'error',
+              showConfirmButton: false,
+              timer: 2000
+          })
           }
         })
         .catch((err) => console.log(err));
@@ -49,12 +56,25 @@ const AuthProvider = ({ children }) => {
     []
   )
 
+  const logout = () => {
+    Swal.fire({
+      title: '¿Cerrar sesión?',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Confirmar',
+      confirmButtonColor: '#Dc3545'
+  }).then((result) => {
+      if (result.isConfirmed) {
+          setUser(null)
+      }
+  })
+  }
+
   const contextValue = {
     user,
     login,
-    logout() {
-      setUser(null);
-    },
+    logout,
     isLogged() {
       return !!user;
     },

@@ -44,7 +44,7 @@ function UserHeader() {
                         <button className='btn menu-btn' onClick={showSidebar}><MdIcon.MdViewHeadline className='menu-icon' /> </button>
                     </Col>
                     <Col xs={10} className='d-flex align-items-center user-header__name'>
-                        <p className='mb-0'>{`Paciente: ${p.patient.nombre} ${p.patient.apellido}`}</p>
+                        <p className='mb-0 ms-3'>Paciente: <span className='fw-bold'>{p.patient.nombre} {p.patient.apellido}</span></p>
                         {thisLocation !== "/usuario/grupo-familiar" &&
                         <NavDropdown title="Cambiar paciente" id="basic-nav-dropdown">
                             {p.allPatients.map((patient) => {

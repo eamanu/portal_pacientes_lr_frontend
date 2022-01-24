@@ -1,17 +1,23 @@
 @import "Vars.scss";
 
 .active {
-  background-color: $primary;
-  color: $text-light;
+  background-color: $accent;
+  color: $text-light !important;
   a {
-    color: $text-light;
+    color: $text-light !important;
   }
+}
+.active-link {
+  background-color: $primary-dark;
 }
 .btn-check:focus + .btn,
 .btn:focus,
 .btn-close:focus {
   outline: 0;
   box-shadow: $shadow-primary;
+}
+.pic{
+  background-color: $secondary;
 }
 .navbar {
   background-color: $primary;
@@ -31,6 +37,11 @@
     }
   }
 }
+.footer-text{
+  font-size: 0.8rem;
+  margin: 0;
+  padding: 0 0 1rem 1.5rem;
+}
 .main-container {
   position: absolute;
   top: 3rem;
@@ -46,8 +57,8 @@
   top: 3rem;
   height: 3.5rem;
   width: 100%;
-  background-color: $secondary;
-  color: $text-light;
+  background-color: $third;
+  color: $text-primary;
   border-bottom: 1px solid $secondary;
   z-index: 1;
   .user-header__name{
@@ -61,7 +72,7 @@
     font-size: 0.8rem;
     padding-left: 1rem;
     line-height: 1rem;
-    color: $text-light;   
+    color: $text-secondary;   
   }
   a:hover{
     color: $text-secondary;
@@ -93,8 +104,8 @@
 .patient-container {
   width: 100%;
   @media only screen and (min-width: $tablet) {
-    width: calc(100% - 14rem);
-    transform: translateX(14rem);
+    width: calc(100% - 15rem);
+    transform: translateX(15rem);
   }
 }
 // Forms
@@ -139,7 +150,7 @@
 }
 .menu-btn {
   transition: 0.2s;
-  color: $text-light;
+  color: $text-primary;
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
@@ -152,11 +163,11 @@
   font-size: 1.5rem;
   transition: 0.2s;
 }
-// Tooltip
+// Mensaje de error
 .error-form__container{
   .error-form{
     transition: 0.2s;
-    color: $secondary;
+    color: $primary-dark;
     p{
       font-size: 0.8rem;
       margin: 0;
@@ -169,18 +180,27 @@
     display: none;
   }
   }
-
+// GEneral
 // Main
 .main {
-  .main-card {
+  .main__banner{
+    width: 100%;
+  }
+  .main__title{
+    text-transform: uppercase;
+    text-align: center;
+    color: $primary;
+    margin-top: 2rem;
+  }
+  .main__card {
     position: relative;
     height: 7rem;
     max-width: 300px;
     margin: 1rem;
     padding: 0;
     // border-radius: 20px;
-    background-color: $text-third;
-    box-shadow: 0px 2px 2px 1px #00000060;
+    background-color: $third;
+    // box-shadow: 0px 2px 2px 1px #00000060;
     transition: 0.2s;
     a {
       position: absolute;
@@ -190,8 +210,7 @@
       height: 100%;
       padding: 1rem;
       border-radius: 20px;
-      color: $text-secondary;
-      .main-icon {
+      .main__icon {
         font-size: 4rem;
       }
       h5 {
@@ -202,10 +221,42 @@
     }
   }
 }
-.main-card:hover {
+.main__card:hover {
   transform: scale(1.1);
 }
-
+.switch-container{
+  a {
+    display: inline-block ;
+    min-width: max-content;
+    margin-bottom: 0.5rem;
+    padding-right: 1.5rem ;
+    color: $text-third
+  }
+  a:hover {
+    font-weight:700;
+  }
+  a:focus {
+    outline: 0;
+  }
+  .active-switch {
+    color: $text-secondary;
+    font-weight:700;
+  }
+}
+.section-title{
+  text-transform: uppercase;
+  color: $primary;
+}
+// Perfil del Paciente
+.perfil-paciente{
+  .datos-paciente__label{
+    display: inline-block;
+    width: fit-content;
+    margin: 0;
+    margin-right: 1rem ;
+    text-transform: uppercase;
+  }
+}
 // Grupo familiar
 .patient {
   display: flex;
@@ -248,33 +299,15 @@
 }
 // Historial Clinica
 .historia-clinica {
-  .switch {
-    position: relative;
-    height: 2rem;
-    a {
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      border-radius: 10px 10px 0 0;
-      padding: 0.5rem;
-      background-color: $secondary;
-      color: $text-light;
-    }
-    a:hover {
-      background-color: $primary;
-    }
-    a:focus {
-      outline: 0;
-      box-shadow: $shadow-primary;
-    }
-    .active-switch {
-      background-color: $accent;
-    }
-  }
-  .switch-container {
-    border: 2px solid $accent;
+  .switch-container__hc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem;
+    height: auto;
+    min-height: 200px;
+    background-color: $text-light;
+    // border: 1px solid $third;
+    box-shadow: $shadow-primary;
   }
 }

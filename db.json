@@ -13,17 +13,35 @@
                     {
                         "id": "1a",
                         "nombre": "Juan",
-                        "apellido": "Pérez"
+                        "apellido": "Pérez",
+                        "dni": 12345678,
+                        "edad": 45,
+                        "nacionalidad": "argentina",
+                        "genero": "masculino",
+                        "telefono": 111522334455,
+                        "email": "nombre@mail.com"
                     },
                     {
                         "id": "1b",
                         "nombre": "Micaela",
-                        "apellido": "Pérez"
+                        "apellido": "Pérez",
+                        "dni": 12345678,
+                        "edad": 12,
+                        "nacionalidad": "argentina",
+                        "genero": "femenino",
+                        "telefono": false,
+                        "email": false
                     },
                     {
                         "id": "1c",
                         "nombre": "Ignacio",
-                        "apellido": "Pérez"
+                        "apellido": "Pérez",
+                        "dni": 12345678,
+                        "edad": 8,
+                        "nacionalidad": "argentina",
+                        "genero": "masculino",
+                        "telefono": false,
+                        "email": false
                     }
                 ]
             }
