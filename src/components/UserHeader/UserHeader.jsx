@@ -25,11 +25,11 @@ function UserHeader() {
           } else {
             setSidebar(false)
           }
-    }, [])
+    }, [mql.matches])
     // Paciente
     const p = usePatient();
     const [idPatient, setIdPatient] = useState(p.patient.id);
-    const handleChange = () => {
+    function handleChange() {
         p.getPatient(idPatient)
     }
     useEffect(() => {
