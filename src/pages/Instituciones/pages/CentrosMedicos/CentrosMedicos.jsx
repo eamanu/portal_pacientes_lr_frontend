@@ -1,11 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import institutionsServices from '../../../../services/institutionsServices'
 
 export default function CentrosMedicos() {
     const [institutions, setInstitutions] = useState();
-
-    const component = useRef(true)
-    console.log(component)
 
     useEffect(() => {
         const getInstitutions =
