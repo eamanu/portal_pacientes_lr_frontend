@@ -1,23 +1,22 @@
-import { useEffect, useState } from "react";
-import { useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import institutionsServices from '../../../../services/institutionsServices'
 
 export default function CentrosMedicos() {
     const [institutions, setInstitutions] = useState();
 
+    const component = useRef(true)
+    console.log(component)
 
-    const getInstitutions = useCallback(
-        () => {
-            institutionsServices()
-            .then((response) => {
-               setInstitutions(response)
-               return institutions
-            })
-    }, [institutions]);
- 
     useEffect(() => {
+        const getInstitutions =
+            () => {
+                institutionsServices()
+                    .then((response) => {
+                        setInstitutions(response)
+                    })
+            };
         getInstitutions()
-    });
+    }, []);
 
     return (
         <div>
@@ -26,8 +25,8 @@ export default function CentrosMedicos() {
                 return (
                     <p key={ins.id}>{ins.name}</p>
                 )
-            }):
-            <h6>Cargando...</h6>
+            }) :
+                <h6>Cargando...</h6>
             }
         </div>
     )
