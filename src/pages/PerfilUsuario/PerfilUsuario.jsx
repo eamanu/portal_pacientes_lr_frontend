@@ -25,6 +25,7 @@ function PerfilUsuario({ show, handleClose }) {
         mobile_phone: "",
         mobile_phone_two: "",
     });
+    console.log(auth.user)
 
     const { handleSubmit } = useForm();
     const endDateDatePicker = endDate()
@@ -60,14 +61,14 @@ function PerfilUsuario({ show, handleClose }) {
                     <Modal.Body>
                         <Container>
                             <h5>Datos Personales</h5>
-                            <Row>
+                            {auth.user && <Row>
                                 <Col xs={12} sm={6}>
                                     <Form.Group className="mb-3" >
                                         <Form.Label className="mb-0">Nombre</Form.Label>
                                         <Form.Control
                                             name="firstName"
                                             type="text"
-                                            value={auth.newUser.firstname}
+                                            value={auth.user.nombre}
                                             disabled
                                             className="form-control"
                                             onChange={handleChange}
@@ -80,7 +81,7 @@ function PerfilUsuario({ show, handleClose }) {
                                         <Form.Control
                                             name="lastName"
                                             type="text"
-                                            value={auth.newUser.lastName}
+                                            value={auth.user.apellido}
                                             disabled
                                             className="form-control"
                                             onChange={handleChange}
@@ -90,12 +91,12 @@ function PerfilUsuario({ show, handleClose }) {
                                 <Col xs={6} >
                                     <Form.Group className="mb-3" >
                                         <Form.Label className="mb-0">Tipo de documento</Form.Label>
-                                        <SelectType     
+                                        <SelectType
                                             name="id_type"
                                             variants={variantsDNI}
                                             nameForm="id_type"
                                             disabled
-                                            selectValue={auth.newUser.id_type}
+                                            selectValue={1}
                                             handleChange={(e) => handleChange(e)}
                                         />
                                     </Form.Group>
@@ -108,7 +109,7 @@ function PerfilUsuario({ show, handleClose }) {
                                             type="text"
                                             disabled
                                             className="form-control"
-                                            value={auth.newUser.id_number}
+                                            value={auth.user.dni}
                                             onChange={handleChange}
                                         />
                                     </Form.Group>
@@ -129,12 +130,12 @@ function PerfilUsuario({ show, handleClose }) {
                                 <Col xs={12} sm={6} >
                                     <Form.Group className="mb-3" >
                                         <Form.Label className="mb-0">Género</Form.Label>
-                                        <SelectType 
+                                        <SelectType
                                             name="id_gender"
                                             variants={variantsGender}
                                             nameForm="id_gender"
                                             disabled
-                                            selectValue={auth.newUser.id_gender}
+                                            selectValue={2}
                                             handleChange={(e) => handleChange(e)} />
                                     </Form.Group>
                                 </Col>
@@ -145,7 +146,7 @@ function PerfilUsuario({ show, handleClose }) {
                                             name="email"
                                             type="text"
                                             disabled
-                                            value={auth.newUser.email}
+                                            value={auth.user.email}
                                             className="form-control"
                                             onChange={handleChange}
                                         />
@@ -159,7 +160,7 @@ function PerfilUsuario({ show, handleClose }) {
                                             type="password"
                                             className="form-control"
                                             disabled
-                                            value={auth.newUser.password}
+                                            value={auth.user.password}
                                             onChange={handleChange}
                                         />
                                     </Form.Group>
@@ -172,7 +173,7 @@ function PerfilUsuario({ show, handleClose }) {
                                             type="password"
                                             className="form-control"
                                             disabled
-                                            value={auth.newUser.confirmPassword}
+                                            value={auth.user.confirmPassword}
                                             onChange={handleChange}
                                         />
                                         <p>Si usted desea modificar su Email o contraseña debe comunicarse con el equipo de soporte a través del siguiente link</p>
@@ -222,7 +223,7 @@ function PerfilUsuario({ show, handleClose }) {
                                         />
                                     </Form.Group>
                                 </Col>
-                            </Row>
+                            </Row>}
                         </Container>
                     </Modal.Body>
                     <Modal.Footer>

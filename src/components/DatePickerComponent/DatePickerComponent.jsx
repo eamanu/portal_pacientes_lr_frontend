@@ -8,7 +8,7 @@ registerLocale("es", es);
 
 const DatePickerComponent = React.forwardRef((props, ref) => {
 
-    const { nameForm, maxDate, handleChange, selectValue, onBlur } = props
+    const { nameForm, maxDate, handleChange, selectValue, onBlur, disabled } = props
     const [startDate, setStartDate] = useState();
 
     const change = (date) => {
@@ -24,6 +24,7 @@ const DatePickerComponent = React.forwardRef((props, ref) => {
                 selected={selectValue ? selectValue : startDate}
                 onChange={(date) => change(date)}
                 onBlur={onBlur}
+                disabled={disabled}
                 dateFormat="dd/MM/yyyy"
                 locale="es"
                 peekNextMonth

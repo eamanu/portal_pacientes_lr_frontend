@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap';
 
 const SelectType = React.forwardRef((props, ref) => {
 
-    const { variants, nameForm, handleChange, onBlur, selectValue } = props;
+    const { variants, nameForm, handleChange, onBlur, selectValue, disabled } = props;
     const [idValue, setIdValue] = useState(selectValue ? selectValue : 0)
     const change = (e) => {
         handleChange(e)
@@ -16,6 +16,7 @@ const SelectType = React.forwardRef((props, ref) => {
         <Form.Select className='m-0'
             name={nameForm}
             type="text"
+            disabled={disabled}
             value={idValue}
             onBlur={onBlur}
             onChange={(e) => change(e)}
