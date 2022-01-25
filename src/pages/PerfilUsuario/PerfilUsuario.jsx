@@ -25,7 +25,6 @@ function PerfilUsuario({ show, handleClose }) {
         mobile_phone: "",
         mobile_phone_two: "",
     });
-    console.log(auth.user)
 
     const { handleSubmit } = useForm();
     const endDateDatePicker = endDate()
