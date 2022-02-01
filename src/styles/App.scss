@@ -171,6 +171,21 @@
   font-size: 1.5rem;
   transition: 0.2s;
 }
+
+.icon_container{
+  position: relative;
+  display: inline-block;
+
+  .icon_notification{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: $primary;
+  }
+}
 // Mensaje de error
 .error-form__container{
   .error-form{
@@ -238,10 +253,11 @@
     min-width: max-content;
     margin-bottom: 0.5rem;
     padding-right: 1.5rem ;
+    transition: 0.2s;
     color: $text-third
   }
   a:hover {
-    font-weight:700;
+    transform: scale(1.1);
   }
   a:focus {
     outline: 0;

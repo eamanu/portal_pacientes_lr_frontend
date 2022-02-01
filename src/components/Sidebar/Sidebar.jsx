@@ -4,7 +4,7 @@ import { SidebarData } from './SidebarData';
 import * as MdIcon from 'react-icons/md'
 
 
-function Sidebar({ isActive, action }) {
+function Sidebar({ isActive, action, notificacion }) {
 
     const location = useLocation();
     const thisLocation = location.pathname
@@ -14,7 +14,6 @@ function Sidebar({ isActive, action }) {
     const perfilDelPacienteOpciones = sidebarData.perfilDelPaciente
     const grupoFamiliarOpciones = sidebarData.grupoFamiliar
     const prop = [perfilDelPacienteOpciones, grupoFamiliarOpciones]
-
 
     const showAcordeon = (i, id) => {
         const promise = prop[i].find((item) => {
@@ -69,7 +68,7 @@ function Sidebar({ isActive, action }) {
                                     to={item.path ? item.path : thisLocation}
                                     className='d-flex justify-content-between'
                                     onClick={item.acordeon ? () => { showAcordeon(0, item.id) } : action}>
-                                    <span>{item.icon} {item.title}</span>
+                                    <span><div className={notificacion && item.id === 3 ? 'icon_container in': 'd-inline-block'}>{item.icon}<div className='icon_notification'></div></div> {item.title}</span>
                                     {item.acordeon ?
                                         <p className={`m-0 ${item.a ? 'rotate' : 'norotate'}`}>{item.aIcon}</p>
                                         :

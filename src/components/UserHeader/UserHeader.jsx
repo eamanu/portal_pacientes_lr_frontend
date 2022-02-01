@@ -22,9 +22,9 @@ function UserHeader() {
     useEffect(() => {
         if (mql.matches) {
             setSidebar(true)
-          } else {
+        } else {
             setSidebar(false)
-          }
+        }
     }, [mql.matches])
     // Paciente
     const p = usePatient();
@@ -40,24 +40,29 @@ function UserHeader() {
         <>
             <Container fluid className='user-header'>
                 <Row className='w-100 d-flex justify-content-between'>
-                    <Col xs={2} className='d-flex d-md-none align-items-center'>
-                        <button className='btn menu-btn' onClick={showSidebar}><MdIcon.MdViewHeadline className='menu-icon' /> </button>
+                    <Col xs={1} className='d-flex d-lg-none align-items-center'>
+                        <button className='btn menu-btn' onClick={showSidebar}>
+                            <div className={p.patient.notificacion ? 'icon_container' : 'd-inline-block'}>
+                                <MdIcon.MdViewHeadline className='menu-icon' />
+                                <div className='icon_notification'></div>
+                            </div>
+                        </button>
                     </Col>
                     <Col xs={10} className='d-flex align-items-center user-header__name'>
                         <p className='mb-0 ms-3'>Paciente: <span className='fw-bold'>{p.patient.nombre} {p.patient.apellido}</span></p>
                         {thisLocation !== "/usuario/grupo-familiar" &&
-                        <NavDropdown title="Cambiar paciente" id="basic-nav-dropdown">
-                            {p.allPatients.map((patient) => {
-                                return (
-                                    <NavDropdown.Item className='p-2'key={patient.id} onClick={() => { setIdPatient(patient.id) }} >{patient.nombre} {patient.apellido}</NavDropdown.Item>
-                                )
-                            })}
-                        </NavDropdown>
+                            <NavDropdown title="Cambiar paciente" id="basic-nav-dropdown">
+                                {p.allPatients.map((patient) => {
+                                    return (
+                                        <NavDropdown.Item className='p-2' key={patient.id} onClick={() => { setIdPatient(patient.id) }} >{patient.nombre} {patient.apellido}</NavDropdown.Item>
+                                    )
+                                })}
+                            </NavDropdown>
                         }
                     </Col>
                 </Row>
             </Container>
-            <Sidebar isActive={sidebar ? 'show' : 'close'} action={showSidebar}></Sidebar>
+            <Sidebar isActive={sidebar ? 'show' : 'close'} action={showSidebar} notificacion={p.patient.notificacion ? p.patient.notificacion : false}></Sidebar>
         </>
     )
 }
