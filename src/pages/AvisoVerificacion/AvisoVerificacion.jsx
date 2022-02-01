@@ -15,7 +15,7 @@ function AvisoVerificacion() {
                 <Col xs={8} sm={7} lg={5}>
                     {auth.newUser ? <>
                         <h2>Confirmá tu correo electrónico</h2>
-                        <p className='mb-5'>Hemos enviado un correo a la casilla {auth.newUser.email}. Haz click en el link que figura en el correo para confirmar tu usuario.</p>
+                        <p className='mb-5'>Hemos enviado un correo a la casilla <b>{auth.newUser.email}</b>. Haz click en el link que figura en el correo para confirmar tu usuario.</p>
                         <p>Si no encuentras el correo en tu bandeja de entrada, no olvides verificar en la carpeta de spam.</p>
                         <Link to="/login">¿Ya tenés una cuenta? ¡Iniciá sesión!</Link>
                     </> :

@@ -19,7 +19,8 @@
                         "nacionalidad": "argentina",
                         "genero": "masculino",
                         "telefono": 111522334455,
-                        "email": "nombre@mail.com"
+                        "email": "nombre@mail.com",
+                        "notificacion": true
                     },
                     {
                         "id": "1b",
@@ -30,7 +31,8 @@
                         "nacionalidad": "argentina",
                         "genero": "femenino",
                         "telefono": false,
-                        "email": false
+                        "email": false,
+                        "notificacion": true
                     },
                     {
                         "id": "1c",
@@ -41,7 +43,8 @@
                         "nacionalidad": "argentina",
                         "genero": "masculino",
                         "telefono": false,
-                        "email": false
+                        "email": false,
+                        "notificacion": true
                     }
                 ]
             }
