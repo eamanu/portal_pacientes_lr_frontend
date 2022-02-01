@@ -7,9 +7,9 @@ import NotFound from '../NotFound';
 export default function TurnosRouter() {
     return (
              <Switch>
-                <Route exact path='/usuario/turnos' component={MisTurnos}/>
-                <Route path='/usuario/turnos/reservar-turnos' component={ReservarTurnos}/>
-                <Route path='/usuario/turnos/historial' component={Historial}/>
+                <Route exact path='/usuario/turnos/mis-turnos' component={MisTurnos}/>
+                <Route exact path='/usuario/turnos/reservar-turnos' component={ReservarTurnos}/>
+                <Route exact path='/usuario/turnos/historial' component={Historial}/>
                 <Route path='/usuario/turnos/404' component={NotFound}/>   
                 <Route path='/usuario/turnos/*'><Redirect to='/usuario/404'/></Route>
             </Switch>

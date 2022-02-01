@@ -3,6 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
+import '../../styles/Transitions.scss'
 import useAuth from '../../hooks/useAuth';
 
 
@@ -29,11 +30,11 @@ function Login() {
             {/* <h1>Iniciar Sesión</h1> */}
             <Row className='w-100 h-75 d-flex align-items-center justify-content-center'>
                 <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
-                   <div className='w-100 h-100 pic'></div> 
+                    <div className='w-100 h-100 pic'></div>
                 </Col>
-                <Col xs={8} sm={7} lg={5}>
-                        <h2>Iniciar sesión</h2>
-                    <Form className="form-group" onSubmit={handleSubmit(onSubmit)}>
+                <Col xs={8} sm={7} lg={5} className="d-flex flex-column justify-content-around h-100">
+                    <h2>Iniciar sesión</h2>
+                    <Form className="form-group in" onSubmit={handleSubmit(onSubmit)}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
@@ -50,11 +51,10 @@ function Login() {
                                         message: "El formato ingresado no es válido"
                                     }
                                 })}
-                                onChange={(e) => { setEmail(e.target.value)}}
-                            /> 
+                                onChange={(e) => { setEmail(e.target.value) }}
+                            />
                             {errors.email && <ErrorMessage><p>{errors.email.message}</p></ErrorMessage>}
                         </Form.Group>
-
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
                             <Form.Control
@@ -73,14 +73,17 @@ function Login() {
                                 })}
                                 onChange={(e) => { setPassword(e.target.value) }}
                             />
-                              {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
+                            {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Recordar usuario y contraseña" />
+                            <input type="radio" />
+                            <Form.Label className="ps-1">Recordar usuario y contraseña</Form.Label>
                         </Form.Group>
-                        <Button variant="outline-danger" type="submit">
-                            Iniciar Sesión
-                        </Button>
+                        <div className="d-flex justify-content-end">
+                            <Button variant="danger" type="submit">
+                                Iniciar Sesión
+                            </Button>
+                        </div>
                     </Form>
                 </Col>
             </Row>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Navbar, Container, NavDropdown } from 'react-bootstrap';
 import logo from '../../assets/statics/logo-ligth.png'
 import useAuth from '../../hooks/useAuth';
@@ -12,6 +12,7 @@ function Header() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const location = useLocation()
 
     const handleClick = e => {
         e.preventDefault();
@@ -38,8 +39,8 @@ function Header() {
                             }
                             {!auth.isLogged() &&
                                 <>
-                                    <NavLink activeClassName="active-link" className="p-2 text-light" exact to="/login">Iniciar Sesión</NavLink>
-                                    <NavLink activeClassName="active-link" className="p-2 text-light" exact to="/register">Registrarse</NavLink>
+                                   {location.pathname === "/register" && <NavLink activeClassName="active-link" className="p-2 text-light" exact to="/login">Iniciar Sesión</NavLink>}
+                                    {location.pathname === "/login" && <NavLink activeClassName="active-link" className="p-2 text-light" exact to="/register">Registrarse</NavLink>}
                                 </>
                             }
 

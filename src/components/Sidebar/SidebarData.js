@@ -53,7 +53,7 @@ export const SidebarData = {
       options: [
         {
           title: "Mis turnos",
-          path: "/usuario/turnos"
+          path: "/usuario/turnos/mis-turnos"
         }, 
         {
           title: "Reservar turnos",
