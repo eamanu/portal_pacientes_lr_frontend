@@ -21,7 +21,7 @@ function AvisoVerificacion() {
                     </> :
                         <>
                             <h2 className='mb-5'>Hubo un error en la registración.</h2>
-                            <Link to="/register">Haz click aquí paar intentarlo nuevamente</Link>
+                            <Link to="/register">Haz click aquí para intentarlo nuevamente</Link>
                             <br></br>
                             <Link to="/login">¿Ya tienes una cuenta? ¡Iniciá sesión!</Link>
                         </>
