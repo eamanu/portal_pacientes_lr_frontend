@@ -26,6 +26,7 @@ const PatientProvider = ({ children }) => {
     const promise = allPatients.find(patient => patient.id === n);
     setPatient(promise);
     Toast.fire({
+      position: 'bottom-end',
       icon: 'success',
       title: `Paciente activo: ${promise.nombre} ${promise.apellido}`
     })
