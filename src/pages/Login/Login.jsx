@@ -32,7 +32,7 @@ function Login() {
                 <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
                     <div className='w-100 h-100 pic'></div>
                 </Col>
-                <Col xs={8} sm={7} lg={5} className="d-flex flex-column justify-content-around h-100">
+                <Col xs={12} sm={7} lg={5} className="d-flex flex-column justify-content-around h-100">
                     <h2>Iniciar sesión</h2>
                     <Form className="form-group in" onSubmit={handleSubmit(onSubmit)}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">

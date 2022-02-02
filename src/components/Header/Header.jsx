@@ -39,8 +39,8 @@ function Header() {
                             }
                             {!auth.isLogged() &&
                                 <>
-                                   {location.pathname === "/register" && <NavLink activeClassName="active-link" className="p-2 text-light" exact to="/login">Iniciar Sesión</NavLink>}
-                                    {location.pathname === "/login" && <NavLink activeClassName="active-link" className="p-2 text-light" exact to="/register">Registrarse</NavLink>}
+                                   {location.pathname === "/register" && <NavLink activeClassName="active-link" className="text-light" exact to="/login">Iniciar Sesión</NavLink>}
+                                    {location.pathname === "/login" && <NavLink activeClassName="active-link" className="text-light" exact to="/register">Registrarse</NavLink>}
                                 </>
                             }
 

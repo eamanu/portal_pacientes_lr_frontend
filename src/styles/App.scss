@@ -55,7 +55,8 @@
   align-items: center;
   justify-content: space-between;
   top: 3rem;
-  height: 3.5rem;
+  height: auto;
+  min-height: 3.5rem;
   width: 100%;
   background-color: $third;
   color: $text-primary;
@@ -86,6 +87,12 @@
   .dropdown-item{
     font-size: 1rem;
     color: $text-primary;
+  }
+  p, span{
+    font-size: 0.8rem;
+    @media only screen and (min-width: $tablet) {
+    font-size: 1rem;
+    }
   }
 }
 .user-container {
