@@ -1,32 +1,26 @@
-@import 'Vars.scss';
+@import "Vars.scss";
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: $primary-font;
-  font-size: 12px;
-  
-  @media only screen and (min-width: $tablet) {
-      font-size: 14px;
-  }
-  @media only screen and (min-width: $desktop) {
-    font-size: 16px;
-}
-@media only screen and (min-width: $desktop) {
   font-size: 18px;
+
+  @media only screen and (min-width: $desktop) {
+    font-size: 18px;
+  }
 }
-}
-html{
+html {
   background-color: $third;
   height: 100%;
 }
-body{
+body {
   color: $text-primary !important;
 }
-a{
+a {
   text-decoration: none !important;
 }
-.z-index-0{
+.z-index-0 {
   z-index: 0;
 }
