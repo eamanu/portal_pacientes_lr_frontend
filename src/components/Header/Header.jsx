@@ -5,6 +5,7 @@ import logo from '../../assets/statics/logo-ligth.png'
 import useAuth from '../../hooks/useAuth';
 import PerfilUsuario from '../../pages/PerfilUsuario';
 import * as MdIcon from 'react-icons/md'
+import * as FaIcon from 'react-icons/fa'
 
 function Header() {
     const auth = useAuth();
@@ -28,10 +29,9 @@ function Header() {
                         <Navbar.Text>
                             {auth.isLogged() &&
                                 <>
-                                    {/* <NavLink activeClassName="active" className="me-2 p-2 text-light" to="/usuario">Home</NavLink> */}
                                     <NavDropdown title={`${auth.user.nombre} ${auth.user.apellido}`} id="basic-nav-dropdown">
-                                        <button className="btn dropdown-item" onClick={handleShow}><MdIcon.MdPerson className='me-2'/>Perfil del usuario</button>
-                                        {/* <NavLink className="dropdown-item" activeClassName="none" to="/usuario/grupo-familiar"><MdIcon.MdCompareArrows className='me-2' />Cambiar paciente</NavLink> */}
+                                        <button className="btn dropdown-item" onClick={handleShow}><MdIcon.MdPerson className='me-2' />Perfil del usuario</button>
+                                        <button className="btn dropdown-item"><MdIcon.MdOutlineSettings className='me-2' />Soporte técnico</button>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item onClick={handleClick}><MdIcon.MdLogout className='me-2' />Cerrar sesión</NavDropdown.Item>
                                     </NavDropdown>
@@ -39,7 +39,7 @@ function Header() {
                             }
                             {!auth.isLogged() &&
                                 <>
-                                   {location.pathname === "/register" && <NavLink activeClassName="active-link" className="text-light" exact to="/login">Iniciar Sesión</NavLink>}
+                                    {location.pathname === "/register" && <NavLink activeClassName="active-link" className="text-light" exact to="/login">Iniciar Sesión</NavLink>}
                                     {location.pathname === "/login" && <NavLink activeClassName="active-link" className="text-light" exact to="/register">Registrarse</NavLink>}
                                 </>
                             }

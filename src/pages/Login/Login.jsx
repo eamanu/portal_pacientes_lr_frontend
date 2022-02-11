@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, Link } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import '../../styles/Transitions.scss'
 import useAuth from '../../hooks/useAuth';
+import { loginServiceFetch } from "../../services/loginService";
 
 
 function Login() {
@@ -22,7 +23,16 @@ function Login() {
     }, [auth, history, previousObjetURL])
 
     const onSubmit = () => {
+        auth.loginFetch()
         auth.login(email, password)
+    }
+
+    const [emailF, setEmailF] = useState("");
+    const [passwordF, setPasswordF] = useState("");
+
+    const onSubmitF = () => {
+        console.log(emailF, passwordF)
+        loginServiceFetch()
     }
 
     return (
@@ -46,10 +56,10 @@ function Login() {
                                         value: true,
                                         message: "El campo es requerido."
                                     },
-                                    pattern: {
-                                        value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-                                        message: "El formato ingresado no es válido"
-                                    }
+                                    // pattern: {
+                                    //     value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+                                    //     message: "El formato ingresado no es válido"
+                                    // }
                                 })}
                                 onChange={(e) => { setEmail(e.target.value) }}
                             />
@@ -75,16 +85,75 @@ function Login() {
                             />
                             {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                        <Form.Group controlId="formBasicCheckbox">
                             <input type="radio" />
                             <Form.Label className="ps-1">Recordar usuario y contraseña</Form.Label>
                         </Form.Group>
-                        <div className="d-flex justify-content-end">
+                        <Form.Group controlId="formBasicCheckbox">
+                            <Form.Label>
+                                <Link to="/register">¿Olvidaste tu contraseña?</Link>
+                            </Form.Label>
+                        </Form.Group>
+                        <div className="d-flex flex-column align-items-end">
                             <Button variant="danger" type="submit">
                                 Iniciar Sesión
                             </Button>
+                            <button type="button" className="btn btn-ligth mt-3" >
+                                <Link to="/register" className="text-danger">Crear cuenta</Link>
+                            </button>
                         </div>
                     </Form>
+
+                    {/* Login with fetch */}
+
+                    <Form className="form-group in d-none" onSubmit={handleSubmit(onSubmitF)}>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                                name="email"
+                                type="text"
+                                className="form-control"
+                                // {...register('email', {
+                                //     required: {
+                                //         value: true,
+                                //         message: "El campo es requerido."
+                                //     },
+                                //     pattern: {
+                                //         value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+                                //         message: "El formato ingresado no es válido"
+                                //     }
+                                // })}
+                                onChange={(e) => { setEmailF(e.target.value) }}
+                            />
+                            {/* {errors.email && <ErrorMessage><p>{errors.email.message}</p></ErrorMessage>} */}
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                                name="password"
+                                type="password"
+                                className="form-control"
+                                // {...register('password', {
+                                //     required: {
+                                //         value: true,
+                                //         message: "El campo es requerido."
+                                //     },
+                                //     minLength: {
+                                //         value: 3,
+                                //         message: "La contraseña debe tener al menos 3 caracteres",
+                                //     }
+                                // })}
+                                onChange={(e) => { setPasswordF(e.target.value) }}
+                            />
+                            {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
+                        </Form.Group>
+                        <div className="d-flex justify-content-end">
+                            <Button variant="danger" type="submit">
+                                Iniciar Sesión F
+                            </Button>
+                        </div>
+                    </Form>
+
                 </Col>
             </Row>
         </Container>

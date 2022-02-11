@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import institutionsServices from '../../../../services/institutionsServices'
+import useAuth from '../../../../hooks/useAuth.js'
 
 export default function CentrosMedicos() {
+    const { tokenUser } = useAuth();
+
     const [institutions, setInstitutions] = useState();
 
-    useEffect(() => {
-        const getInstitutions =
-            () => {
-                institutionsServices()
-                    .then((response) => {
-                        setInstitutions(response)
-                    })
-            };
-        getInstitutions()
-    }, []);
+    // useEffect(() => {
+    //     const getInstitutions =
+    //         () => {
+    //             institutionsServices(tokenUser)
+    //         };
+    //     getInstitutions()
+    // }, []);
 
     return (
         <div>

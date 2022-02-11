@@ -176,17 +176,17 @@ export const SidebarData = {
       aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
       options: false,
     },
-    {
-      id: 10,
-      title: "Cambiar Paciente",
-      path: false,
-      icon: <MdIcon.MdOutlineChangeCircle className="menu-icon" />,
-      acordeon: true,
-      a: false,
-      cName: "sidebar-text",
-      aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
-      options: [ ],
-    },
+    // {
+    //   id: 10,
+    //   title: "Cambiar Paciente",
+    //   path: false,
+    //   icon: <MdIcon.MdOutlineChangeCircle className="menu-icon" />,
+    //   acordeon: true,
+    //   a: false,
+    //   cName: "sidebar-text",
+    //   aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
+    //   options: [ ],
+    // },
   ],
   instituciones: [
     {

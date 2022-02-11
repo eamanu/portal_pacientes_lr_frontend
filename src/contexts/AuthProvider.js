@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, createContext } from "react";
+import { loginServiceFetch } from "../services/loginService";
 import loginService from "../services/loginService";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 export const AuthContext = createContext();
 
@@ -8,7 +9,8 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
-  const [newUser, setNewUser] = useState(false)
+  const [newUser, setNewUser] = useState(false);
+  const [tokenUser, setTokenUser] = useState("");
 
   useEffect(() => {
     try {
@@ -23,9 +25,10 @@ const AuthProvider = ({ children }) => {
     (em, p) => {
       loginService(em, p)
         .then((response) => {
-          // console.log("1", response.users)
           const getUser = response.users.find((user) => {
-            return user.email === em;
+            if( user.email === em && user.password == p){
+              return user.email === em;
+            }
           });
           return getUser;
         })
@@ -36,50 +39,67 @@ const AuthProvider = ({ children }) => {
             return user;
           } else {
             Swal.fire({
-              text: 'Error al ingresar nombre de usuario o contraseña.',
-              icon: 'error',
+              text: "Error al ingresar nombre de usuario o contraseña.",
+              icon: "error",
               showConfirmButton: false,
-              timer: 2000
-          })
+              timer: 2000,
+            });
           }
         })
         .catch((err) => console.log(err));
+
+       
     },
     [user]
   );
 
-  const register = useCallback(
-    (objet) =>{
-      console.log(objet);
-      setNewUser(objet);
-    },
-    []
-  )
+    const loginFetch = useCallback(
+      () => {
+        loginServiceFetch()
+        .then((res) => {
+          console.log('respuesta', res)
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data.access_token)
+          setTokenUser(data.access_token)
+          return tokenUser;
+        })
+        .catch(err => console.log(err));
+      }
+    )
+
+  const register = useCallback((objet) => {
+    console.log(objet);
+    setNewUser(objet);
+  }, []);
 
   const logout = () => {
     Swal.fire({
-      title: '¿Cerrar sesión?',
-      icon: 'warning',
+      title: "¿Cerrar sesión?",
+      icon: "warning",
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Confirmar',
-      confirmButtonColor: '#Dc3545'
-  }).then((result) => {
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Confirmar",
+      confirmButtonColor: "#Dc3545",
+    }).then((result) => {
       if (result.isConfirmed) {
-          setUser(null)
+        setUser(null);
       }
-  })
-  }
+    });
+  };
 
   const contextValue = {
     user,
+    tokenUser,
     login,
+    loginFetch,
     logout,
     isLogged() {
       return !!user;
     },
     newUser,
-    register
+    register,
   };
 
   return (

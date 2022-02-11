@@ -16,7 +16,7 @@
   outline: 0;
   box-shadow: $shadow-primary;
 }
-.pic{
+.pic {
   background-color: $secondary;
 }
 .navbar {
@@ -25,19 +25,19 @@
   height: 3rem;
   box-shadow: $shadow-primary;
 
-  .nav-link{
+  .nav-link {
     font-size: 0.8rem;
     color: $text-light;
   }
   .dropdown-item {
     display: flex;
     align-items: center;
-    a{
+    a {
       color: $text-primary;
     }
   }
 }
-.footer-text{
+.footer-text {
   font-size: 0.8rem;
   margin: 0;
   padding: 0 0 1rem 1.5rem;
@@ -47,7 +47,7 @@
   top: 3rem;
   height: calc(100vh - 3rem);
   width: 100%;
-  background-color: $third
+  background-color: $third;
 }
 .user-header {
   position: fixed;
@@ -62,7 +62,7 @@
   color: $text-primary;
   border-bottom: 1px solid $secondary;
   z-index: 1;
-  .user-header__name{
+  .user-header__name {
     padding-left: 0;
     @media only screen and (min-width: $tablet) {
       padding-left: 15rem;
@@ -73,27 +73,29 @@
     font-size: 0.8rem;
     padding-left: 1rem;
     line-height: 1rem;
-    color: $text-secondary;   
-  }
-  a:hover{
     color: $text-secondary;
   }
-  a:focus{
-    color: $text-secondary;
+  #basic-nav-dropdown:focus{
+    color: $text-primary;
   }
-  a:active{
-    color: $text-secondary;
+  #basic-nav-dropdown:hover{
+    color: $text-primary;
   }
-  .dropdown-item{
+  .dropdown-item {
     font-size: 1rem;
     color: $text-primary;
   }
-  p, span{
+  p,
+  span {
     font-size: 0.8rem;
     @media only screen and (min-width: $tablet) {
-    font-size: 1rem;
+      font-size: 1rem;
     }
   }
+}
+.dropdown-item:active{
+  background-color: $primary-dark;
+  color: $text-light;
 }
 .user-container {
   position: relative;
@@ -116,25 +118,30 @@
   }
 }
 // Forms
-.form-control, .form-select {
+.form-control,
+.form-select {
   background-color: $third;
   border: none;
   border-bottom: 1px solid $text-primary;
   color: $text-primary;
   padding: 0.1rem 2.25rem 0.1rem 0.75rem;
 }
-.form-control:focus, .form-select:focus{
+.form-control:focus,
+.form-select:focus {
   background-color: $third;
   border: none;
   border-bottom: 1px solid $text-primary;
   box-shadow: $shadow-focus;
 }
-.form-label{
+.form-label {
   color: $text-secondary;
   font-size: 0.8rem;
+  a{
+    font-size: 0.8rem;
+  }
 }
 // Register
-.form_register{
+.form_register {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -179,11 +186,11 @@
   transition: 0.2s;
 }
 
-.icon_container{
+.icon_container {
   position: relative;
   display: inline-block;
 
-  .icon_notification{
+  .icon_notification {
     position: absolute;
     top: 0;
     right: 0;
@@ -194,29 +201,29 @@
   }
 }
 // Mensaje de error
-.error-form__container{
-  .error-form{
+.error-form__container {
+  .error-form {
     transition: 0.2s;
     color: $primary-dark;
-    p{
+    p {
       font-size: 0.8rem;
       margin: 0;
     }
   }
-  .show{
+  .show {
     display: block;
   }
-  .close{
+  .close {
     display: none;
   }
-  }
+}
 // GEneral
 // Main
 .main {
-  .main__banner{
+  .main__banner {
     width: 100%;
   }
-  .main__title{
+  .main__title {
     text-transform: uppercase;
     text-align: center;
     color: $primary;
@@ -226,11 +233,10 @@
     position: relative;
     height: 7rem;
     max-width: 300px;
+    min-width: 270px;
     margin: 1rem;
     padding: 0;
-    // border-radius: 20px;
     background-color: $third;
-    // box-shadow: 0px 2px 2px 1px #00000060;
     transition: 0.2s;
     a {
       position: absolute;
@@ -254,14 +260,14 @@
 .main__card:hover {
   transform: scale(1.1);
 }
-.switch-container{
+.switch-container {
   a {
-    display: inline-block ;
+    display: inline-block;
     min-width: max-content;
     margin-bottom: 0.5rem;
-    padding-right: 1.5rem ;
+    padding-right: 1.5rem;
     transition: 0.2s;
-    color: $text-third
+    color: $text-third;
   }
   a:hover {
     transform: scale(1.1);
@@ -271,20 +277,20 @@
   }
   .active-switch {
     color: $text-secondary;
-    font-weight:700;
+    font-weight: 700;
   }
 }
-.section-title{
+.section-title {
   text-transform: uppercase;
   color: $primary;
 }
 // Perfil del Paciente
-.perfil-paciente{
-  .datos-paciente__label{
+.perfil-paciente {
+  .datos-paciente__label {
     display: inline-block;
     width: fit-content;
     margin: 0;
-    margin-right: 1rem ;
+    margin-right: 1rem;
     text-transform: uppercase;
   }
 }
@@ -292,32 +298,31 @@
 .patient {
   display: flex;
   flex-direction: column;
-  align-items: center;
   height: auto;
   margin-bottom: 1rem;
   padding: 1rem;
   background-color: $third;
-  box-shadow: 0px 0px 2px 1px #00000060;
+  box-shadow: $shadow-primary;
   transition: 0.2s;
 
   @media only screen and (min-width: $tablet) {
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     height: 5.5rem;
-    padding: 0.5rem 0;
   }
   div {
     display: flex;
     align-items: center;
   }
   .patient-name {
+    width: 100%;
     height: 100%;
     margin: 0 0 1rem 0;
     cursor: pointer;
     @media only screen and (min-width: $tablet) {
       margin: 0;
     }
-    h6{
+    h6 {
       font-weight: 700;
     }
   }
@@ -325,6 +330,14 @@
     justify-content: space-around;
     @media only screen and (min-width: $tablet) {
       justify-content: flex-end;
+    }
+    button {
+      font-size: 0.8rem;
+      transition: 0.2s;
+      margin-left: 0.5rem;
+    }
+    button:hover {
+      transform: scale(1.1);
     }
   }
 }
@@ -338,7 +351,56 @@
     height: auto;
     min-height: 200px;
     background-color: $text-light;
-    // border: 1px solid $third;
     box-shadow: $shadow-primary;
   }
+}
+// Notificaciones y mensajes
+.mensaje_container {
+  transition: 0.5s;
+  cursor: pointer;
+  p {
+    margin: 0;
+  }
+  .mensaje_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    @media only screen and (min-width: $tablet) {
+      padding: auto;
+    }
+  }
+  .mensaje_text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .asunto {
+    color: $text-primary;
+  }
+  .mensaje {
+    color: $text-secondary;
+    font-size: 0.8rem;
+  }
+}
+// Tooltip
+.my-tooltip {
+  position: relative;
+}
+.my-tooltip .tiptext {
+  visibility: hidden;
+  text-align: center;
+  position: absolute;
+  width: max-content;
+  bottom: -50%;
+  z-index: 1;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  padding: 0.4rem ;
+  background-color: $text-primary;
+  color: $text-light;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.my-tooltip:hover .tiptext {
+  visibility: visible;
 }
