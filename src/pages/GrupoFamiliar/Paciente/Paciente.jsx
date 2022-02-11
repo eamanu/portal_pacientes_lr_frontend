@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import usePatient from '../../../hooks/usePatient';
 import * as FaIcon from 'react-icons/fa';
 import * as MdIcon from 'react-icons/md';

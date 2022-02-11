@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Container, Table } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import DataNotFound from "../../components/DataNotFound";
 import { Mensaje } from "../../components/Mensaje/Mensaje";
 import usePatient from '../../hooks/usePatient'
@@ -8,7 +7,6 @@ export default function Notificaciones() {
 
     const { patient } = usePatient()
     const mensajes = patient.mensajes
-    console.log(mensajes)
 
     return (
         <Container className='notificaciones p-3'>

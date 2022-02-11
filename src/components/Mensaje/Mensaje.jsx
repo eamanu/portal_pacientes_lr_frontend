@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import * as MdIcon from "react-icons/md";
 import { ModalMensaje } from './ModalMensaje/ModalMensaje';
 
 export const Mensaje = (props) => {
 
-    const { asunto, from, mensaje, i } = props
+    const { asunto, from, mensaje} = props
     // Modal
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(!show);

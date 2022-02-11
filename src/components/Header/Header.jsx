@@ -4,8 +4,7 @@ import { Navbar, Container, NavDropdown } from 'react-bootstrap';
 import logo from '../../assets/statics/logo-ligth.png'
 import useAuth from '../../hooks/useAuth';
 import PerfilUsuario from '../../pages/PerfilUsuario';
-import * as MdIcon from 'react-icons/md'
-import * as FaIcon from 'react-icons/fa'
+import * as MdIcon from 'react-icons/md';
 
 function Header() {
     const auth = useAuth();

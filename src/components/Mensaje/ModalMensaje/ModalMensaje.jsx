@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
-import * as MdIcon from "react-icons/md";
+import React from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 export const ModalMensaje = (props) => {
 

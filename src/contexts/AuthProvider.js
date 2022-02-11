@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       localStorage.removeItem("user");
-      console.log(error);
+      // console.log(error);
     }
   }, [user]);
 
@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
         })
         .then((response) => {
           if (response) {
-            console.log(response);
+            // console.log(response);
             setUser(response);
             return user;
           } else {
@@ -57,16 +57,17 @@ const AuthProvider = ({ children }) => {
       () => {
         loginServiceFetch()
         .then((res) => {
-          console.log('respuesta', res)
+          // console.log('respuesta', res)
           return res.json();
         })
         .then((data) => {
-          console.log(data.access_token)
+          // console.log(data.access_token)
           setTokenUser(data.access_token)
           return tokenUser;
         })
         .catch(err => console.log(err));
-      }
+      },
+      [tokenUser]
     )
 
   const register = useCallback((objet) => {
