@@ -10,16 +10,20 @@ const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
   const [newUser, setNewUser] = useState(false);
-  const [tokenUser, setTokenUser] = useState("");
+  const [tokenUser, setTokenUser] = useState(
+    JSON.parse(localStorage.getItem("tokenUser")) || null
+  );
 
   useEffect(() => {
     try {
       localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("tokenUser", JSON.stringify(tokenUser));
     } catch (error) {
       localStorage.removeItem("user");
+      localStorage.removeItem("tokenUser");
       // console.log(error);
     }
-  }, [user]);
+  }, [user, tokenUser]);
 
   const login = useCallback(
     (em, p) => {
@@ -61,7 +65,7 @@ const AuthProvider = ({ children }) => {
           return res.json();
         })
         .then((data) => {
-          // console.log(data.access_token)
+          console.log(data.access_token)
           setTokenUser(data.access_token)
           return tokenUser;
         })

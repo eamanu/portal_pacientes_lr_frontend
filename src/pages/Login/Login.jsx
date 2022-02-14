@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import '../../styles/Transitions.scss'
 import useAuth from '../../hooks/useAuth';
-import { loginServiceFetch } from "../../services/loginService";
+// import { loginServiceFetch } from "../../services/loginService";
 
 
 function Login() {
@@ -27,13 +27,13 @@ function Login() {
         auth.login(email, password)
     }
 
-    const [emailF, setEmailF] = useState("");
-    const [passwordF, setPasswordF] = useState("");
+    // const [emailF, setEmailF] = useState("");
+    // const [passwordF, setPasswordF] = useState("");
 
-    const onSubmitF = () => {
-        console.log(emailF, passwordF)
-        loginServiceFetch()
-    }
+    // const onSubmitF = () => {
+    //     console.log(emailF, passwordF)
+    //     loginServiceFetch()
+    // }
 
     return (
         <Container className='h-100 d-flex align-items-center justify-content-center'>
@@ -106,26 +106,26 @@ function Login() {
 
                     {/* Login with fetch */}
 
-                    <Form className="form-group in d-none" onSubmit={handleSubmit(onSubmitF)}>
+                    {/* <Form className="form-group in d-none" onSubmit={handleSubmit(onSubmitF)}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
                                 name="email"
                                 type="text"
                                 className="form-control"
-                                // {...register('email', {
-                                //     required: {
-                                //         value: true,
-                                //         message: "El campo es requerido."
-                                //     },
-                                //     pattern: {
-                                //         value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-                                //         message: "El formato ingresado no es válido"
-                                //     }
-                                // })}
+                                {...register('email', {
+                                    required: {
+                                        value: true,
+                                        message: "El campo es requerido."
+                                    },
+                                    pattern: {
+                                        value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+                                        message: "El formato ingresado no es válido"
+                                    }
+                                })}
                                 onChange={(e) => { setEmailF(e.target.value) }}
                             />
-                            {/* {errors.email && <ErrorMessage><p>{errors.email.message}</p></ErrorMessage>} */}
+                            {errors.email && <ErrorMessage><p>{errors.email.message}</p></ErrorMessage>}
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
@@ -133,16 +133,16 @@ function Login() {
                                 name="password"
                                 type="password"
                                 className="form-control"
-                                // {...register('password', {
-                                //     required: {
-                                //         value: true,
-                                //         message: "El campo es requerido."
-                                //     },
-                                //     minLength: {
-                                //         value: 3,
-                                //         message: "La contraseña debe tener al menos 3 caracteres",
-                                //     }
-                                // })}
+                                {...register('password', {
+                                    required: {
+                                        value: true,
+                                        message: "El campo es requerido."
+                                    },
+                                    minLength: {
+                                        value: 3,
+                                        message: "La contraseña debe tener al menos 3 caracteres",
+                                    }
+                                })}
                                 onChange={(e) => { setPasswordF(e.target.value) }}
                             />
                             {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
@@ -152,7 +152,7 @@ function Login() {
                                 Iniciar Sesión F
                             </Button>
                         </div>
-                    </Form>
+                    </Form> */}
 
                 </Col>
             </Row>
