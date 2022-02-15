@@ -3,6 +3,7 @@
 .active {
   background-color: $accent;
   color: $text-light !important;
+  animation: fade 0.2s  ;
   a {
     color: $text-light !important;
   }

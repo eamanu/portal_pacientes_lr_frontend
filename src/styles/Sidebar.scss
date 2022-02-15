@@ -6,7 +6,7 @@
   width: 15rem;
   height: calc(100vh - 3rem);
   border-right: 1px solid $secondary;
-  background-color: $secondary;
+  background-color: $third;
   color: $text-primary;
   font-size: 0.8rem;
   transition: transform 0.2s;
@@ -42,10 +42,17 @@
           font-size: 1rem;
         }
       }
-      // a:hover {
-      //   background-color: $secondary;
-      //   // color: $text-light;
-      // }
+      a:hover {
+        opacity: 0.8;
+      }
+      @keyframes fade {
+        0%{
+          transform: translateX(-100%);
+        }
+        90%{
+          transform: translateX(0%);
+        }
+      }
     }
   }
   .sidebar-acordeon__container{
