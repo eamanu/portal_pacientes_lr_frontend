@@ -62,7 +62,9 @@ const AuthProvider = ({ children }) => {
         loginServiceFetch()
         .then((res) => {
           // console.log('respuesta', res)
-          return res.json();
+          if(res) {
+            return res.json();
+          }
         })
         .then((data) => {
           console.log(data.access_token)
