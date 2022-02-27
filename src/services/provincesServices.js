@@ -1,5 +1,6 @@
 import axios from "axios";
 const APIU = "http://128.201.239.7:8000/portalpaciente/api/v1/parametric/provinces";
+// const APIU = "http://192.168.1.7:8000/portalpaciente/api/v1/parametric/provinces";
 
 export default function provincesServices() {
   const promise = axios.get(APIU);
