@@ -1,0 +1,81 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "nombre": "Juan",
+            "apellido": "Pérez",
+            "username": "usuario",
+            "email": "nombre@mail.com",
+            "password": 123,
+            "dni": 12345678,
+            "grupo_familiar": {
+                "pacientes": [
+                    {
+                        "id": "1a",
+                        "nombre": "Juan",
+                        "apellido": "Pérez",
+                        "dni": 12345678,
+                        "edad": 45,
+                        "nacionalidad": "argentina",
+                        "genero": "masculino",
+                        "telefono": 111522334455,
+                        "email": "nombre@mail.com",
+                        "notificacion": true
+                    },
+                    {
+                        "id": "1b",
+                        "nombre": "Micaela",
+                        "apellido": "Pérez",
+                        "dni": 12345678,
+                        "edad": 12,
+                        "nacionalidad": "argentina",
+                        "genero": "femenino",
+                        "telefono": false,
+                        "email": false,
+                        "notificacion": true
+                    },
+                    {
+                        "id": "1c",
+                        "nombre": "Ignacio",
+                        "apellido": "Pérez",
+                        "dni": 12345678,
+                        "edad": 8,
+                        "nacionalidad": "argentina",
+                        "genero": "masculino",
+                        "telefono": false,
+                        "email": false,
+                        "notificacion": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "nombre": "Otro Usuario",
+            "apellido": "Otro Apellido",
+            "username": "otrousuario",
+            "email": "otro@mail.com",
+            "password": 654321,
+            "dni": 12345678,
+            "grupo_familiar": {
+                "pacientes": [
+                    {
+                        "id": "2a",
+                        "nombre": "Otro Usuario",
+                        "apellido": "Otro Apellido"
+                    },
+                    {
+                        "id": "2b",
+                        "nombre": "Otro2",
+                        "apellido": "OtroApellido2"
+                    },
+                    {
+                        "id": "2c",
+                        "nombre": "Otro3",
+                        "apellido": "OtroApellido3"
+                    }
+                ]
+            }
+        }
+    ]
+}

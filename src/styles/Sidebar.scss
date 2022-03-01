@@ -1,0 +1,108 @@
+@import "Vars.scss";
+
+.sidebar {
+  position: fixed;
+  top: 3rem;
+  width: 15rem;
+  height: calc(100vh - 3rem);
+  border-right: 1px solid $secondary;
+  background-color: $third;
+  color: $text-primary;
+  font-size: 0.8rem;
+  transition: transform 0.2s;
+  z-index: 1;
+  box-shadow: $shadow-primary;
+  overflow: scroll;
+  .btn{
+    padding: 0;
+  }
+  hr{
+    margin: 0;
+  }
+  ul {
+    list-style: none;
+    padding: 0rem;
+    .sidebar__title{
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      padding: 1rem 0 0 1rem;
+      margin: 0 0 0.5rem 0;
+    }
+    li {
+      margin-bottom: 0rem;
+      a {
+        display: flex;
+        align-items: center;
+        color: $text-primary;
+        font-weight: lighter;
+        text-decoration: none;
+        padding: 1rem 0 1rem 1rem;
+        .menu-icon {
+          margin-right: 0.5rem;
+          font-size: 1rem;
+        }
+      }
+      a:hover {
+        opacity: 0.8;
+      }
+      @keyframes fade {
+        0%{
+          transform: translateX(-100%);
+        }
+        90%{
+          transform: translateX(0%);
+        }
+      }
+    }
+  }
+  .sidebar-acordeon__container{
+    height: 0;
+    overflow: hidden;
+    transition: 0.5s ease-out;
+    background-color: $secondary-light;
+    span{
+      padding-left: 1.8rem;
+    }
+  }
+  .active-acordeon{
+    overflow: visible;
+    height: auto;
+  }
+  .rotate{
+    .menu-icon{
+      transition: 0.2s;
+      transform: rotate(-90deg);
+    }
+  }
+  .norotate{
+    .menu-icon{
+      transition: 0.2s;
+      transform: rotate(0deg);
+    }
+  }
+}
+.close {
+  transform: translateX(-100%);
+}
+.show {
+  transform: translateX(0);
+}
+.sidebar::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.sidebar::-webkit-scrollbar:vertical {
+  width:0;
+}
+.sidebar::-webkit-scrollbar:horizontal {
+  height: 0rem;
+}
+
+// .sidebar::-webkit-scrollbar-button:increment,.sidebar::-webkit-scrollbar-button {
+//   display: none;
+// } 
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #79797981;
+  border-radius: 20px;
+}
