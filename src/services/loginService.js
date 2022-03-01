@@ -11,7 +11,8 @@ export default function loginService(em, p) {
 }
 
 export async function loginServiceFetch() {
-  const URL = "http://128.201.239.7/portalpaciente/api/v1";
+  //const URL = "http://192.168.1.7:8000/portalpaciente/api/v1";
+  const URL = "http://128.201.239.7:8000/portalpaciente/api/v1";
   const searchParams = new URLSearchParams({
     username: "admin",
     password: "admin123",
