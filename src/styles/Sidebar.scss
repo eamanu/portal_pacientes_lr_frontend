@@ -13,8 +13,11 @@
   z-index: 1;
   box-shadow: $shadow-primary;
   overflow: scroll;
-  .btn{
-    padding: 0;
+  .menu-btn-container{
+    display: flex;
+    align-items: center;
+    height: auto;
+    min-height: 3.5rem;
   }
   hr{
     margin: 0;
