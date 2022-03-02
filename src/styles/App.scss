@@ -3,7 +3,7 @@
 .active {
   background-color: $accent;
   color: $text-light !important;
-  animation: fade 0.2s  ;
+  animation: fade 0.2s;
   a {
     color: $text-light !important;
   }
@@ -76,10 +76,10 @@
     line-height: 1rem;
     color: $text-secondary;
   }
-  #basic-nav-dropdown:focus{
+  #basic-nav-dropdown:focus {
     color: $text-primary;
   }
-  #basic-nav-dropdown:hover{
+  #basic-nav-dropdown:hover {
     color: $text-primary;
   }
   .dropdown-item {
@@ -94,7 +94,7 @@
     }
   }
 }
-.dropdown-item:active{
+.dropdown-item:active {
   background-color: $primary-dark;
   color: $text-light;
 }
@@ -137,7 +137,7 @@
 .form-label {
   color: $text-secondary;
   font-size: 0.8rem;
-  a{
+  a {
     font-size: 0.8rem;
   }
 }
@@ -173,18 +173,19 @@
 }
 .menu-btn {
   transition: 0.2s;
+  padding: 0;
   color: $text-primary;
-  height: 3rem;
-  width: 3rem;
+  height: 2.8rem;
+  width: 2.8rem;
   border-radius: 50%;
 }
 .menu-btn:hover {
   background-color: $accent;
-  color: $text-light;
+  color: $text-light !important;
 }
 .menu-icon {
-  font-size: 1.5rem;
-  transition: 0.2s;
+  font-size: 1.4rem;
+  // transition: 0.2s;
 }
 
 .icon_container {
@@ -262,6 +263,12 @@
   transform: scale(1.1);
 }
 .switch-container {
+  overflow-x: scroll;
+  white-space: nowrap;
+  @media only screen and (min-width: $desktop) {
+  overflow: auto;
+  white-space: normal;
+  }
   a {
     display: inline-block;
     min-width: max-content;
@@ -397,7 +404,7 @@
   z-index: 1;
   border-radius: 3px;
   font-size: 0.8rem;
-  padding: 0.4rem ;
+  padding: 0.4rem;
   background-color: $text-primary;
   color: $text-light;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
