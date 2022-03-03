@@ -8,6 +8,7 @@ import Register from "../pages/Register"
 import UserRouter from "./UserRouter"
 import NotFound from "../pages/NotFound/NotFound"
 import AvisoVerificacion from "../pages/AvisoVerificacion"
+import RecuperarContraseña from "../pages/RecuperarContraseña"
 
 export default function AppRouter() {
     return (
@@ -18,6 +19,7 @@ export default function AppRouter() {
                 <PublicRoute exact path='/login' component={Login}/>
                 <PublicRoute exact path='/register' component={Register}/>
                 <PublicRoute exact path='/verificacion' component={AvisoVerificacion}/>
+                <PublicRoute exact path='/recuperar-contraseña' component={RecuperarContraseña}/>
                 <PrivateRoute path='/usuario' component={UserRouter}/>   
                 <Route exact path='/'><Redirect to='/usuario'/></Route>  
                 <Route path='/404' component={NotFound}/>   
