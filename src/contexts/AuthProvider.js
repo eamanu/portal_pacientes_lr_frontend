@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
       loginService(em, p)
         .then((response) => {
           const getUser = response.users.find((user) => {
-            if( user.email === em && user.password == p){
+            if (user.email === em && user.password == p) {
               return user.email === em;
             }
           });
@@ -51,30 +51,25 @@ const AuthProvider = ({ children }) => {
           }
         })
         .catch((err) => console.log(err));
-
-       
     },
     [user]
   );
 
-    const loginFetch = useCallback(
-      () => {
-        loginServiceFetch()
-        .then((res) => {
-          // console.log('respuesta', res)
-          if(res) {
-            return res.json();
-          }
-        })
-        .then((data) => {
-          console.log(data.access_token)
-          setTokenUser(data.access_token)
-          return tokenUser;
-        })
-        .catch(err => console.log(err));
-      },
-      [tokenUser]
-    )
+  const loginFetch = useCallback(() => {
+    loginServiceFetch()
+      .then((res) => {
+        // console.log('respuesta', res)
+        if (res) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        console.log(data.access_token);
+        setTokenUser(data.access_token);
+        return tokenUser;
+      })
+      .catch((err) => console.log(err));
+  }, [tokenUser]);
 
   const register = useCallback((objet) => {
     console.log(objet);
