@@ -3,41 +3,41 @@ import institutionsServices from '../../../../services/institutionsServices'
 import useAuth from '../../../../hooks/useAuth.js'
 
 export default function CentrosMedicos() {
-    // const { tokenUser } = useAuth();
+    const { tokenUser } = useAuth();
 
-    // const [institutions, setInstitutions] = useState([]);
+    const [institutions, setInstitutions] = useState([]);
 
-    // const getInstitutions = useCallback(
-    //     () => {
-    //         institutionsServices(tokenUser)
-    //             .then((res) => {
-    //                 const allInstitutions = res
-    //                 return allInstitutions;
-    //             })
-    //             .then((res) => {
-    //                 setInstitutions(res);
-    //                 console.log(res)
-    //                 return institutions
-    //             })
-    //             .catch((err) => { console.log(err) })
-    //     },
-    //     [institutions, tokenUser],
-    // )
+    const getInstitutions = useCallback(
+        () => {
+            institutionsServices(tokenUser)
+                .then((res) => {
+                    const allInstitutions = res
+                    return allInstitutions;
+                })
+                .then((res) => {
+                    setInstitutions(res);
+                    console.log(res)
+                    return institutions
+                })
+                .catch((err) => { console.log(err) })
+        },
+        [institutions, tokenUser],
+    )
 
-    // useEffect(() => {
-    //     getInstitutions()
-    // }, [])
+    useEffect(() => {
+        getInstitutions()
+    }, [])
 
     return (
         <div>
-            <h5>Centros Médicos</h5>
-            {/* {institutions?.length > 0 ? institutions.map((ins) => {
+            {/* <h5>Centros Médicos</h5>
+            {institutions?.length > 0 ? institutions.map((ins) => {
                 return (
                     <p key={ins.id}>{ins.name}</p>
                 )
-            }) : */}
+            }) :
                 <h6>Cargando...</h6>
-            {/* } */}
+            } */}
         </div>
     )
 }
