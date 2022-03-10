@@ -9,6 +9,11 @@ jobs:
     name: "[Frontend] Push Docker image to Docker Hub"
     runs-on: ubuntu-latest
     steps:
+      - name: Create .env file
+        run: |
+          touch .env
+          echo REACT_APP_API_URL_DEV = $ {{ secrets.SERVER_IP }} >> .env       
+
       - name: Check out the repo
         uses: actions/checkout@v2
       
