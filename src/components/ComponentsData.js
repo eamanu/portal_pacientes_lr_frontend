@@ -14,7 +14,7 @@ export const variantsGender = [
 ]
 
 export const endDate = () => {
-    var endYear = new Date().getFullYear() - 18;
+    var endYear = new Date().getFullYear() - 14;
     var todayDay = new Date().getDate()
     var todayMonth = new Date().getMonth()
     var endDate = new Date(endYear, todayMonth, todayDay)

@@ -167,7 +167,7 @@ export const SidebarData = {
   grupoFamiliar: [
     {
       id: 9,
-      title: "Ver Pacientes",
+      title: "Ver grupo familiar",
       path: "/usuario/grupo-familiar",
       icon: <MdIcon.MdFamilyRestroom className="menu-icon" />,
       acordeon: false,

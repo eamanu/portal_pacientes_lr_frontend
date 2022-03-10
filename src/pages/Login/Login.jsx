@@ -56,10 +56,10 @@ function Login() {
                                         value: true,
                                         message: "El campo es requerido."
                                     },
-                                    // pattern: {
-                                    //     value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-                                    //     message: "El formato ingresado no es válido"
-                                    // }
+                                    pattern: {
+                                        value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+                                        message: "El formato ingresado no es válido"
+                                    }
                                 })}
                                 onChange={(e) => { setEmail(e.target.value) }}
                             />
@@ -85,16 +85,15 @@ function Login() {
                             />
                             {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
                         </Form.Group>
-                        <Form.Group controlId="formBasicCheckbox">
-                            <input type="radio" />
-                            <Form.Label className="ps-1">Recordar usuario y contraseña</Form.Label>
+                        <Form.Group>
+                            <Form.Label><input type="radio" /> Recordar usuario y contraseña</Form.Label>
                         </Form.Group>
-                        <Form.Group controlId="formBasicCheckbox">
+                        <Form.Group>
                             <Form.Label>
-                                <Link to="/register">¿Olvidaste tu contraseña?</Link>
+                                <Link to="/recuperar-contraseña">¿Olvidaste tu contraseña?</Link>
                             </Form.Label>
                         </Form.Group>
-                        <div className="d-flex flex-column align-items-end">
+                        <div className="d-flex flex-column align-items-end mt-3">
                             <Button variant="danger" type="submit">
                                 Iniciar Sesión
                             </Button>
