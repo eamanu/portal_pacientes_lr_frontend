@@ -2,8 +2,10 @@ import { useEffect, useState, useCallback } from "react";
 import institutionsServices from '../../../../services/institutionsServices'
 import useAuth from '../../../../hooks/useAuth.js'
 
+
+
 export default function CentrosMedicos() {
-    const { tokenUser } = useAuth();
+    var tokenUser = useAuth().tokenUser;
 
     const [institutions, setInstitutions] = useState([]);
 
@@ -30,14 +32,14 @@ export default function CentrosMedicos() {
 
     return (
         <div>
-            {/* <h5>Centros Médicos</h5>
+            <h5>Centros Médicos</h5>
             {institutions?.length > 0 ? institutions.map((ins) => {
                 return (
                     <p key={ins.id}>{ins.name}</p>
                 )
             }) :
                 <h6>Cargando...</h6>
-            } */}
+            }
         </div>
     )
 }
