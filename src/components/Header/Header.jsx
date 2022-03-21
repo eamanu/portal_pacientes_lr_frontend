@@ -20,7 +20,6 @@ function Header() {
     const [sidebar, setSidebar] = useState(false);
     const navbarDropdownTitle =
             <span className='navbar_dropdown-title'>
-                {/* {mql.matches ? auth.user.nombre +  auth.user.apellido : ''}  */}
                 <p className='m-0 d-none d-lg-inline-block'>{auth.user?.nombre + ' ' + auth.user?.apellido}</p>
                 <BsIcon.BsPersonCircle className='user-icon'></BsIcon.BsPersonCircle>
             </span>
@@ -46,28 +45,17 @@ function Header() {
         }
     }, [mql.matches])
 
-    // paciente
-    // const p = usePatient();
-    // console.log(p)
-    // const [idPatient, setIdPatient] = useState(p.patient.id);
-    // function handleChange() {
-    //     p.getPatient(idPatient)
-    // }
-    // useEffect(() => {
-    //     handleChange();
-    // }, [idPatient]);
-
     return (
         <>
-            <Navbar variant="none" className="navbar" fixed="top">
+            <Navbar variant="none" fixed="top">
                 <Container fluid>
-                    <div className='d-flex d-lg-none align-items-center me-2'>
+                    {auth.isLogged() && <div className='d-flex d-lg-none align-items-center me-2'>
                         <button className='btn menu-btn text-light' onClick={showSidebar}>
                             <MdIcon.MdViewHeadline className={`menu-icon ${sidebar ? 'd-none' : 'd-block in'}`} />
                             <MdIcon.MdClose className={`menu-icon ${sidebar ? 'd-block in' : 'd-none'}`} />
                         </button>
-                    </div>
-                    <Link to='/usuario' className="d-flex w-100 justify-content-center justify-content-lg-start " ><img className="logo" src={logo} alt="logo portal del paciente - La Rioja" /></Link>
+                    </div>}
+                    <Link to='/usuario' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start}' : 'justify-content-start'}`} ><img className="logo" src={logo} alt="logo portal del paciente - La Rioja" /></Link>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
                             {auth.isLogged() &&
@@ -94,7 +82,7 @@ function Header() {
             </Navbar>
             <PerfilUsuario show={show} handleClose={handleClose} />
             <div className={`container-block ${sidebar ? 'show' : 'close'}`} onClick={showSidebar}></div>
-            <Sidebar isActive={sidebar ? 'show' : 'close'} action={showSidebar} ></Sidebar>
+            {auth.isLogged() && <Sidebar isActive={sidebar ? 'show' : 'close'} action={showSidebar} ></Sidebar>}
         </>
     )
 }

@@ -103,7 +103,7 @@ function Login() {
                                     <Link to="/recuperar-contraseña">¿Olvidaste tu contraseña?</Link>
                                 </Form.Label>
                             </Form.Group>
-                            <div className="d-flex flex-column align-items-end mt-3">
+                            <div className="d-flex flex-column align-items-center align-items-sm-end mt-3">
                                 <Button variant="danger" type="submit">
                                     Iniciar Sesión
                                 </Button>
