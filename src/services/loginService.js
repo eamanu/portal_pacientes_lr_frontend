@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_ENDPOINTS_LOGIN, LOGIN_HEADER } from "../constants/api.constants";
+import { post } from "./httpServices";
 
 // FAKE LOGIN
 const fakeAPI = "https://violetapugliese.github.io/usuarios_prueba_API/db.json";
@@ -12,17 +13,13 @@ export default function loginService(em, p) {
 }
 
 // aL INTENTAR HACER CON AXIOS, NO RECONOCE HEADER CONTENT-TYPE
-export async function loginServiceFetch() {
-  const searchParams = new URLSearchParams({
-    username: "admin",
-    password: "admin123",
-  });
-  const data = searchParams.toString()
-  const promise = await fetch(API_ENDPOINTS_LOGIN, {
-    method: "POST",
-    headers: LOGIN_HEADER(),
-    body: data,
-  })
+export async function loginServiceFetch () {
+    const searchParams = new URLSearchParams({
+      username: "admin",
+      password: "admin123",
+    });
+    const data = searchParams.toString()
+    const promise = await post(API_ENDPOINTS_LOGIN(), LOGIN_HEADER(), data);
     return promise
 }
 
