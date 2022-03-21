@@ -14,7 +14,6 @@ export let LOGIN_HEADER = () => {
 export let AUTH_HEADER = (tokenId) => {
     let header = {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
       'Authorization': `Bearer ${tokenId}`
     }
     return header;
@@ -22,5 +21,5 @@ export let AUTH_HEADER = (tokenId) => {
 
 export const API_ENDPOINTS_LOGIN = `${baseUrl}/login`;
 
-export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/instituciones/all`;
+export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
     
