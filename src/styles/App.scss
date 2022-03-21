@@ -17,9 +17,58 @@
   outline: 0;
   box-shadow: $shadow-primary;
 }
-.pic {
-  background-color: $secondary;
+.z-index-1 {
+  z-index: 1;
 }
+// background LOGIN /REGISTER
+.bg-container {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  @media only screen and (min-width: $small) {
+    overflow: hidden;
+  }
+}
+.bg1 {
+  background-image: url(../assets/images/background-pplr-1.jpeg);
+}
+.bg2 {
+  background-image: url(../assets/images/background-pplr-2.jpeg);
+}
+.bg3 {
+  background-image: url(../assets/images/background-pplr-3.jpeg);
+}
+.bg4 {
+  background-image: url(../assets/images/background-pplr-4.jpeg);
+}
+.bg5 {
+  background-image: url(../assets/images/background-pplr-5.jpeg);
+}
+.bg6 {
+  background-image: url(../assets/images/background-pplr-6.jpeg);
+}
+.circle {
+  position: absolute;
+  width: 150vh;
+  height: 150vh;
+  border-radius: 50% 0 50% 50%;
+  background-color: $third;
+  z-index: 0;
+  transform: translateY(-25%);
+  box-shadow: $shadow-primary;
+  @media only screen and (min-width: $small) {
+    width: 155vh;
+    height: 155vh;
+    transform: translate(30%, 0%);
+  }
+}
+.bg-third {
+  background-color: $third;
+}
+// NAvbar
 .navbar {
   background-color: $primary;
   color: $text-light;
@@ -37,12 +86,42 @@
       color: $text-primary;
     }
   }
+  .navbar_dropdown-title {
+    p {
+      font-size: 0.8rem;
+    }
+  }
+  .user-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    font-size: 1.2rem;
+    margin: 0 0.2rem 0 0.5rem;
+  }
+  .dropdown-menu[data-bs-popper] {
+    right: 0;
+    left: auto;
+    min-width: 200px;
+  }
 }
+.container-block {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.384);
+  z-index: 2;
+  @media only screen and (min-width: $desktop) {
+    position: relative;
+    width: 0vw;
+    height: 0vh;
+  }
+}
+// footer
 .footer-text {
   font-size: 0.8rem;
   margin: 0;
   padding: 0 0 1rem 1.5rem;
 }
+// Main container
 .main-container {
   position: absolute;
   top: 3rem;
@@ -65,7 +144,7 @@
   z-index: 1;
   .user-header__name {
     padding-left: 0;
-    @media only screen and (min-width: $tablet) {
+    @media only screen and (min-width: $desktop) {
       padding-left: 15rem;
     }
   }
@@ -107,13 +186,14 @@
   width: 100%;
   background-color: $third;
   color: $text-primary;
-}
-.dropdown-menu[data-bs-popper] {
-  left: -70%;
+
+  .dropdown-menu[data-bs-popper] {
+    left: -70%;
+  }
 }
 .patient-container {
   width: 100%;
-  @media only screen and (min-width: $tablet) {
+  @media only screen and (min-width: $desktop) {
     width: calc(100% - 21rem);
     transform: translateX(15rem);
   }
@@ -172,19 +252,18 @@
   background-color: #0d6dfd46;
 }
 .menu-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 0.2s;
   padding: 0;
   color: $text-primary;
-  height: 2.8rem;
-  width: 2.8rem;
+  height: 2.6rem;
+  width: 2.6rem;
   border-radius: 50%;
 }
-.menu-btn:hover {
-  background-color: $accent;
-  color: $text-light !important;
-}
 .menu-icon {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   // transition: 0.2s;
 }
 
@@ -266,8 +345,8 @@
   overflow-x: scroll;
   white-space: nowrap;
   @media only screen and (min-width: $desktop) {
-  overflow: auto;
-  white-space: normal;
+    overflow: auto;
+    white-space: normal;
   }
   a {
     display: inline-block;
