@@ -10,7 +10,8 @@ export const variantsDNI = [
 
 export const variantsGender = [
     { id: 1, type: "Femenino" },
-    { id: 2, type: "Masculino" }
+    { id: 2, type: "Masculino" },
+    { id: 3, type: "No-binario" }
 ]
 
 export const endDate = () => {

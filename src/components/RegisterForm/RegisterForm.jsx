@@ -27,6 +27,7 @@ export default function RegisterForm(formularioUsuario) {
         date_of_birth: "",
         id_gender: "",
         email: "",
+        confirmEmail: "",
         password: "",
         confirmPassword: "",
         calle: "",
@@ -167,7 +168,7 @@ export default function RegisterForm(formularioUsuario) {
                         </Col>
                         <Col xs={12} sm={6} >
                             <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Fecha de Nacimiento</Form.Label>
+                                <Form.Label className="mb-0">Fecha de nacimiento</Form.Label>
                                 <DatePickerComponent
                                     name="date_of_birth"
                                     nameForm="date_of_birth"
@@ -187,7 +188,7 @@ export default function RegisterForm(formularioUsuario) {
                         </Col>
                         <Col xs={12} sm={6} >
                             <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Género</Form.Label>
+                                <Form.Label className="mb-0">Sexo (según figura en DNI)</Form.Label>
                                 <SelectType
                                     name="id_gender"
                                     variants={variantsGender}
@@ -246,6 +247,34 @@ export default function RegisterForm(formularioUsuario) {
                                         {errors.email && <ErrorMessage><p>{errors.email.message}</p></ErrorMessage>}
                                     </Form.Group>
                                 </Col>
+                                <Col xs={12} >
+                                    <Form.Group className="mb-3" >
+                                        <Form.Label className="mb-0">Confirmar email</Form.Label>
+                                        <Form.Control
+                                            name="confirmEmail"
+                                            type="text"
+                                            className="form-control"
+                                            onPaste={(e) => {
+                                                e.preventDefault();
+                                                return false
+                                            }
+                                            }
+                                            {...register('confirmEmail', {
+                                                required: {
+                                                    value: true,
+                                                    message: "El campo es requerido."
+                                                },
+                                                pattern: {
+                                                    value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+                                                    message: "El formato ingresado no es válido"
+                                                },
+                                                validate: (value) => value === getValues("confirmEmail") || 'Las direcciones de correo no coinciden'
+                                            })}
+                                            onChange={handleChange}
+                                        />
+                                        {errors.confirmEmail && <ErrorMessage><p>{errors.confirmEmail.message}</p></ErrorMessage>}
+                                    </Form.Group>
+                                </Col>
                                 <Col xs={12} sm={6}>
                                     <Form.Group className="mb-3" >
                                         <Form.Label className="mb-0">Contraseña</Form.Label>
@@ -275,8 +304,13 @@ export default function RegisterForm(formularioUsuario) {
                                             name="confirmPassword"
                                             type="password"
                                             className="form-control"
+                                            onPaste={(e) => {
+                                                e.preventDefault();
+                                                return false
+                                            }
+                                            }
                                             {...register('confirmPassword', {
-                                                validate: (value) => value === getValues("password") || 'Las contraseñas no coinsiden',
+                                                validate: (value) => value === getValues("password") || 'Las contraseñas no coinsiden'
                                             })}
                                             onChange={handleChange}
                                         />
