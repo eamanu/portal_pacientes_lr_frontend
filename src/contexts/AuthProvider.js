@@ -58,17 +58,16 @@ const AuthProvider = ({ children }) => {
   const loginFetch = useCallback(() => {
     loginServiceFetch()
       .then((res) => {
-        // console.log('respuesta', res)
         if (res) {
           return res.json();
         }
       })
       .then((data) => {
-        console.log(data.access_token);
+        console.log('data', data.access_token);
         setTokenUser(data.access_token);
         return tokenUser;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log('error', err));
   }, [tokenUser]);
 
   const register = useCallback((objet) => {
