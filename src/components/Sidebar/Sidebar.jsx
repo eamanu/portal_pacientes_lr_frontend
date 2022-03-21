@@ -8,9 +8,7 @@ function Sidebar({ isActive, action, notificacion }) {
 
     const location = useLocation();
     const thisLocation = location.pathname
-
     const sidebarData = SidebarData;
-
     const perfilDelPacienteOpciones = sidebarData.perfilDelPaciente
     const grupoFamiliarOpciones = sidebarData.grupoFamiliar
     const prop = [perfilDelPacienteOpciones, grupoFamiliarOpciones]
@@ -35,13 +33,6 @@ function Sidebar({ isActive, action, notificacion }) {
     return (
         <>
             <div className={`sidebar ${isActive} `} >
-                <div className='menu-btn-container d-flex d-md-none'>
-                <button
-                    className='btn text-dark menu-btn'
-                    onClick={action}><MdIcon.MdClose className='menu-icon'>
-                    </MdIcon.MdClose>
-                </button>
-                </div>
                 <ul>
                     {SidebarData.inicio.map((item, index) => {
                         return (
