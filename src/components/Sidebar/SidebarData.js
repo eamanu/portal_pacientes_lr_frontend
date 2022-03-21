@@ -56,12 +56,8 @@ export const SidebarData = {
           path: "/usuario/turnos/mis-turnos"
         }, 
         {
-          title: "Reservar turnos",
+          title: "Solicitar turnos",
           path: "/usuario/turnos/reservar-turnos"
-        }, 
-        {
-          title: "Historial",
-          path: "/usuario/turnos/historial"
         }
       ]
     },
