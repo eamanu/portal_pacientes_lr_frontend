@@ -55,7 +55,7 @@ function Header() {
                             <MdIcon.MdClose className={`menu-icon ${sidebar ? 'd-block in' : 'd-none'}`} />
                         </button>
                     </div>}
-                    <Link to='/usuario' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start}' : 'justify-content-start'}`} ><img className="logo" src={logo} alt="logo portal del paciente - La Rioja" /></Link>
+                    <Link to='/usuario' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start' : 'justify-content-start'}`} ><img className="logo" src={logo} alt="logo portal del paciente - La Rioja" /></Link>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
                             {auth.isLogged() &&
