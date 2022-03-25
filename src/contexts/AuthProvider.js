@@ -16,12 +16,12 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     try {
+      delete user.password
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("tokenUser", JSON.stringify(tokenUser));
     } catch (error) {
       localStorage.removeItem("user");
       localStorage.removeItem("tokenUser");
-      // console.log(error);
     }
   }, [user, tokenUser]);
 
@@ -63,7 +63,8 @@ const AuthProvider = ({ children }) => {
         }
       })
       .then((data) => {
-        console.log('data', data.access_token);
+        console.log('token', data.access_token);
+        console.log('data', data);
         setTokenUser(data.access_token);
         return tokenUser;
       })
@@ -86,6 +87,9 @@ const AuthProvider = ({ children }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         setUser(null);
+        setTokenUser(null);
+        localStorage.removeItem("user");
+        localStorage.removeItem("tokenUser");
       }
     });
   };

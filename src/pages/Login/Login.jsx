@@ -10,13 +10,15 @@ import useAuth from '../../hooks/useAuth';
 
 function Login() {
 
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(JSON.parse(localStorage.getItem("loginDataEmail")) || "");
     const [password, setPassword] = useState("");
+    const [saveData, setSaveData] = useState(false);
     const auth = useAuth();
     const history = useHistory();
     const location = useLocation();
     const previousObjetURL = location.state?.from
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [number, setNumber] = useState(2) // Background
 
     useEffect(() => {
         if (auth.isLogged()) history.push(previousObjetURL || "/usuario")
@@ -25,23 +27,15 @@ function Login() {
     const onSubmit = () => {
         auth.loginFetch()
         auth.login(email, password)
+        if (saveData) {
+            localStorage.setItem("loginDataEmail", JSON.stringify(email));
+        }
     }
 
-    // const [emailF, setEmailF] = useState("");
-    // const [passwordF, setPasswordF] = useState("");
-
-    // const onSubmitF = () => {
-    //     console.log(emailF, passwordF)
-    //     loginServiceFetch()
-    // }
-
-    // Background
-    const  [ number, setNumber ] = useState(2)
-
-    useEffect(() => { 
+    useEffect(() => {
         setNumber(Math.floor(Math.random() * (6 - 0)) + 1);
     }, [])
-    
+
 
     return (
         <div className={`bg-container bg${number} h-100 w-100 d-flex align-items-center justify-content-center position-relative`}>
@@ -60,6 +54,7 @@ function Login() {
                                 <Form.Control
                                     name="email"
                                     type="text"
+                                    value={email}
                                     className="form-control"
                                     {...register('email', {
                                         required: {
@@ -80,6 +75,7 @@ function Login() {
                                 <Form.Control
                                     name="password"
                                     type="password"
+                                    value={password}
                                     className="form-control"
                                     {...register('password', {
                                         required: {
@@ -96,7 +92,7 @@ function Login() {
                                 {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
                             </Form.Group>
                             <Form.Group>
-                                <Form.Label><input type="radio" /> Recordar usuario y contraseña</Form.Label>
+                                <Form.Label><input type="checkbox" onChange={(e) => { setSaveData(e.target.value) }} /> Recordar usuario y contraseña</Form.Label>
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>
@@ -112,57 +108,6 @@ function Login() {
                                 </button>
                             </div>
                         </Form>
-
-                        {/* Login with fetch */}
-
-                        {/* <Form className="form-group in d-none" onSubmit={handleSubmit(onSubmitF)}>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                name="email"
-                                type="text"
-                                className="form-control"
-                                {...register('email', {
-                                    required: {
-                                        value: true,
-                                        message: "El campo es requerido."
-                                    },
-                                    pattern: {
-                                        value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-                                        message: "El formato ingresado no es válido"
-                                    }
-                                })}
-                                onChange={(e) => { setEmailF(e.target.value) }}
-                            />
-                            {errors.email && <ErrorMessage><p>{errors.email.message}</p></ErrorMessage>}
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                name="password"
-                                type="password"
-                                className="form-control"
-                                {...register('password', {
-                                    required: {
-                                        value: true,
-                                        message: "El campo es requerido."
-                                    },
-                                    minLength: {
-                                        value: 3,
-                                        message: "La contraseña debe tener al menos 3 caracteres",
-                                    }
-                                })}
-                                onChange={(e) => { setPasswordF(e.target.value) }}
-                            />
-                            {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
-                        </Form.Group>
-                        <div className="d-flex justify-content-end">
-                            <Button variant="danger" type="submit">
-                                Iniciar Sesión F
-                            </Button>
-                        </div>
-                    </Form> */}
-
                     </Col>
                 </Row>
             </Container>
