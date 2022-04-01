@@ -202,8 +202,8 @@
 .form-control,
 .form-select {
   background-color: $third;
-  border: none;
-  border-bottom: 1px solid $text-primary;
+  // border: none;
+  // border-bottom: 1px solid $text-primary;
   color: $text-primary;
   padding: 0.1rem 2.25rem 0.1rem 0.75rem;
 }
