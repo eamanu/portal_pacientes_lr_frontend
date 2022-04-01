@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { variantsDNI, variantsGender, endDate } from '../../components/ComponentsData';
-import DatePickerComponent from '../../components/DatePickerComponent';
-import SelectType from '../../components/SelectType';
-import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
+import { variantsDNI, variantsGender, endDate } from '../ComponentsData';
+import DatePickerComponent from '../DatePickerComponent';
+import SelectType from '../SelectType';
+import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import useAuth from '../../hooks/useAuth';
 import '../../styles/Transitions.scss';
 import Swal from "sweetalert2";
+import SearchAddress from "../SearchAddress";
+// import { FirstNameInput }  from './Forms/Inputs'
 
 export default function RegisterForm(formularioUsuario) {
 
@@ -16,9 +18,7 @@ export default function RegisterForm(formularioUsuario) {
     const endDateDatePicker = endDate()
     const history = useHistory()
     const auth = useAuth();
-
     const registroUsuario = formularioUsuario.formularioUsuario
-
     const [values, setValues] = useState({
         firstName: "",
         lastName: "",
@@ -32,16 +32,25 @@ export default function RegisterForm(formularioUsuario) {
         confirmPassword: "",
         calle: "",
         numero_domicilio: "",
-        localida: "",
+        localidad: "",
         departamento: "",
+        domicilio_postal: "",
         establecimiento: "",
         diabetes: null,
         hipertension: null,
         enfermedad_respiratoria: null,
         enfermedad_renal: null
     });
-
+    const [search, setsSearch] = useState(true)
+    const [state, setState] = useState(1)
+    const next = () => {
+        setState(state + 1)
+    }
+    const back = () => {
+        setState(state - 1)
+    }
     const handleChange = (e) => {
+        // console.log(e.target?.value ||e)
         setValues({
             ...values,
             [e.target?.name || "date_of_birth"]: e.target?.value || e,
@@ -53,11 +62,31 @@ export default function RegisterForm(formularioUsuario) {
         setValue('id_type', values.id_type);
         setValue('id_gender', values.id_gender);
         setValue('date_of_birth', values.date_of_birth);
-    }, [values.id_type, values.id_gender, values.date_of_birth, setValue])
+        setValue('calle', values.calle);
+    }, [values.id_type, values.id_gender, values.date_of_birth, values.calle, setValue])
+
+
+    const getAddress = (obj) => {
+        if (obj.address) {
+            // console.log('llegó', obj)
+            setValues({
+                ...values,
+                ['numero_domicilio']: obj.address.house_number,
+                ['calle']: obj.address.road,
+                ['localidad']: obj.address.town || obj.address.city,
+                ['departamento']: obj.address.state_district
+            })
+        } else {
+            setValues({
+                ...values,
+                ['calle']: obj,
+            })
+        }
+
+    }
 
     const onSubmit = () => {
         auth.register(values)
-        console.log(values)
         registroUsuario
             ? history.push("/verificacion")
             : Swal.fire({
@@ -73,14 +102,6 @@ export default function RegisterForm(formularioUsuario) {
                 }
             });
 
-    }
-
-    const [state, setState] = useState(1)
-    const next = () => {
-        setState(state + 1)
-    }
-    const back = () => {
-        setState(state - 1)
     }
 
     return (
@@ -188,7 +209,7 @@ export default function RegisterForm(formularioUsuario) {
                         </Col>
                         <Col xs={12} sm={6} >
                             <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Sexo (según figura en DNI)</Form.Label>
+                                <Form.Label className="mb-0">Sexo</Form.Label>
                                 <SelectType
                                     name="id_gender"
                                     variants={variantsGender}
@@ -331,7 +352,7 @@ export default function RegisterForm(formularioUsuario) {
                             <Row className={state === 2 ? "in" : "out"}>
                                 <Col xs={12}>
                                     <Form.Group className="mb-3" >
-                                        <Form.Label className="mb-0">¿Padecés alguna de las siguientes afecciones? (Opcional)</Form.Label>
+                                        <p className="mb-0">¿Padecés alguna de las siguientes afecciones crónicas? (Opcional)</p>
                                         <div>
                                             <Form.Group className='mb-4'>
                                                 <Form.Label className="mb-0">Diabetes:</Form.Label>
@@ -340,13 +361,12 @@ export default function RegisterForm(formularioUsuario) {
                                                     type="radio"
                                                     id="diabetesSiCheck"
                                                     name="diabetes"
-                                                    className="form-check-input"
+                                                    className="form-check-input me-3"
                                                     value={true}
                                                     onChange={handleChange}
                                                 /> <label className="form-check-label" htmlFor="diabetesSiCheck">
                                                     Sí
                                                 </label>
-                                                <br />
                                                 <input
                                                     type="radio"
                                                     id="diabetesNoCheck"
@@ -364,13 +384,12 @@ export default function RegisterForm(formularioUsuario) {
                                                     type="radio"
                                                     id="hipertensionSiCheck"
                                                     name="hipertension"
-                                                    className="form-check-input"
+                                                    className="form-check-input me-3"
                                                     value={true}
                                                     onChange={handleChange}
                                                 /> <label className="form-check-label" htmlFor="hipertensionSiCheck">
                                                     Sí
                                                 </label>
-                                                <br />
                                                 <input
                                                     type="radio"
                                                     id="hipertensionNoCheck"
@@ -388,13 +407,12 @@ export default function RegisterForm(formularioUsuario) {
                                                     type="radio"
                                                     id="enfermedad_respiratoriaSiCheck"
                                                     name="enfermedad_respiratoria"
-                                                    className="form-check-input"
+                                                    className="form-check-input me-3"
                                                     value={true}
                                                     onChange={handleChange}
                                                 /> <label className="form-check-label" htmlFor="enfermedad_respiratoriaSiCheck">
                                                     Sí
                                                 </label>
-                                                <br />
                                                 <input
                                                     type="radio"
                                                     id="enfermedad_respiratoriaNoCheck"
@@ -412,13 +430,12 @@ export default function RegisterForm(formularioUsuario) {
                                                     type="radio"
                                                     id="enfermedad_renalSiCheck"
                                                     name="enfermedad_renal"
-                                                    className="form-check-input"
+                                                    className="form-check-input me-3"
                                                     value={true}
                                                     onChange={handleChange}
                                                 /> <label className="form-check-label" htmlFor="enfermedad_renalSiCheck">
                                                     Sí
                                                 </label>
-                                                <br />
                                                 <input
                                                     type="radio"
                                                     id="enfermedad_renalNoCheck"
@@ -444,7 +461,6 @@ export default function RegisterForm(formularioUsuario) {
                         </Form>
                     }
                 </>
-
             }
 
             {/* Third */}
@@ -453,78 +469,128 @@ export default function RegisterForm(formularioUsuario) {
                     {registroUsuario ?
                         <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
                             <Row className={state === 3 ? "in" : "out"}>
-                                <Col xs={12} sm={6}>
-                                    <Form.Group className="mb-3" >
-                                        <Form.Label className="mb-0">Calle de domicilio</Form.Label>
-                                        <Form.Control
-                                            name="calle"
-                                            type="text"
-                                            className="form-control"
-                                            {...register('calle', {
-                                                required: {
-                                                    value: true,
-                                                    message: "El campo es requerido."
-                                                }
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.calle && <ErrorMessage><p>{errors.calle.message}</p></ErrorMessage>}
-                                    </Form.Group>
-                                </Col>
-                                <Col xs={12} sm={6}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label className="mb-0">Número de domicilio</Form.Label>
-                                        <Form.Control
-                                            name="numero_domicilio"
-                                            type="text"
-                                            className="form-control"
-                                            {...register('numero_domicilio', {
-                                                required: {
-                                                    value: true,
-                                                    message: "El campo es requerido."
-                                                }
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.numero_domicilio && <ErrorMessage><p>{errors.numero_domicilio.message}</p></ErrorMessage>}
-                                    </Form.Group>
-                                </Col>
                                 <Col xs={12}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label className="mb-0">Localidad</Form.Label>
-                                        <Form.Control
-                                            name="localidad"
-                                            type="text"
-                                            className="form-control"
-                                            {...register('localidad', {
-                                                required: {
-                                                    value: true,
-                                                    message: "El campo es requerido."
-                                                }
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.localidad && <ErrorMessage><p>{errors.localidad.message}</p></ErrorMessage>}
+                                    <Form.Group>
+                                        <Form.Label className="mb-0">Domicilio</Form.Label>
+                                        <input
+                                            type="radio"
+                                            id="searchCheck"
+                                            name="search"
+                                            className="form-check-input ms-3"
+                                            value={true}
+                                            checked={search ? true : false}
+                                            onChange={() => setsSearch(true)}
+                                        /> <label className="form-label" htmlFor="searchCheck">
+                                            Buscar
+                                        </label>
+                                        <input
+                                            type="radio"
+                                            id="searchNoCheck"
+                                            name="search"
+                                            className="form-check-input ms-3"
+                                            value={false}
+                                            onChange={() => setsSearch(false)}
+                                        /> <label className="form-label" htmlFor="searchNoCheck">
+                                            Ingresar manualmente
+                                        </label>
                                     </Form.Group>
                                 </Col>
-                                <Col xs={12}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label className="mb-0">Departamento</Form.Label>
-                                        <Form.Control
-                                            name="departamento"
-                                            type="text"
-                                            className="form-control"
-                                            {...register('departamento', {
-                                                required: {
-                                                    value: true,
-                                                    message: "El campo es requerido."
-                                                }
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.departamento && <ErrorMessage><p>{errors.departamento.message}</p></ErrorMessage>}
-                                    </Form.Group>
-                                </Col>
+                                {search ?
+                                    <Col xs={12}>
+                                        <Form.Group className="mb-3" >
+                                            <SearchAddress
+                                                nameForm="calle"
+                                                selectValue={values.calle}
+                                                className="form-control"
+                                                handleChange={(e) => handleChange(e)}
+                                                {...register('calle', {
+                                                    required: {
+                                                        value: true,
+                                                        message: "El campo es requerido."
+                                                    }
+                                                })}
+                                                getAddress={(e) => getAddress(e)}
+
+                                            />
+                                            {errors.calle && <ErrorMessage><p>{errors.calle.message}</p></ErrorMessage>}
+                                        </Form.Group>
+                                    </Col>
+                                    :
+                                    <>
+                                        <Col xs={12} sm={8}>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label className="mb-0">Calle</Form.Label>
+                                                <Form.Control
+                                                    name="calle"
+                                                    type="text"
+                                                    className="form-control"
+                                                    {...register('calle', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "El campo es requerido."
+                                                        }
+                                                    })}
+                                                    onChange={handleChange}
+                                                />
+                                                {errors.calle && <ErrorMessage><p>{errors.calle.message}</p></ErrorMessage>}
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={12} sm={4}>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label className="mb-0">Número</Form.Label>
+                                                <Form.Control
+                                                    name="numero_domicilio"
+                                                    type="text"
+                                                    className="form-control"
+                                                    {...register('numero_domicilio', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "El campo es requerido."
+                                                        }
+                                                    })}
+                                                    onChange={handleChange}
+                                                />
+                                                {errors.numero_domicilio && <ErrorMessage><p>{errors.numero_domicilio.message}</p></ErrorMessage>}
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={12} sm={6}>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label className="mb-0">Localidad</Form.Label>
+                                                <Form.Control
+                                                    name="localidad"
+                                                    type="text"
+                                                    className="form-control"
+                                                    {...register('localidad', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "El campo es requerido."
+                                                        }
+                                                    })}
+                                                    onChange={handleChange}
+                                                />
+                                                {errors.localidad && <ErrorMessage><p>{errors.localidad.message}</p></ErrorMessage>}
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={12} sm={6}>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label className="mb-0">Departamento</Form.Label>
+                                                <Form.Control
+                                                    name="departamento"
+                                                    type="text"
+                                                    className="form-control"
+                                                    {...register('departamento', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "El campo es requerido."
+                                                        }
+                                                    })}
+                                                    onChange={handleChange}
+                                                />
+                                                {errors.departamento && <ErrorMessage><p>{errors.departamento.message}</p></ErrorMessage>}
+                                            </Form.Group>
+                                        </Col>
+                                    </>
+                                }
                                 <Col xs={12}>
                                     <Form.Group className="mb-3">
                                         <Form.Label className="mb-0">Establecimiento de atención habitual</Form.Label>
@@ -578,7 +644,8 @@ export default function RegisterForm(formularioUsuario) {
 
             }
             {/* Four */}
-            {state === 4 &&
+            {
+                state === 4 &&
                 <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
                     <Row className={state === 4 ? "in" : "out"}>
                         <Col xs={12}>
@@ -696,7 +763,8 @@ export default function RegisterForm(formularioUsuario) {
                 </Form>
             }
             {/* Four */}
-            {state === 5 &&
+            {
+                state === 5 &&
                 <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
                     <Row className={state === 5 ? "in" : "out"}>
                         <Col xs={12}>
