@@ -10,10 +10,7 @@ export default function RecuperarContraseña() {
 
     const { register, handleSubmit, getValues, formState: { errors } } = useForm();
 
-    const [paso1, setPaso1] = useState(true);
-    const [paso2, setPaso2] = useState(false);
-    const [paso3, setPaso3] = useState(false);
-    const [paso4, setPaso4] = useState(false);
+    const [step, setStep] = useState(1);
 
     const [email, setEmail] = useState("");
     const [codigo, setCodigo] = useState("");
@@ -23,34 +20,35 @@ export default function RecuperarContraseña() {
 
     const enviarCodigo = () => {
         console.log(email);
-        setPaso1(false);
-        setPaso2(true);
+        setStep(step + 1);
     }
     const verificarCodigo = () => {
         console.log(codigo);
-        setPaso2(false);
-        setPaso3(true);
+        setStep(step + 1);
     }
     const crearNuevaContraseña = () => {
         console.log(password);
-        setPaso3(false);
-        setPaso4(true);
+        setStep(step + 1);
         setIsSuccess(false);
     }
     const reiniciarComponente = () => {
-        setPaso4(false);
-        setPaso1(true);
+        setStep(1);
         setIsSuccess(false);
     }
 
+      // Background
+      const number = Math.floor(Math.random() * (6 - 0)) + 1;
+
     return (
-        <Container className='h-100 d-flex align-items-center justify-content-center'>
+        <div className={`bg-container bg${number} h-100 w-100 d-flex align-items-center justify-content-center position-relative`}>
+        <div className="circle"></div>
+        <Container className='h-100 d-flex align-items-center justify-content-center z-index-1 mb-5 mb-sm-0'>
             <Row className='w-100 h-75 d-flex align-items-center justify-content-center'>
                 <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
                     <div className='w-100 h-100 pic'></div>
                 </Col>
                 <Col xs={8} sm={7} lg={5}>
-                    {paso1 && <>
+                    {step === 1 && <>
                         <h2>Recuperar contraseña</h2>
                         <p>Ingresá tu correo electrónico.</p>
                         <Form className="form-group in" onSubmit={handleSubmit(enviarCodigo)}>
@@ -82,7 +80,7 @@ export default function RecuperarContraseña() {
                         </Form>
                     </>
                     }
-                    {paso2 && <>
+                    {step === 2 && <>
                         <h2>Recuperar contraseña</h2>
                         <p>Hemos enviado un código a la casilla <b>{email}</b>. Ingresá aquí el codigo que figura en el correo.</p>
                         <Form className="form-group in" onSubmit={handleSubmit(verificarCodigo)}>
@@ -113,7 +111,7 @@ export default function RecuperarContraseña() {
                             </div>
                         </Form>
                     </>}
-                    {paso3 && <>
+                    {step === 3 && <>
                         <p>Ingresá una contraseña nueva.</p>
                         <Form className="form-group in" onSubmit={handleSubmit(crearNuevaContraseña)}>
                             <Form.Group className="mb-3" >
@@ -156,7 +154,7 @@ export default function RecuperarContraseña() {
                             </div>
                         </Form>
                     </>}
-                    {paso4 && <>
+                    {step === 4 && <>
                         {isSuccess &&
                             <div className="in">
                                 <div className="w-100 d-flex flex-column flex-sm-row align-items-center">
@@ -178,5 +176,6 @@ export default function RecuperarContraseña() {
                 </Col>
             </Row >
         </Container >
+        </div> 
     )
 }
