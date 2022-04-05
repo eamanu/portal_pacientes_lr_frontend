@@ -8,7 +8,7 @@ registerLocale("es", es);
 
 const DatePickerComponent = React.forwardRef((props, ref) => {
 
-    const { nameForm, maxDate, handleChange, selectValue, onBlur, disabled } = props
+    const { name, maxDate, handleChange, selectValue, onBlur, disabled } = props
     const [startDate, setStartDate] = useState(false);
 
     const change = (date) => {
@@ -19,9 +19,8 @@ const DatePickerComponent = React.forwardRef((props, ref) => {
     return (
         <>
             <DatePicker 
-                name={nameForm}
+                name={name}
                 className='form-control'
-                autocomplete="off"
                 selected={startDate ? startDate : selectValue}
                 onChange={(date) => change(date)}
                 onBlur={onBlur}

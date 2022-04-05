@@ -17,7 +17,7 @@ function Register() {
                     <Col xs={12} sm={7} lg={6} className="d-flex flex-column h-100 justify-content-between bg-third pb-3 pb-sm-0">
                         <h2>Registrarse</h2>
                         <div className="d-flex align-items-center" style={{ height: "auto", minHeight: "80%", }}>
-                            <RegisterForm formularioUsuario={true} ></RegisterForm>
+                            <RegisterForm formType={"user"} ></RegisterForm>
                         </div>
                     </Col>
                 </Row>

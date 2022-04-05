@@ -2,92 +2,75 @@ import { useState, useEffect } from "react";
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { variantsDNI, variantsGender, endDate } from '../ComponentsData';
-import DatePickerComponent from '../DatePickerComponent';
-import SelectType from '../SelectType';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import useAuth from '../../hooks/useAuth';
 import '../../styles/Transitions.scss';
 import Swal from "sweetalert2";
 import SearchAddress from "../SearchAddress";
-// import { FirstNameInput }  from './Forms/Inputs'
+import FormGroup from "./Forms/FormGroup";
+import { LabelsFormData, ValuesRegisterForm } from "./Forms/FormData";
 
-export default function RegisterForm(formularioUsuario) {
+export default function RegisterForm(formType) {
 
-    const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm();
-    const endDateDatePicker = endDate()
-    const history = useHistory()
     const auth = useAuth();
-    const registroUsuario = formularioUsuario.formularioUsuario
-    const [values, setValues] = useState({
-        firstName: "",
-        lastName: "",
-        id_type: "",
-        id_number: "",
-        date_of_birth: "",
-        id_gender: "",
-        email: "",
-        confirmEmail: "",
-        password: "",
-        confirmPassword: "",
-        calle: "",
-        numero_domicilio: "",
-        localidad: "",
-        departamento: "",
-        domicilio_postal: "",
-        establecimiento: "",
-        diabetes: null,
-        hipertension: null,
-        enfermedad_respiratoria: null,
-        enfermedad_renal: null
-    });
-    const [search, setsSearch] = useState(true)
-    const [state, setState] = useState(1)
-    const next = () => {
-        setState(state + 1)
-    }
-    const back = () => {
-        setState(state - 1)
-    }
+    const history = useHistory()
+    // steps
+    const [step, setStep] = useState(1)
+    const next = () => { setStep(step + 1) }
+    const back = () => { setStep(step - 1) }
+    // useForm
+    const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm();
+    const type = formType.formType //Tipe of form "user" or "patient"
+    const f = LabelsFormData //Information to build form fields
+    const [values, setValues] = useState(ValuesRegisterForm); //Get and set values form
+    const [newValue, setNewValue] = useState("") //Get and set values form to required
+    const [search, setSearch] = useState(true) //Get addres by search or not
+
     const handleChange = (e) => {
-        // console.log(e.target?.value ||e)
-        setValues({
-            ...values,
-            [e.target?.name || "date_of_birth"]: e.target?.value || e,
-        }
-        );
-    }
-
-    useEffect(() => {
-        setValue('id_type', values.id_type);
-        setValue('id_gender', values.id_gender);
-        setValue('date_of_birth', values.date_of_birth);
-        setValue('calle', values.calle);
-    }, [values.id_type, values.id_gender, values.date_of_birth, values.calle, setValue])
-
-
-    const getAddress = (obj) => {
-        if (obj.address) {
-            // console.log('llegó', obj)
+        if (e.target?.name) {
+            let targetName = e.target.name
             setValues({
                 ...values,
-                ['numero_domicilio']: obj.address.house_number,
-                ['calle']: obj.address.road,
-                ['localidad']: obj.address.town || obj.address.city,
-                ['departamento']: obj.address.state_district
-            })
+                [targetName || "date_of_birth"]: e.target?.value,
+            }
+            );
+            setNewValue(targetName)
         } else {
             setValues({
                 ...values,
-                ['calle']: obj,
+                ["date_of_birth"]: e,
+            }
+            );
+        }
+    }
+    const getAddress = (obj) => {
+        if (obj.address) {
+            let data = ['domicilio_postal', 'numero_domicilio', 'calle', 'localidad', 'departamento']
+            setValues({
+                ...values,
+                ['domicilio_postal']: obj.address.road + '' + obj.address.house_number,
+                ['numero_domicilio']: obj.address.house_number,
+                ['calle']: obj.address.road,
+                ['localidad']: obj.address.town || obj.address.city,
+                ['departamento']: obj.address.state_district || obj.address.suburb
+            })
+            data.map((item) => {
+                setNewValue(item)
             })
         }
-
     }
+
+    useEffect(() => {
+        setValue('date_of_birth', values.date_of_birth);
+    }, [values.date_of_birth, setValue])
+
+    useEffect(() => {
+        setValue(`${newValue}`, values[newValue]);
+    }, [newValue, values[newValue]])
 
     const onSubmit = () => {
         auth.register(values)
-        registroUsuario
+        type === "user"
             ? history.push("/verificacion")
             : Swal.fire({
                 title: "Registro realizado",
@@ -101,244 +84,251 @@ export default function RegisterForm(formularioUsuario) {
                     history.push("/usuario/grupo-familiar");
                 }
             });
-
     }
+
+    const personalDataForm =
+        <Row className={`${step === 1 ? "in" : "out"} d-flex`}>
+            {step === 1 &&
+                <>
+                    <Col xs={12}>
+                        <FormGroup inputType={f.firstName.inputType} label={f.firstName.label} name={f.firstName.form_name} value={values.firstName}
+                            {...register(`${f.firstName.form_name}`, f.firstName.register)}
+                            onChange={handleChange}
+                        />
+                        {errors[f.firstName.form_name] && <ErrorMessage><p>{errors[f.firstName.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12}>
+                        <FormGroup inputType={f.lastName.inputType} label={f.lastName.label} name={f.lastName.form_name} value={values.lastName}
+                            {...register(`${f.lastName.form_name}`, f.lastName.register)}
+                            onChange={handleChange}
+                        />
+                        {errors[f.lastName.form_name] && <ErrorMessage><p>{errors[f.lastName.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={6}>
+                        <FormGroup inputType={f.id_type.inputType} label={f.id_type.label} name={f.id_type.form_name} selectValue={values.id_type}
+                            variants={f.id_type.variants}
+                            handleChange={(e) => handleChange(e)}
+                            {...register(`${f.id_type.form_name}`, f.id_type.register)}
+                        />
+                        {errors[f.id_type.form_name] && <ErrorMessage><p>{errors[f.id_type.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={6}>
+                        <FormGroup inputType={f.id_number.inputType} label={f.id_number.label} name={f.id_number.form_name} value={values.id_number}
+                            {...register(`${f.id_number.form_name}`, f.id_number.register)}
+                            onChange={handleChange}
+                        />
+                        {errors[f.id_number.form_name] && <ErrorMessage><p>{errors[f.id_number.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={6}>
+                        <FormGroup inputType={f.date_of_birth.inputType} label={f.date_of_birth.label} name={f.date_of_birth.form_name} selectValue={values.date_of_birth}
+                            maxDate={f.date_of_birth.maxDate}
+                            {...register(`${f.date_of_birth.form_name}`, f.date_of_birth.register)}
+                            handleChange={(e) => handleChange(e)}
+                        />
+                        {errors[f.date_of_birth.form_name] && <ErrorMessage><p>{errors[f.date_of_birth.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={6}>
+                        <FormGroup inputType={f.id_gender.inputType} label={f.id_gender.label} name={f.id_gender.form_name} selectValue={values.id_gender}
+                            variants={f.id_gender.variants}
+                            handleChange={(e) => handleChange(e)}
+                            {...register(`${f.id_gender.form_name}`, f.id_gender.register)}
+                        />
+                        {errors[f.id_gender.form_name] && <ErrorMessage><p>{errors[f.id_gender.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                </>
+            }
+        </Row>
+
+    const loginDataForm =
+        <Row className={step === 2 ? "in" : "out"}>
+            {step === 2 && type === 'user' &&
+                <> <Col xs={12} >
+                    <FormGroup inputType={f.email.inputType} label={f.email.label} name={f.email.form_name} value={values.email}
+                        {...register(`${f.email.form_name}`, f.email.register)}
+                        onChange={handleChange}
+                    />
+                    {errors[f.email.form_name] && <ErrorMessage><p>{errors[f.email.form_name].message}</p></ErrorMessage>}
+                </Col>
+                    <Col xs={12} >
+                        <FormGroup inputType={f.confirmEmail.inputType} label={f.confirmEmail.label} name={f.confirmEmail.form_name} value={values.confirmEmail}
+                            {...register(`${f.confirmEmail.form_name}`, {
+                                required: f.confirmEmail.register.required,
+                                pattern: f.confirmEmail.register.pattern,
+                                validate: (value) => value === getValues("email") || 'Las direcciones de correo no coinciden'
+                            })}
+                            onChange={handleChange}
+                        />
+                        {errors[f.confirmEmail.form_name] && <ErrorMessage><p>{errors[f.confirmEmail.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={6} >
+                        <FormGroup inputType={f.password.inputType} label={f.password.label} name={f.password.form_name} value={values.password} type={f.password.type}
+                            {...register(`${f.password.form_name}`, f.password.register)}
+                            onChange={handleChange}
+                        />
+                        {errors[f.password.form_name] && <ErrorMessage><p>{errors[f.password.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={6} >
+                        <FormGroup inputType={f.confirmPassword.inputType} label={f.confirmPassword.label} name={f.confirmPassword.form_name} value={values.confirmPassword} type={f.confirmPassword.type}
+                            {...register(`${f.confirmPassword.form_name}`, {
+                                validate: (value) => value === getValues("password") || 'Las direcciones de correo no coinciden'
+                            })}
+                            onChange={handleChange}
+                        />
+                        {errors[f.confirmPassword.form_name] && <ErrorMessage><p>{errors[f.confirmPassword.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                </>
+            }
+        </Row>
+
+    const geographicalDataForm =
+        <Row className={step === 3 ? "in" : "out"}>
+            {step === 3 && type === 'user' &&
+                <>
+                    <Col xs={12}>
+                        <Form.Group>
+                            <Form.Label className="mb-0">Domicilio</Form.Label>
+                            <input type="radio" id="searchCheck" name="search" className="form-check-input ms-3" value={true}
+                                checked={search ? true : false}
+                                onChange={() => setSearch(true)}
+                            /> <label className="form-label" htmlFor="searchCheck">
+                                Buscar
+                            </label>
+                            <input type="radio" id="searchNoCheck" name="search" className="form-check-input ms-3" value={false}
+                                onChange={() => setSearch(false)}
+                            /> <label className="form-label" htmlFor="searchNoCheck">
+                                Ingresar manualmente
+                            </label>
+                        </Form.Group>
+                    </Col>
+                    {search ?
+                        <Col xs={12}>
+                            <Form.Group className="mb-3" >
+                                <SearchAddress
+                                    nameForm="domicilio_postal"
+                                    selectValue={values.domicilio_postal}
+                                    className="form-control"
+                                    handleChange={(e) => handleChange(e)}
+                                    {...register('domicilio_postal', {
+                                        required: {
+                                            value: true,
+                                            message: "El campo es requerido."
+                                        }
+                                    })}
+                                    getAddress={(e) => getAddress(e)}
+                                />
+                                {errors.domicilio_postal && <ErrorMessage><p>{errors.domicilio_postal.message}</p></ErrorMessage>}
+                            </Form.Group>
+                        </Col>
+                        :
+                        <>
+                            <Col xs={12} sm={8}>
+                                <FormGroup inputType={f.calle.inputType} label={f.calle.label} name={f.calle.form_name} value={values.calle}
+                                    {...register(`${f.calle.form_name}`, f.calle.register)}
+                                    onChange={handleChange}
+                                />
+                                {errors[f.calle.form_name] && <ErrorMessage><p>{errors[f.calle.form_name].message}</p></ErrorMessage>}
+                            </Col>
+                            <Col xs={12} sm={4}>
+                                <FormGroup inputType={f.numero_domicilio.inputType} label={f.numero_domicilio.label} name={f.numero_domicilio.form_name} value={values.numero_domicilio}
+                                    {...register(`${f.numero_domicilio.form_name}`, f.numero_domicilio.register)}
+                                    onChange={handleChange}
+                                />
+                                {errors[f.numero_domicilio.form_name] && <ErrorMessage><p>{errors[f.numero_domicilio.form_name].message}</p></ErrorMessage>}
+                            </Col>
+                            <Col xs={12} sm={6}>
+                                <FormGroup inputType={f.localidad.inputType} label={f.localidad.label} name={f.localidad.form_name} value={values.localidad}
+                                    {...register(`${f.localidad.form_name}`, f.localidad.register)}
+                                    onChange={handleChange}
+                                />
+                                {errors[f.localidad.form_name] && <ErrorMessage><p>{errors[f.localidad.form_name].message}</p></ErrorMessage>}
+                            </Col>
+                            <Col xs={12} sm={6}>
+                                <FormGroup inputType={f.departamento.inputType} label={f.departamento.label} name={f.departamento.form_name} value={values.departamento}
+                                    {...register(`${f.departamento.form_name}`, f.departamento.register)}
+                                    onChange={handleChange}
+                                />
+                                {errors[f.departamento.form_name] && <ErrorMessage><p>{errors[f.departamento.form_name].message}</p></ErrorMessage>}
+                            </Col>
+                        </>
+                    }
+                    <Col xs={12} >
+                        <FormGroup inputType={f.establishment_of_care.inputType} label={f.establishment_of_care.label} name={f.establishment_of_care.form_name} selectValue={values.establishment_of_care}
+                            variants={f.establishment_of_care.variants}
+                            handleChange={(e) => handleChange(e)}
+                            {...register(`${f.establishment_of_care.form_name}`, f.establishment_of_care.register)}
+                        />
+                        {errors[f.establishment_of_care.form_name] && <ErrorMessage><p>{errors[f.establishment_of_care.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                </>
+            }
+        </Row>
+    console.log('step', step, 'type', type)
+    const conditionDataForm =
+        <Row className={step === 4 || step === 2 ? "in" : "out"}>
+            {step === 4 && type === 'user' || step === 2 && type === 'patient' ?
+                <>
+                    <Col xs={12}>
+                        <Form.Label className="mb-0">¿Padecés alguna de las siguientes afecciones crónicas? (Opcional)</Form.Label>
+                        <FormGroup inputType={f.diabetes.inputType} label={f.diabetes.label} name={f.diabetes.form_name} value={values.diabetes} type={f.diabetes.type}
+                            onChange={handleChange}
+                        />
+                        <FormGroup inputType={f.hipertension.inputType} label={f.hipertension.label} name={f.hipertension.form_name} value={values.hipertension} type={f.hipertension.type}
+                            onChange={handleChange}
+                        />
+                        <FormGroup inputType={f.enfermedad_respiratoria.inputType} label={f.enfermedad_respiratoria.label} name={f.enfermedad_respiratoria.form_name} value={values.enfermedad_respiratoria} type={f.enfermedad_respiratoria.type}
+                            onChange={handleChange}
+                        />
+                        <FormGroup inputType={f.enfermedad_renal.inputType} label={f.enfermedad_renal.label} name={f.enfermedad_renal.form_name} value={values.enfermedad_renal} type={f.enfermedad_renal.type}
+                            onChange={handleChange}
+                        />
+                    </Col>
+                </> : <></>
+            }
+        </Row>
+
+    const photoDataForm =
+        <Row className={step === 5 || step === 3 ? "in" : "out"}>
+            {step === 5 && type === 'user' || step === 3 && type === 'patient' ?
+                <>
+                    <Col xs={12}>
+                        {errors[f.photo_dni_front.form_name] && <ErrorMessage><p>{errors[f.photo_dni_front.form_name].message}</p></ErrorMessage>}
+                        <FormGroup inputType={f.photo_dni_front.inputType} label={f.photo_dni_front.label} name={f.photo_dni_front.form_name} value={values.photo_dni_front}
+                            {...register(`${f.photo_dni_front.form_name}`, f.photo_dni_front.register)}
+                            onChange={handleChange}
+                        />
+                        {errors[f.photo_dni_back.form_name] && <ErrorMessage><p>{errors[f.photo_dni_back.form_name].message}</p></ErrorMessage>}
+                        <FormGroup inputType={f.photo_dni_back.inputType} label={f.photo_dni_back.label} name={f.photo_dni_back.form_name} value={values.photo_dni_back}
+                            {...register(`${f.photo_dni_back.form_name}`, f.photo_dni_back.register)}
+                            onChange={handleChange}
+                        />
+                    </Col>
+                </> : <></>
+            }
+        </Row>
 
     return (
         <>
             {/* First */}
-            {state === 1 &&
-                <Form className="form-group form_register " onSubmit={handleSubmit(() => { next() })}>
-                    <Row className={state === 1 ? "in" : "out"}  >
-                        <Col xs={12}>
-                            <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Nombres</Form.Label>
-                                <Form.Control
-                                    name="firstName"
-                                    type="text"
-                                    className="form-control"
-                                    {...register('firstName', {
-                                        required: {
-                                            value: true,
-                                            message: "El campo es requerido."
-                                        }
-                                    })}
-                                    onChange={handleChange}
-                                />
-                                {errors.firstName && <ErrorMessage><p>{errors.firstName.message}</p></ErrorMessage>}
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12}>
-                            <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Apellidos</Form.Label>
-                                <Form.Control
-                                    name="lastName"
-                                    type="text"
-                                    className="form-control"
-                                    {...register('lastName', {
-                                        required: {
-                                            value: true,
-                                            message: "El campo es requerido."
-                                        }
-                                    })}
-                                    onChange={handleChange}
-                                />
-                                {errors.lastName && <ErrorMessage><p>{errors.lastName.message}</p></ErrorMessage>}
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12} sm={6} >
-                            <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Tipo de documento</Form.Label>
-                                <SelectType
-                                    name="id_type"
-                                    variants={variantsDNI}
-                                    nameForm="id_type"
-                                    selectValue={values.id_type}
-                                    handleChange={(e) => handleChange(e)}
-                                    {...register('id_type', {
-                                        required: {
-                                            value: true,
-                                            message: "El campo es requerido."
-                                        },
-                                        pattern: {
-                                            value: /[0-9]/,
-                                            message: "El campo es requerido."
-                                        }
-                                    })}
-                                />
-                                {errors.id_type && <ErrorMessage><p>El campo es requerido</p></ErrorMessage>}
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12} sm={6} >
-                            <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Número de documento</Form.Label>
-                                <Form.Control
-                                    name="id_number"
-                                    type="text"
-                                    className="form-control"
-                                    {...register('id_number', {
-                                        required: {
-                                            value: true,
-                                            message: "El campo es requerido."
-                                        },
-                                    })}
-                                    onChange={handleChange}
-                                />
-                                {errors.id_number && <ErrorMessage><p>{errors.id_number.message}</p></ErrorMessage>}
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12} sm={6} >
-                            <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Fecha de nacimiento</Form.Label>
-                                <DatePickerComponent
-                                    name="date_of_birth"
-                                    nameForm="date_of_birth"
-                                    autocomplete="off"
-                                    selectValue={values.date_of_birth}
-                                    handleChange={(date) => handleChange(date)}
-                                    maxDate={endDateDatePicker}
-                                    {...register('date_of_birth', {
-                                        required: {
-                                            value: true,
-                                            message: "El campo es requerido."
-                                        }
-                                    })}
-                                />
-                                {errors.date_of_birth && <ErrorMessage><p>{errors.date_of_birth.message}</p></ErrorMessage>}
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12} sm={6} >
-                            <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">Sexo</Form.Label>
-                                <SelectType
-                                    name="id_gender"
-                                    variants={variantsGender}
-                                    nameForm="id_gender"
-                                    selectValue={values.id_gender}
-                                    handleChange={(e) => handleChange(e)}
-                                    {...register('id_gender', {
-                                        required: {
-                                            value: true,
-                                            message: "El campo es requerido."
-                                        },
-                                        pattern: {
-                                            value: /[0-9]/,
-                                            message: "El campo es requerido."
-                                        }
-                                    })}
-                                />
-                                {errors.id_gender && <ErrorMessage><p>{errors.id_gender.message}</p></ErrorMessage>}
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <div className="d-flex w-100 justify-content-between align-items-center">
-                        <p className="text-danger d-inline m-0">{registroUsuario ? '1 de 5...' : '1 de 3...'}</p>
-                        <div>
-                            <Button variant="danger" type="submit">Siguiente</Button>
-                        </div>
-                    </div>
-                </Form>
-            }
-            {/* Second */}
-
-            {state === 2 &&
+            {step === 1 &&
                 <>
-                    {registroUsuario ?
+                    <Form className="form-group form_register " onSubmit={handleSubmit(() => { next() })}>
+                        {personalDataForm}
+                        <div className="d-flex w-100 justify-content-between align-items-center">
+                            <p className="text-danger d-inline m-0">{type === "user" ? '1 de 5...' : '1 de 3...'}</p>
+                            <div>
+                                <Button variant="danger" type="submit">Siguiente</Button>
+                            </div>
+                        </div>
+                    </Form>
+                </>
+            }
+
+            {/* Second */}
+            {step === 2 &&
+                <>
+                    {type === "user" ?
                         <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
-                            <Row className={state === 2 ? "in" : "out"}>
-                                <Col xs={12} >
-                                    <Form.Group className="mb-3" >
-                                        <Form.Label className="mb-0">Email</Form.Label>
-                                        <Form.Control
-                                            name="email"
-                                            type="text"
-                                            className="form-control"
-                                            {...register('email', {
-                                                required: {
-                                                    value: true,
-                                                    message: "El campo es requerido."
-                                                },
-                                                pattern: {
-                                                    value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-                                                    message: "El formato ingresado no es válido"
-                                                }
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.email && <ErrorMessage><p>{errors.email.message}</p></ErrorMessage>}
-                                    </Form.Group>
-                                </Col>
-                                <Col xs={12} >
-                                    <Form.Group className="mb-3" >
-                                        <Form.Label className="mb-0">Confirmar email</Form.Label>
-                                        <Form.Control
-                                            name="confirmEmail"
-                                            type="text"
-                                            className="form-control"
-                                            onPaste={(e) => {
-                                                e.preventDefault();
-                                                return false
-                                            }
-                                            }
-                                            {...register('confirmEmail', {
-                                                required: {
-                                                    value: true,
-                                                    message: "El campo es requerido."
-                                                },
-                                                pattern: {
-                                                    value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-                                                    message: "El formato ingresado no es válido"
-                                                },
-                                                validate: (value) => value === getValues("confirmEmail") || 'Las direcciones de correo no coinciden'
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.confirmEmail && <ErrorMessage><p>{errors.confirmEmail.message}</p></ErrorMessage>}
-                                    </Form.Group>
-                                </Col>
-                                <Col xs={12} sm={6}>
-                                    <Form.Group className="mb-3" >
-                                        <Form.Label className="mb-0">Contraseña</Form.Label>
-                                        <Form.Control
-                                            name="password"
-                                            type="password"
-                                            className="form-control"
-                                            {...register('password', {
-                                                required: {
-                                                    value: true,
-                                                    message: "El campo es requerido."
-                                                },
-                                                minLength: {
-                                                    value: 3,
-                                                    message: "La contraseña debe tener al menos 3 caracteres",
-                                                }
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
-                                    </Form.Group>
-                                </Col>
-                                <Col xs={12} sm={6}>
-                                    <Form.Group className="mb-3" >
-                                        <Form.Label className="mb-0">Confirmar contraseña</Form.Label>
-                                        <Form.Control
-                                            name="confirmPassword"
-                                            type="password"
-                                            className="form-control"
-                                            onPaste={(e) => {
-                                                e.preventDefault();
-                                                return false
-                                            }
-                                            }
-                                            {...register('confirmPassword', {
-                                                validate: (value) => value === getValues("password") || 'Las contraseñas no coinsiden'
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.confirmPassword && <ErrorMessage><p>{errors.confirmPassword.message}</p></ErrorMessage>}
-                                    </Form.Group>
-                                </Col>
-                            </Row>
+                            {loginDataForm}
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">2 de 5...</p>
                                 <div>
@@ -349,108 +339,7 @@ export default function RegisterForm(formularioUsuario) {
                         </Form>
                         :
                         <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
-                            <Row className={state === 2 ? "in" : "out"}>
-                                <Col xs={12}>
-                                    <Form.Group className="mb-3" >
-                                        <p className="mb-0">¿Padecés alguna de las siguientes afecciones crónicas? (Opcional)</p>
-                                        <div>
-                                            <Form.Group className='mb-4'>
-                                                <Form.Label className="mb-0">Diabetes:</Form.Label>
-                                                <br />
-                                                <input
-                                                    type="radio"
-                                                    id="diabetesSiCheck"
-                                                    name="diabetes"
-                                                    className="form-check-input me-3"
-                                                    value={true}
-                                                    onChange={handleChange}
-                                                /> <label className="form-check-label" htmlFor="diabetesSiCheck">
-                                                    Sí
-                                                </label>
-                                                <input
-                                                    type="radio"
-                                                    id="diabetesNoCheck"
-                                                    name="diabetes"
-                                                    className="form-check-input"
-                                                    value={false}
-                                                    onChange={handleChange}
-                                                /> <label className="form-check-label" htmlFor="diabetesNoCheck">
-                                                    No
-                                                </label>
-                                                <br />
-                                                <Form.Label className="mb-0">Hipertensión:</Form.Label>
-                                                <br />
-                                                <input
-                                                    type="radio"
-                                                    id="hipertensionSiCheck"
-                                                    name="hipertension"
-                                                    className="form-check-input me-3"
-                                                    value={true}
-                                                    onChange={handleChange}
-                                                /> <label className="form-check-label" htmlFor="hipertensionSiCheck">
-                                                    Sí
-                                                </label>
-                                                <input
-                                                    type="radio"
-                                                    id="hipertensionNoCheck"
-                                                    name="hipertension"
-                                                    className="form-check-input"
-                                                    value={false}
-                                                    onChange={handleChange}
-                                                /> <label className="form-check-label" htmlFor="hipertensionNoCheck">
-                                                    No
-                                                </label>
-                                                <br />
-                                                <Form.Label className="mb-0">Enfermedad respiratoria crónica:</Form.Label>
-                                                <br />
-                                                <input
-                                                    type="radio"
-                                                    id="enfermedad_respiratoriaSiCheck"
-                                                    name="enfermedad_respiratoria"
-                                                    className="form-check-input me-3"
-                                                    value={true}
-                                                    onChange={handleChange}
-                                                /> <label className="form-check-label" htmlFor="enfermedad_respiratoriaSiCheck">
-                                                    Sí
-                                                </label>
-                                                <input
-                                                    type="radio"
-                                                    id="enfermedad_respiratoriaNoCheck"
-                                                    name="enfermedad_respiratoria"
-                                                    className="form-check-input"
-                                                    value={false}
-                                                    onChange={handleChange}
-                                                /> <label className="form-check-label" htmlFor="enfermedad_respiratoriaNoCheck">
-                                                    No
-                                                </label>
-                                                <br />
-                                                <Form.Label className="mb-0">Enfermedad renal crónica:</Form.Label>
-                                                <br />
-                                                <input
-                                                    type="radio"
-                                                    id="enfermedad_renalSiCheck"
-                                                    name="enfermedad_renal"
-                                                    className="form-check-input me-3"
-                                                    value={true}
-                                                    onChange={handleChange}
-                                                /> <label className="form-check-label" htmlFor="enfermedad_renalSiCheck">
-                                                    Sí
-                                                </label>
-                                                <input
-                                                    type="radio"
-                                                    id="enfermedad_renalNoCheck"
-                                                    name="enfermedad_renal"
-                                                    className="form-check-input"
-                                                    value={false}
-                                                    onChange={handleChange}
-                                                /> <label className="form-check-label" htmlFor="enfermedad_renalNoCheck">
-                                                    No
-                                                </label>
-                                            </Form.Group>
-                                        </div>
-                                    </Form.Group>
-                                </Col>
-                            </Row>
+                            {conditionDataForm}
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">2 de 3...</p>
                                 <div>
@@ -464,152 +353,11 @@ export default function RegisterForm(formularioUsuario) {
             }
 
             {/* Third */}
-            {state === 3 &&
+            {step === 3 &&
                 <>
-                    {registroUsuario ?
+                    {type === "user" ?
                         <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
-                            <Row className={state === 3 ? "in" : "out"}>
-                                <Col xs={12}>
-                                    <Form.Group>
-                                        <Form.Label className="mb-0">Domicilio</Form.Label>
-                                        <input
-                                            type="radio"
-                                            id="searchCheck"
-                                            name="search"
-                                            className="form-check-input ms-3"
-                                            value={true}
-                                            checked={search ? true : false}
-                                            onChange={() => setsSearch(true)}
-                                        /> <label className="form-label" htmlFor="searchCheck">
-                                            Buscar
-                                        </label>
-                                        <input
-                                            type="radio"
-                                            id="searchNoCheck"
-                                            name="search"
-                                            className="form-check-input ms-3"
-                                            value={false}
-                                            onChange={() => setsSearch(false)}
-                                        /> <label className="form-label" htmlFor="searchNoCheck">
-                                            Ingresar manualmente
-                                        </label>
-                                    </Form.Group>
-                                </Col>
-                                {search ?
-                                    <Col xs={12}>
-                                        <Form.Group className="mb-3" >
-                                            <SearchAddress
-                                                nameForm="calle"
-                                                selectValue={values.calle}
-                                                className="form-control"
-                                                handleChange={(e) => handleChange(e)}
-                                                {...register('calle', {
-                                                    required: {
-                                                        value: true,
-                                                        message: "El campo es requerido."
-                                                    }
-                                                })}
-                                                getAddress={(e) => getAddress(e)}
-
-                                            />
-                                            {errors.calle && <ErrorMessage><p>{errors.calle.message}</p></ErrorMessage>}
-                                        </Form.Group>
-                                    </Col>
-                                    :
-                                    <>
-                                        <Col xs={12} sm={8}>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label className="mb-0">Calle</Form.Label>
-                                                <Form.Control
-                                                    name="calle"
-                                                    type="text"
-                                                    className="form-control"
-                                                    {...register('calle', {
-                                                        required: {
-                                                            value: true,
-                                                            message: "El campo es requerido."
-                                                        }
-                                                    })}
-                                                    onChange={handleChange}
-                                                />
-                                                {errors.calle && <ErrorMessage><p>{errors.calle.message}</p></ErrorMessage>}
-                                            </Form.Group>
-                                        </Col>
-                                        <Col xs={12} sm={4}>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label className="mb-0">Número</Form.Label>
-                                                <Form.Control
-                                                    name="numero_domicilio"
-                                                    type="text"
-                                                    className="form-control"
-                                                    {...register('numero_domicilio', {
-                                                        required: {
-                                                            value: true,
-                                                            message: "El campo es requerido."
-                                                        }
-                                                    })}
-                                                    onChange={handleChange}
-                                                />
-                                                {errors.numero_domicilio && <ErrorMessage><p>{errors.numero_domicilio.message}</p></ErrorMessage>}
-                                            </Form.Group>
-                                        </Col>
-                                        <Col xs={12} sm={6}>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label className="mb-0">Localidad</Form.Label>
-                                                <Form.Control
-                                                    name="localidad"
-                                                    type="text"
-                                                    className="form-control"
-                                                    {...register('localidad', {
-                                                        required: {
-                                                            value: true,
-                                                            message: "El campo es requerido."
-                                                        }
-                                                    })}
-                                                    onChange={handleChange}
-                                                />
-                                                {errors.localidad && <ErrorMessage><p>{errors.localidad.message}</p></ErrorMessage>}
-                                            </Form.Group>
-                                        </Col>
-                                        <Col xs={12} sm={6}>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label className="mb-0">Departamento</Form.Label>
-                                                <Form.Control
-                                                    name="departamento"
-                                                    type="text"
-                                                    className="form-control"
-                                                    {...register('departamento', {
-                                                        required: {
-                                                            value: true,
-                                                            message: "El campo es requerido."
-                                                        }
-                                                    })}
-                                                    onChange={handleChange}
-                                                />
-                                                {errors.departamento && <ErrorMessage><p>{errors.departamento.message}</p></ErrorMessage>}
-                                            </Form.Group>
-                                        </Col>
-                                    </>
-                                }
-                                <Col xs={12}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label className="mb-0">Establecimiento de atención habitual</Form.Label>
-                                        <Form.Control
-                                            name="establecimiento"
-                                            type="text"
-                                            className="form-control"
-                                            {...register('establecimiento', {
-                                                required: {
-                                                    value: true,
-                                                    message: "El campo es requerido."
-                                                }
-                                            })}
-                                            onChange={handleChange}
-                                        />
-                                        {errors.establecimiento && <ErrorMessage><p>{errors.establecimiento.message}</p></ErrorMessage>}
-                                    </Form.Group>
-                                </Col>
-                            </Row>
+                            {geographicalDataForm}
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">3 de 5...</p>
                                 <div>
@@ -620,17 +368,7 @@ export default function RegisterForm(formularioUsuario) {
                         </Form>
                         :
                         <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
-                            <Row className={state === 3 ? "in" : "out"}>
-                                <Col xs={12}>
-                                    <Form.Group className="mb-3" >
-                                        <label htmlFor="formFile" className="form-label">Foto de DNI - FRENTE:</label>
-                                        <input className="form-control border mb-3" type="file" id="formFile" />
-                                        <br />
-                                        <label htmlFor="formFile" className="form-label">Foto de DNI - DORSO:</label>
-                                        <input className="form-control border mb-3" type="file" id="formFile" />
-                                    </Form.Group>
-                                </Col>
-                            </Row>
+                            {photoDataForm}
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">3 de 3...</p>
                                 <div>
@@ -645,114 +383,9 @@ export default function RegisterForm(formularioUsuario) {
             }
             {/* Four */}
             {
-                state === 4 &&
+                step === 4 &&
                 <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
-                    <Row className={state === 4 ? "in" : "out"}>
-                        <Col xs={12}>
-                            <Form.Group className="mb-3" >
-                                <Form.Label className="mb-0">¿Padecés alguna de las siguientes afecciones? (Opcional)</Form.Label>
-                                <div>
-                                    <Form.Group className='mb-4'>
-                                        <Form.Label className="mb-0">Diabetes:</Form.Label>
-                                        <br />
-                                        <input
-                                            type="radio"
-                                            id="diabetesSiCheck"
-                                            name="diabetes"
-                                            className="form-check-input"
-                                            value={true}
-                                            onChange={handleChange}
-                                        /> <label className="form-check-label" htmlFor="diabetesSiCheck">
-                                            Sí
-                                        </label>
-                                        <br />
-                                        <input
-                                            type="radio"
-                                            id="diabetesNoCheck"
-                                            name="diabetes"
-                                            className="form-check-input"
-                                            value={false}
-                                            onChange={handleChange}
-                                        /> <label className="form-check-label" htmlFor="diabetesNoCheck">
-                                            No
-                                        </label>
-                                        <br />
-                                        <Form.Label className="mb-0">Hipertensión:</Form.Label>
-                                        <br />
-                                        <input
-                                            type="radio"
-                                            id="hipertensionSiCheck"
-                                            name="hipertension"
-                                            className="form-check-input"
-                                            value={true}
-                                            onChange={handleChange}
-                                        /> <label className="form-check-label" htmlFor="hipertensionSiCheck">
-                                            Sí
-                                        </label>
-                                        <br />
-                                        <input
-                                            type="radio"
-                                            id="hipertensionNoCheck"
-                                            name="hipertension"
-                                            className="form-check-input"
-                                            value={false}
-                                            onChange={handleChange}
-                                        /> <label className="form-check-label" htmlFor="hipertensionNoCheck">
-                                            No
-                                        </label>
-                                        <br />
-                                        <Form.Label className="mb-0">Enfermedad respiratoria crónica:</Form.Label>
-                                        <br />
-                                        <input
-                                            type="radio"
-                                            id="enfermedad_respiratoriaSiCheck"
-                                            name="enfermedad_respiratoria"
-                                            className="form-check-input"
-                                            value={true}
-                                            onChange={handleChange}
-                                        /> <label className="form-check-label" htmlFor="enfermedad_respiratoriaSiCheck">
-                                            Sí
-                                        </label>
-                                        <br />
-                                        <input
-                                            type="radio"
-                                            id="enfermedad_respiratoriaNoCheck"
-                                            name="enfermedad_respiratoria"
-                                            className="form-check-input"
-                                            value={false}
-                                            onChange={handleChange}
-                                        /> <label className="form-check-label" htmlFor="enfermedad_respiratoriaNoCheck">
-                                            No
-                                        </label>
-                                        <br />
-                                        <Form.Label className="mb-0">Enfermedad renal crónica:</Form.Label>
-                                        <br />
-                                        <input
-                                            type="radio"
-                                            id="enfermedad_renalSiCheck"
-                                            name="enfermedad_renal"
-                                            className="form-check-input"
-                                            value={true}
-                                            onChange={handleChange}
-                                        /> <label className="form-check-label" htmlFor="enfermedad_renalSiCheck">
-                                            Sí
-                                        </label>
-                                        <br />
-                                        <input
-                                            type="radio"
-                                            id="enfermedad_renalNoCheck"
-                                            name="enfermedad_renal"
-                                            className="form-check-input"
-                                            value={false}
-                                            onChange={handleChange}
-                                        /> <label className="form-check-label" htmlFor="enfermedad_renalNoCheck">
-                                            No
-                                        </label>
-                                    </Form.Group>
-                                </div>
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                    {conditionDataForm}
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className="text-danger d-inline m-0">4 de 5...</p>
                         <div>
@@ -762,21 +395,11 @@ export default function RegisterForm(formularioUsuario) {
                     </div>
                 </Form>
             }
-            {/* Four */}
+            {/* Five */}
             {
-                state === 5 &&
+                step === 5 &&
                 <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
-                    <Row className={state === 5 ? "in" : "out"}>
-                        <Col xs={12}>
-                            <Form.Group className="mb-3" >
-                                <label htmlFor="formFile" className="form-label">Foto de DNI - FRENTE:</label>
-                                <input className="form-control border mb-3" type="file" id="formFile" />
-                                <br />
-                                <label htmlFor="formFile" className="form-label">Foto de DNI - DORSO:</label>
-                                <input className="form-control border mb-3" type="file" id="formFile" />
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                    {photoDataForm}
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className="text-danger d-inline m-0">5 de 5...</p>
                         <div>
