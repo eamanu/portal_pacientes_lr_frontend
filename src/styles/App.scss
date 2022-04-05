@@ -36,7 +36,7 @@
   @media only screen and (min-width: $small) {
     background-image: url(../assets/images/background-pplr-1.jpeg);
   }
-  }
+}
 .bg2 {
   @media only screen and (min-width: $small) {
     background-image: url(../assets/images/background-pplr-2.jpeg);
@@ -72,7 +72,7 @@
   @media only screen and (min-width: $small) {
     width: 155vh;
     height: 155vh;
-    border-radius: 50% 0 50% 50%; 
+    border-radius: 50% 0 50% 50%;
     transform: translate(30%, 0%);
     box-shadow: $shadow-primary;
   }
@@ -283,8 +283,12 @@
 .icon_container {
   position: relative;
   display: inline-block;
-
-  .icon_notification {
+  .notification_icon {
+    color: $text-secondary;
+    border: 0.5px;
+    font-size: 1.2rem;
+  }
+  .notification_circle {
     position: absolute;
     top: 0;
     right: 0;
@@ -296,15 +300,15 @@
 }
 // Mensaje de error
 
-  .error-form {
-    transition: 0.2s;
+.error-form {
+  transition: 0.2s;
+  display: flex;
+  color: $primary-dark;
+  p {
     display: flex;
-    color: $primary-dark;
-    p {
-      display: flex;
-      font-size: 0.8rem;
-      margin: 0;
-    }
+    font-size: 0.8rem;
+    margin: 0;
+  }
 
   .show {
     display: block;
