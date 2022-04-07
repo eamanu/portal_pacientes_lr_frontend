@@ -1,10 +1,9 @@
 import '../../styles/Sidebar.scss';
 import { NavLink, useLocation } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
-import * as MdIcon from 'react-icons/md'
 
 
-function Sidebar({ isActive, action, notificacion }) {
+function Sidebar({ isActive, action }) {
 
     const location = useLocation();
     const thisLocation = location.pathname
@@ -100,9 +99,9 @@ function Sidebar({ isActive, action, notificacion }) {
                                     activeClassName={item.path ? "active" : ""}
                                     exact
                                     to={item.path ? item.path : thisLocation}
-                                    className='d-flex justify-content-between'
                                     onClick={item.acordeon ? () => { showAcordeon(0, item.id) } : action}>
-                                    <span><div className={notificacion && item.id === 3 ? 'icon_container in' : 'd-inline-block'}>{item.icon}<div className='icon_notification'></div></div> {item.title}</span>
+                                    {item.icon}
+                                    <span>{item.title}</span>
                                     {item.acordeon ?
                                         <p className={`m-0 ${item.a ? 'rotate' : 'norotate'}`}>{item.aIcon}</p>
                                         :

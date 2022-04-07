@@ -18,11 +18,12 @@ export let API_HEADER = () => {
 };
 
 export let AUTH_HEADER = (tokenId) => {
-  let header = {
-    Authorization: `Bearer ${tokenId}`,
-  };
-  return header;
-};
+    let header = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${tokenId}`
+    }
+    return header;
+  }
 
 export const API_ENDPOINTS_LOGIN = `${baseUrl}/login`;
 

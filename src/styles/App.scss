@@ -33,40 +33,63 @@
   }
 }
 .bg1 {
-  background-image: url(../assets/images/background-pplr-1.jpeg);
+  @media only screen and (min-width: $small) {
+    background-image: url(../assets/images/background-pplr-1.jpeg);
+  }
 }
 .bg2 {
-  background-image: url(../assets/images/background-pplr-2.jpeg);
+  @media only screen and (min-width: $small) {
+    background-image: url(../assets/images/background-pplr-2.jpeg);
+  }
 }
 .bg3 {
-  background-image: url(../assets/images/background-pplr-3.jpeg);
+  @media only screen and (min-width: $small) {
+    background-image: url(../assets/images/background-pplr-3.jpeg);
+  }
 }
 .bg4 {
-  background-image: url(../assets/images/background-pplr-4.jpeg);
+  @media only screen and (min-width: $small) {
+    background-image: url(../assets/images/background-pplr-4.jpeg);
+  }
 }
 .bg5 {
-  background-image: url(../assets/images/background-pplr-5.jpeg);
+  @media only screen and (min-width: $small) {
+    background-image: url(../assets/images/background-pplr-5.jpeg);
+  }
 }
 .bg6 {
-  background-image: url(../assets/images/background-pplr-6.jpeg);
+  @media only screen and (min-width: $small) {
+    background-image: url(../assets/images/background-pplr-6.jpeg);
+  }
 }
 .circle {
   position: absolute;
   width: 150vh;
   height: 150vh;
-  border-radius: 50% 0 50% 50%;
   background-color: $third;
   z-index: 0;
   transform: translateY(-25%);
-  box-shadow: $shadow-primary;
   @media only screen and (min-width: $small) {
     width: 155vh;
     height: 155vh;
+    border-radius: 50% 0 50% 50%;
     transform: translate(30%, 0%);
+    box-shadow: $shadow-primary;
   }
 }
 .bg-third {
   background-color: $third;
+}
+// Loader
+.loader_container{
+  position: fixed;
+  // display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffffab; 
+  z-index: 2;
 }
 // NAvbar
 .navbar {
@@ -192,6 +215,7 @@
   }
 }
 .patient-container {
+  position: relative;
   width: 100%;
   height: 80vh;
   @media only screen and (min-width: $desktop) {
@@ -271,8 +295,12 @@
 .icon_container {
   position: relative;
   display: inline-block;
-
-  .icon_notification {
+  .notification_icon {
+    color: $text-secondary;
+    border: 0.5px;
+    font-size: 1.2rem;
+  }
+  .notification_circle {
     position: absolute;
     top: 0;
     right: 0;
@@ -284,15 +312,15 @@
 }
 // Mensaje de error
 
-  .error-form {
-    transition: 0.2s;
+.error-form {
+  transition: 0.2s;
+  display: flex;
+  color: $primary-dark;
+  p {
     display: flex;
-    color: $primary-dark;
-    p {
-      display: flex;
-      font-size: 0.8rem;
-      margin: 0;
-    }
+    font-size: 0.8rem;
+    margin: 0;
+  }
 
   .show {
     display: block;
