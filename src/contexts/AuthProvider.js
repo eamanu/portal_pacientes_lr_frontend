@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, createContext } from "react";
 import { loginServiceFetch } from "../services/loginService";
 import loginService from "../services/loginService";
 import Swal from "sweetalert2";
+import { registerPersonService } from "../services/registerServices";
 
 export const AuthContext = createContext();
 
@@ -16,7 +17,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      delete user.password
+      delete user.password;
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("tokenUser", JSON.stringify(tokenUser));
     } catch (error) {
@@ -63,18 +64,13 @@ const AuthProvider = ({ children }) => {
         }
       })
       .then((data) => {
-        console.log('token', data.access_token);
-        console.log('data', data);
+        console.log("token", data.access_token);
+        console.log("data", data);
         setTokenUser(data.access_token);
         return tokenUser;
       })
-      .catch((err) => console.log('error', err));
+      .catch((err) => console.log("error", err));
   }, [tokenUser]);
-
-  const register = useCallback((objet) => {
-    console.log(objet);
-    setNewUser(objet);
-  }, []);
 
   const logout = () => {
     Swal.fire({
@@ -93,6 +89,16 @@ const AuthProvider = ({ children }) => {
       }
     });
   };
+
+  const register = useCallback((body) => {
+    console.log('body', body);
+    // setNewUser(body);
+    registerPersonService(body)
+    .then((response) => {
+      console.log(response)
+    })
+    .catch(err => console.log(err))
+  }, []);
 
   const contextValue = {
     user,

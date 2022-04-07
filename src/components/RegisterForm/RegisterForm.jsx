@@ -31,28 +31,28 @@ export default function RegisterForm(formType) {
             let targetName = e.target.name
             setValues({
                 ...values,
-                [targetName || "date_of_birth"]: e.target?.value,
+                [targetName || "birthdate"]: e.target?.value,
             }
             );
             setNewValue(targetName)
         } else {
             setValues({
                 ...values,
-                ["date_of_birth"]: e,
+                ["birthdate"]: e,
             }
             );
         }
     }
     const getAddress = (obj) => {
         if (obj.address) {
-            let data = ['domicilio_postal', 'numero_domicilio', 'calle', 'localidad', 'departamento']
+            let data = ['postal_address', 'address_number', 'address_street', 'locality', 'departament']
             setValues({
                 ...values,
-                ['domicilio_postal']: obj.address.road + '' + obj.address.house_number,
-                ['numero_domicilio']: obj.address.house_number,
-                ['calle']: obj.address.road,
-                ['localidad']: obj.address.town || obj.address.city,
-                ['departamento']: obj.address.state_district || obj.address.suburb
+                ['postal_address']: obj.address.road + '' + obj.address.house_number,
+                ['address_number']: obj.address.house_number,
+                ['address_street']: obj.address.road,
+                ['locality']: obj.address.town || obj.address.city,
+                ['departament']: obj.address.state_district || obj.address.suburb
             })
             data.map((item) => {
                 setNewValue(item)
@@ -61,29 +61,38 @@ export default function RegisterForm(formType) {
     }
 
     useEffect(() => {
-        setValue('date_of_birth', values.date_of_birth);
-    }, [values.date_of_birth, setValue])
+        setValue('birthdate', values.birthdate);
+    }, [values.birthdate, setValue])
 
     useEffect(() => {
         setValue(`${newValue}`, values[newValue]);
     }, [newValue, values[newValue]])
 
     const onSubmit = () => {
-        auth.register(values)
-        type === "user"
-            ? history.push("/verificacion")
-            : Swal.fire({
-                title: "Registro realizado",
-                html: 'El paciente será verificado antes de ser agregado como miembro al grupo familiar. ',
-                icon: "success",
-                showCancelButton: false,
-                confirmButtonText: "Continuar",
-                confirmButtonColor: "#Dc3545",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    history.push("/usuario/grupo-familiar");
-                }
-            });
+        let body = values;
+        delete body.confirmEmail
+        delete body.password
+        delete body.confirmPassword
+        delete body.postal_address
+        delete body.photo_dni_front
+        delete body.photo_dni_back
+        body.identification_number_master = body.identification_number
+        console.log('body register', body)
+        auth.register(body)
+        // type === "user"
+        //     ? history.push("/verificacion")
+        //     : Swal.fire({
+        //         title: "Registro realizado",
+        //         html: 'El paciente será verificado antes de ser agregado como miembro al grupo familiar. ',
+        //         icon: "success",
+        //         showCancelButton: false,
+        //         confirmButtonText: "Continuar",
+        //         confirmButtonColor: "#Dc3545",
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             history.push("/usuario/grupo-familiar");
+        //         }
+        //     });
     }
 
     const personalDataForm =
@@ -91,41 +100,41 @@ export default function RegisterForm(formType) {
             {step === 1 &&
                 <>
                     <Col xs={12}>
-                        <FormGroup inputType={f.firstName.inputType} label={f.firstName.label} name={f.firstName.form_name} value={values.firstName}
-                            {...register(`${f.firstName.form_name}`, f.firstName.register)}
+                        <FormGroup inputType={f.name.inputType} label={f.name.label} name={f.name.form_name} value={values.name}
+                            {...register(`${f.name.form_name}`, f.name.register)}
                             onChange={handleChange}
                         />
-                        {errors[f.firstName.form_name] && <ErrorMessage><p>{errors[f.firstName.form_name].message}</p></ErrorMessage>}
+                        {errors[f.name.form_name] && <ErrorMessage><p>{errors[f.name.form_name].message}</p></ErrorMessage>}
                     </Col>
                     <Col xs={12}>
-                        <FormGroup inputType={f.lastName.inputType} label={f.lastName.label} name={f.lastName.form_name} value={values.lastName}
-                            {...register(`${f.lastName.form_name}`, f.lastName.register)}
+                        <FormGroup inputType={f.surname.inputType} label={f.surname.label} name={f.surname.form_name} value={values.surname}
+                            {...register(`${f.surname.form_name}`, f.surname.register)}
                             onChange={handleChange}
                         />
-                        {errors[f.lastName.form_name] && <ErrorMessage><p>{errors[f.lastName.form_name].message}</p></ErrorMessage>}
+                        {errors[f.surname.form_name] && <ErrorMessage><p>{errors[f.surname.form_name].message}</p></ErrorMessage>}
                     </Col>
                     <Col xs={12} sm={6}>
-                        <FormGroup inputType={f.id_type.inputType} label={f.id_type.label} name={f.id_type.form_name} selectValue={values.id_type}
-                            variants={f.id_type.variants}
+                        <FormGroup inputType={f.id_identification_type.inputType} label={f.id_identification_type.label} name={f.id_identification_type.form_name} selectValue={values.id_identification_type}
+                            variants={f.id_identification_type.variants}
                             handleChange={(e) => handleChange(e)}
-                            {...register(`${f.id_type.form_name}`, f.id_type.register)}
+                            {...register(`${f.id_identification_type.form_name}`, f.id_identification_type.register)}
                         />
-                        {errors[f.id_type.form_name] && <ErrorMessage><p>{errors[f.id_type.form_name].message}</p></ErrorMessage>}
+                        {errors[f.id_identification_type.form_name] && <ErrorMessage><p>{errors[f.id_identification_type.form_name].message}</p></ErrorMessage>}
                     </Col>
                     <Col xs={12} sm={6}>
-                        <FormGroup inputType={f.id_number.inputType} label={f.id_number.label} name={f.id_number.form_name} value={values.id_number}
-                            {...register(`${f.id_number.form_name}`, f.id_number.register)}
+                        <FormGroup inputType={f.identification_number.inputType} label={f.identification_number.label} name={f.identification_number.form_name} value={values.identification_number}
+                            {...register(`${f.identification_number.form_name}`, f.identification_number.register)}
                             onChange={handleChange}
                         />
-                        {errors[f.id_number.form_name] && <ErrorMessage><p>{errors[f.id_number.form_name].message}</p></ErrorMessage>}
+                        {errors[f.identification_number.form_name] && <ErrorMessage><p>{errors[f.identification_number.form_name].message}</p></ErrorMessage>}
                     </Col>
                     <Col xs={12} sm={6}>
-                        <FormGroup inputType={f.date_of_birth.inputType} label={f.date_of_birth.label} name={f.date_of_birth.form_name} selectValue={values.date_of_birth}
-                            maxDate={f.date_of_birth.maxDate}
-                            {...register(`${f.date_of_birth.form_name}`, f.date_of_birth.register)}
+                        <FormGroup inputType={f.birthdate.inputType} label={f.birthdate.label} name={f.birthdate.form_name} selectValue={values.birthdate}
+                            maxDate={f.birthdate.maxDate}
+                            {...register(`${f.birthdate.form_name}`, f.birthdate.register)}
                             handleChange={(e) => handleChange(e)}
                         />
-                        {errors[f.date_of_birth.form_name] && <ErrorMessage><p>{errors[f.date_of_birth.form_name].message}</p></ErrorMessage>}
+                        {errors[f.birthdate.form_name] && <ErrorMessage><p>{errors[f.birthdate.form_name].message}</p></ErrorMessage>}
                     </Col>
                     <Col xs={12} sm={6}>
                         <FormGroup inputType={f.id_gender.inputType} label={f.id_gender.label} name={f.id_gender.form_name} selectValue={values.id_gender}
@@ -204,11 +213,11 @@ export default function RegisterForm(formType) {
                         <Col xs={12}>
                             <Form.Group className="mb-3" >
                                 <SearchAddress
-                                    nameForm="domicilio_postal"
-                                    selectValue={values.domicilio_postal}
+                                    nameForm="postal_address"
+                                    selectValue={values.postal_address}
                                     className="form-control"
                                     handleChange={(e) => handleChange(e)}
-                                    {...register('domicilio_postal', {
+                                    {...register('postal_address', {
                                         required: {
                                             value: true,
                                             message: "El campo es requerido."
@@ -216,69 +225,76 @@ export default function RegisterForm(formType) {
                                     })}
                                     getAddress={(e) => getAddress(e)}
                                 />
-                                {errors.domicilio_postal && <ErrorMessage><p>{errors.domicilio_postal.message}</p></ErrorMessage>}
+                                {errors.postal_address && <ErrorMessage><p>{errors.postal_address.message}</p></ErrorMessage>}
                             </Form.Group>
                         </Col>
                         :
                         <>
                             <Col xs={12} sm={8}>
-                                <FormGroup inputType={f.calle.inputType} label={f.calle.label} name={f.calle.form_name} value={values.calle}
-                                    {...register(`${f.calle.form_name}`, f.calle.register)}
+                                <FormGroup inputType={f.address_street.inputType} label={f.address_street.label} name={f.address_street.form_name} value={values.address_street}
+                                    {...register(`${f.address_street.form_name}`, f.address_street.register)}
                                     onChange={handleChange}
                                 />
-                                {errors[f.calle.form_name] && <ErrorMessage><p>{errors[f.calle.form_name].message}</p></ErrorMessage>}
+                                {errors[f.address_street.form_name] && <ErrorMessage><p>{errors[f.address_street.form_name].message}</p></ErrorMessage>}
                             </Col>
                             <Col xs={12} sm={4}>
-                                <FormGroup inputType={f.numero_domicilio.inputType} label={f.numero_domicilio.label} name={f.numero_domicilio.form_name} value={values.numero_domicilio}
-                                    {...register(`${f.numero_domicilio.form_name}`, f.numero_domicilio.register)}
+                                <FormGroup inputType={f.address_number.inputType} label={f.address_number.label} name={f.address_number.form_name} value={values.address_number}
+                                    {...register(`${f.address_number.form_name}`, f.address_number.register)}
                                     onChange={handleChange}
                                 />
-                                {errors[f.numero_domicilio.form_name] && <ErrorMessage><p>{errors[f.numero_domicilio.form_name].message}</p></ErrorMessage>}
+                                {errors[f.address_number.form_name] && <ErrorMessage><p>{errors[f.address_number.form_name].message}</p></ErrorMessage>}
                             </Col>
                             <Col xs={12} sm={6}>
-                                <FormGroup inputType={f.localidad.inputType} label={f.localidad.label} name={f.localidad.form_name} value={values.localidad}
-                                    {...register(`${f.localidad.form_name}`, f.localidad.register)}
+                                <FormGroup inputType={f.locality.inputType} label={f.locality.label} name={f.locality.form_name} value={values.locality}
+                                    {...register(`${f.locality.form_name}`, f.locality.register)}
                                     onChange={handleChange}
                                 />
-                                {errors[f.localidad.form_name] && <ErrorMessage><p>{errors[f.localidad.form_name].message}</p></ErrorMessage>}
+                                {errors[f.locality.form_name] && <ErrorMessage><p>{errors[f.locality.form_name].message}</p></ErrorMessage>}
                             </Col>
                             <Col xs={12} sm={6}>
-                                <FormGroup inputType={f.departamento.inputType} label={f.departamento.label} name={f.departamento.form_name} value={values.departamento}
-                                    {...register(`${f.departamento.form_name}`, f.departamento.register)}
+                                <FormGroup inputType={f.departament.inputType} label={f.departament.label} name={f.departament.form_name} value={values.departament}
+                                    {...register(`${f.departament.form_name}`, f.departament.register)}
                                     onChange={handleChange}
                                 />
-                                {errors[f.departamento.form_name] && <ErrorMessage><p>{errors[f.departamento.form_name].message}</p></ErrorMessage>}
+                                {errors[f.departament.form_name] && <ErrorMessage><p>{errors[f.departament.form_name].message}</p></ErrorMessage>}
                             </Col>
                         </>
                     }
                     <Col xs={12} >
-                        <FormGroup inputType={f.establishment_of_care.inputType} label={f.establishment_of_care.label} name={f.establishment_of_care.form_name} selectValue={values.establishment_of_care}
-                            variants={f.establishment_of_care.variants}
-                            handleChange={(e) => handleChange(e)}
-                            {...register(`${f.establishment_of_care.form_name}`, f.establishment_of_care.register)}
+                        <FormGroup inputType={f.phone_number.inputType} label={f.phone_number.label} name={f.phone_number.form_name} value={values.phone_number}
+                            {...register(`${f.phone_number.form_name}`, f.phone_number.register)}
+                            onChange={handleChange}
                         />
-                        {errors[f.establishment_of_care.form_name] && <ErrorMessage><p>{errors[f.establishment_of_care.form_name].message}</p></ErrorMessage>}
+                        {errors[f.phone_number.form_name] && <ErrorMessage><p>{errors[f.phone_number.form_name].message}</p></ErrorMessage>}
                     </Col>
                 </>
             }
-        </Row>
-    console.log('step', step, 'type', type)
+        </Row >
+
     const conditionDataForm =
         <Row className={step === 4 || step === 2 ? "in" : "out"}>
             {step === 4 && type === 'user' || step === 2 && type === 'patient' ?
                 <>
+                    <Col xs={12} >
+                        <FormGroup inputType={f.id_usual_institution.inputType} label={f.id_usual_institution.label} name={f.id_usual_institution.form_name} selectValue={values.id_usual_institution}
+                            variants={f.id_usual_institution.variants}
+                            handleChange={(e) => handleChange(e)}
+                            {...register(`${f.id_usual_institution.form_name}`, f.id_usual_institution.register)}
+                        />
+                        {errors[f.id_usual_institution.form_name] && <ErrorMessage><p>{errors[f.id_usual_institution.form_name].message}</p></ErrorMessage>}
+                    </Col>
                     <Col xs={12}>
                         <Form.Label className="mb-0">¿Padecés alguna de las siguientes afecciones crónicas? (Opcional)</Form.Label>
-                        <FormGroup inputType={f.diabetes.inputType} label={f.diabetes.label} name={f.diabetes.form_name} value={values.diabetes} type={f.diabetes.type}
+                        <FormGroup inputType={f.is_diabetic.inputType} label={f.is_diabetic.label} name={f.is_diabetic.form_name} value={values.is_diabetic} type={f.is_diabetic.type}
                             onChange={handleChange}
                         />
-                        <FormGroup inputType={f.hipertension.inputType} label={f.hipertension.label} name={f.hipertension.form_name} value={values.hipertension} type={f.hipertension.type}
+                        <FormGroup inputType={f.is_hypertensive.inputType} label={f.is_hypertensive.label} name={f.is_hypertensive.form_name} value={values.is_hypertensive} type={f.is_hypertensive.type}
                             onChange={handleChange}
                         />
-                        <FormGroup inputType={f.enfermedad_respiratoria.inputType} label={f.enfermedad_respiratoria.label} name={f.enfermedad_respiratoria.form_name} value={values.enfermedad_respiratoria} type={f.enfermedad_respiratoria.type}
+                        <FormGroup inputType={f.is_chronic_respiratory_disease.inputType} label={f.is_chronic_respiratory_disease.label} name={f.is_chronic_respiratory_disease.form_name} value={values.is_chronic_respiratory_disease} type={f.is_chronic_respiratory_disease.type}
                             onChange={handleChange}
                         />
-                        <FormGroup inputType={f.enfermedad_renal.inputType} label={f.enfermedad_renal.label} name={f.enfermedad_renal.form_name} value={values.enfermedad_renal} type={f.enfermedad_renal.type}
+                        <FormGroup inputType={f.is_chronic_kidney_disease.inputType} label={f.is_chronic_kidney_disease.label} name={f.is_chronic_kidney_disease.form_name} value={values.is_chronic_kidney_disease} type={f.is_chronic_kidney_disease.type}
                             onChange={handleChange}
                         />
                     </Col>
