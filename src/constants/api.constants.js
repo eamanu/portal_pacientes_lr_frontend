@@ -21,3 +21,7 @@ export let AUTH_HEADER = (tokenId) => {
 export const API_ENDPOINTS_LOGIN = `${baseUrl}/login`;
 
 export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
+
+export const API_ENDPOINTS_GETMESSAGES = `${baseUrl}/getmessages`;
+
+export const API_ENDPOINTS_SETMESSAGESREAD = `${baseUrl}/setmessagesread`;
