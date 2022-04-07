@@ -12,6 +12,7 @@ export let LOGIN_HEADER = () => {
 
 export let AUTH_HEADER = (tokenId) => {
     let header = {
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${tokenId}`
     }
     return header;
