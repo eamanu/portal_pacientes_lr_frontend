@@ -9,7 +9,7 @@ export const Paciente = (props) => {
     const { patientId, patientNombre, patientApellido, verHistoriaClinica, handlePatient } = props
 
     return (
-        <div className={`patient`}>
+        <div className={`patient in`}>
             <div onClick={() => { handlePatient(patientId) }} className='patient-name'>
                 <h6 className='mb-0'>{`${patientNombre} ${patientApellido}`}</h6>
             </div>

@@ -2,7 +2,7 @@ import React from 'react';
 
 function MisTurnos() {
     return (
-        <div>
+        <div className='in'>
             <p>
                 No hay datos disponibles MisTurnos
             </p>

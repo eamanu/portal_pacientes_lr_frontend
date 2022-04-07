@@ -7,10 +7,10 @@ function EnfermedadesCronicas() {
   const agregarAfeccion = () => { setActiveForm(!activeForm); }
 
   return (
-    <Row className='mb-4'>
+    <Row className='mb-4 in'>
       <h6 className='mt-3 fw-bold'>Afecciones y enfermedades crónicas</h6>
       <Col xs={12} md={6} className='d-flex'>
-        {activeForm &&
+        {/* {activeForm &&
           <Form>
             <Form.Group className='mb-4'>
               <Form.Label>Afección crónica</Form.Label>
@@ -49,8 +49,8 @@ function EnfermedadesCronicas() {
             <button className='btn btn-outline-secondary me-2' onClick={agregarAfeccion}>Cancelar</button>
             <button type='submit' className='btn btn-dark' onClick={agregarAfeccion}>Guardar Cambios</button>
           </Form>
-        }
-        {!activeForm && <button className='btn btn-outline-danger' onClick={agregarAfeccion}>+ Agregar</button>}
+        } */}
+        {/* {!activeForm && <button className='btn btn-outline-danger' onClick={agregarAfeccion}>+ Agregar</button>} */}
       </Col>
     </Row>
   )

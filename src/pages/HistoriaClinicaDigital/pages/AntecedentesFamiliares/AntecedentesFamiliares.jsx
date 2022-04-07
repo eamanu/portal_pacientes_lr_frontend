@@ -3,7 +3,7 @@ import DataNotFound from '../../../../components/DataNotFound';
 
 function AntecedentesFamiliares() {
     return (
-        <div>
+        <div className='in'>
             <DataNotFound text="antecedentes familiares"></DataNotFound>
         </div>
     )

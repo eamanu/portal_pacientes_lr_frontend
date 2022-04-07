@@ -18,7 +18,7 @@ export const Mensaje = (props) => {
     }
 
 
-    return <Container className={`mensaje_container py-2 mb-2 ${!open? "shadow-sm fw-bold" : "shadow-none bg-secondary bg-opacity-10 fw-normal" }`} onClick={abrirMensaje}>
+    return <Container className={`mensaje_container py-2 mb-2 in ${!open? "shadow-sm fw-bold" : "shadow-none bg-secondary bg-opacity-10 fw-normal" }`} onClick={abrirMensaje}>
         <Row className='mensaje_row justify-content-end'>
             <Col className="mensaje_icon">{open ? <MdIcon.MdMailOutline />: <MdIcon.MdOutlineMarkEmailUnread className="text-danger"/>}</Col>
             <Col xs={10} sm={11} lg={6} className="d-flex align-items-center"><p className="mensaje_text asunto">{asunto}</p></Col>

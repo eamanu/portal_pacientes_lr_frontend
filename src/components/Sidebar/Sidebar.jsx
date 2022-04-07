@@ -97,11 +97,11 @@ function Sidebar({ isActive, action }) {
                             <li key={index} className={item.cName}>
                                 <NavLink
                                     activeClassName={item.path ? "active" : ""}
+                                    className='d-flex justify-content-between'
                                     exact
                                     to={item.path ? item.path : thisLocation}
                                     onClick={item.acordeon ? () => { showAcordeon(0, item.id) } : action}>
-                                    {item.icon}
-                                    <span>{item.title}</span>
+                                    <span className='d-flex align-items-center'>{item.icon}{item.title}</span>
                                     {item.acordeon ?
                                         <p className={`m-0 ${item.a ? 'rotate' : 'norotate'}`}>{item.aIcon}</p>
                                         :

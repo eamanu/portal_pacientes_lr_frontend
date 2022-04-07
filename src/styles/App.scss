@@ -81,14 +81,14 @@
   background-color: $third;
 }
 // Loader
-.loader_container{
+.loader_container {
   position: fixed;
   // display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: #ffffffab; 
+  background-color: #ffffffab;
   z-index: 2;
 }
 // NAvbar
@@ -338,8 +338,12 @@
   .main__title {
     text-transform: uppercase;
     text-align: center;
-    color: $primary;
-    margin-top: 2rem;
+    margin: 0;
+    color: $accent;
+    span {
+      font-size: calc(1.325rem + 0.9vw);
+      color: $primary;
+    }
   }
   .main__card {
     position: relative;
@@ -383,7 +387,7 @@
     display: inline-block;
     min-width: max-content;
     margin-bottom: 0.5rem;
-    padding-right: 1.5rem;
+    padding-right: 1rem;
     transition: 0.2s;
     color: $text-third;
   }

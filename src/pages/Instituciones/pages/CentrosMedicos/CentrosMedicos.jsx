@@ -31,7 +31,7 @@ export default function CentrosMedicos() {
     }, [])
 
     return (
-        <div>
+        <div className='in'>
             <h5>Centros Médicos</h5>
             {institutions?.length > 0 ? institutions.map((ins) => {
                 return (

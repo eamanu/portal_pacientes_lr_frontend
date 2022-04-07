@@ -6,7 +6,7 @@ function DatosPaciente() {
     const p = usePatient();
 
     return (
-        <Row>
+        <Row className='in'>
             <h6 className='mt-3 fw-bold'>Datos personales</h6>
             <Col className=''>
                 <p className='datos-paciente__label'>Nombre y apellido: 

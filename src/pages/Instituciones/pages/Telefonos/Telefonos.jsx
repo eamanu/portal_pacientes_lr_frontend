@@ -1,7 +1,7 @@
 
 export default function Telefonos() {
     return (
-        <div>
+        <div className='in'>
             Telefonos
         </div>
     )

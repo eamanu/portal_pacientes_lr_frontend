@@ -1,13 +1,13 @@
 import React from 'react';
 
-function Historial() {
+function SolicitarTurnos() {
     return (
         <div className='in'>
             <p>
-                No hay datos disponibles Historial
+                No hay datos disponibles SolicitarTurnos
             </p>
         </div>
     )
 }
 
-export default Historial;
+export default SolicitarTurnos;
