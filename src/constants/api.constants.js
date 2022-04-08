@@ -9,7 +9,6 @@ export let LOGIN_HEADER = () => {
   };
   return header;
 };
-<<<<<<< HEAD
 
 export let API_HEADER = () => {
   let header = {
@@ -17,8 +16,6 @@ export let API_HEADER = () => {
   };
   return header;
 };
-=======
->>>>>>> frontend
 
 export let AUTH_HEADER = (tokenId) => {
   let header = {

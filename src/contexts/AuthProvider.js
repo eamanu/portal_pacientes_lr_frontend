@@ -64,13 +64,8 @@ const AuthProvider = ({ children }) => {
         }
       })
       .then((data) => {
-<<<<<<< HEAD
-        console.log("token", data.access_token);
-        console.log("data", data);
-=======
         console.log('token', data.access_token);
         // console.log('data', data);
->>>>>>> frontend
         setTokenUser(data.access_token);
         return tokenUser;
       })

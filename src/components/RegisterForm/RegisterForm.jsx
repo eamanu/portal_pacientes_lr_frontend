@@ -70,32 +70,6 @@ export default function RegisterForm(formType) {
     }, [newValue, values[newValue]])
 
     const onSubmit = () => {
-<<<<<<< HEAD
-        let body = values;
-        delete body.confirmEmail
-        delete body.password
-        delete body.confirmPassword
-        delete body.postal_address
-        delete body.photo_dni_front
-        delete body.photo_dni_back
-        body.identification_number_master = body.identification_number
-        console.log('body register', body)
-        auth.register(body)
-        // type === "user"
-        //     ? history.push("/verificacion")
-        //     : Swal.fire({
-        //         title: "Registro realizado",
-        //         html: 'El paciente será verificado antes de ser agregado como miembro al grupo familiar. ',
-        //         icon: "success",
-        //         showCancelButton: false,
-        //         confirmButtonText: "Continuar",
-        //         confirmButtonColor: "#Dc3545",
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             history.push("/usuario/grupo-familiar");
-        //         }
-        //     });
-=======
         if(type === "user") {
             auth.register(values);
             history.push("/verificacion");
@@ -108,7 +82,6 @@ export default function RegisterForm(formType) {
                 history.push("/usuario/grupo-familiar");
             }
         });
->>>>>>> frontend
     }
 
     const personalDataForm =
@@ -285,13 +258,8 @@ export default function RegisterForm(formType) {
                     </Col>
                 </>
             }
-<<<<<<< HEAD
-        </Row >
-
-=======
         </Row>
         
->>>>>>> frontend
     const conditionDataForm =
         <Row className={step === 4 || step === 2 ? "in" : "out"}>
             {step === 4 && type === 'user' || step === 2 && type === 'patient' ?
