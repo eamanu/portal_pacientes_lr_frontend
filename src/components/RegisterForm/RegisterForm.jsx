@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import SearchAddress from "../SearchAddress";
 import FormGroup from "./Forms/FormGroup";
 import { LabelsFormData, ValuesRegisterForm } from "./Forms/FormData";
+import { successRegister } from "../SwalAlertData";
 
 export default function RegisterForm(formType) {
 
@@ -69,6 +70,7 @@ export default function RegisterForm(formType) {
     }, [newValue, values[newValue]])
 
     const onSubmit = () => {
+<<<<<<< HEAD
         let body = values;
         delete body.confirmEmail
         delete body.password
@@ -93,6 +95,20 @@ export default function RegisterForm(formType) {
         //             history.push("/usuario/grupo-familiar");
         //         }
         //     });
+=======
+        if(type === "user") {
+            auth.register(values);
+            history.push("/verificacion");
+        }
+        auth.register(values)
+        type === "user"
+            ? history.push("/verificacion")
+             : Swal.fire(successRegister).then((result) => {
+            if (result.isConfirmed) {
+                history.push("/usuario/grupo-familiar");
+            }
+        });
+>>>>>>> frontend
     }
 
     const personalDataForm =
@@ -269,8 +285,13 @@ export default function RegisterForm(formType) {
                     </Col>
                 </>
             }
+<<<<<<< HEAD
         </Row >
 
+=======
+        </Row>
+        
+>>>>>>> frontend
     const conditionDataForm =
         <Row className={step === 4 || step === 2 ? "in" : "out"}>
             {step === 4 && type === 'user' || step === 2 && type === 'patient' ?

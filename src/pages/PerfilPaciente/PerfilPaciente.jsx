@@ -9,7 +9,7 @@ export default function PerfilPaciente() {
             <h5 className='section-title'>Perfil del paciente</h5>
             <DatosPaciente></DatosPaciente>
             <EnfermedadesCronicas></EnfermedadesCronicas>
-            <OtrasAfecciones></OtrasAfecciones>
+            {/* <OtrasAfecciones></OtrasAfecciones> */}
         </Container>
     )
 }

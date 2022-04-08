@@ -9,6 +9,7 @@ export let LOGIN_HEADER = () => {
   };
   return header;
 };
+<<<<<<< HEAD
 
 export let API_HEADER = () => {
   let header = {
@@ -16,17 +17,27 @@ export let API_HEADER = () => {
   };
   return header;
 };
+=======
+>>>>>>> frontend
 
 export let AUTH_HEADER = (tokenId) => {
-    let header = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${tokenId}`
-    }
-    return header;
-  }
+  let header = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${tokenId}`,
+  };
+  return header;
+};
 
 export const API_ENDPOINTS_LOGIN = `${baseUrl}/login`;
 
 export const API_ENDPOINTS_CREATEPERSON = `${baseUrl}/createperson`;
 
 export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
+
+export const API_ENDPOINTS_GETMESSAGES = `${baseUrl}/getmessages`;
+
+export const API_ENDPOINTS_SETMESSAGESREAD = `${baseUrl}/setmessagesread`;
+
+export const API_ENDPOINTS_PATIENT = `${baseUrl}/patient`;
+
+// export const API_ENDPOINTS_SETMESSAGESREAD = `${baseUrl}/setmessagesread`;

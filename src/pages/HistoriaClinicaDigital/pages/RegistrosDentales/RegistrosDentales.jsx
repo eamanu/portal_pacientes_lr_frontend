@@ -3,7 +3,7 @@ import DataNotFound from '../../../../components/DataNotFound';
 
 function RegistrosDentales() {
     return (
-        <div>
+        <div className='in'>
             <DataNotFound text="registros activos"></DataNotFound>
         </div>
     )

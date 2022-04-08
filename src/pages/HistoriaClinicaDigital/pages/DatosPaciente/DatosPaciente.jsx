@@ -6,7 +6,7 @@ function DatosPaciente() {
     const p = usePatient();
 
     return (
-        <Row>
+        <Row className='in'> 
             <h5 className='mt-3'>Datos del Paciente</h5>
             <p className='m-0'>Nombre y apellido: {p.patient.nombre} {p.patient.apellido}</p>
             <p className='m-0'>DNI: {p.patient.nombre} {p.patient.apellido}</p>

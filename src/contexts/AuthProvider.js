@@ -9,7 +9,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
-  );
+  ); //hardcode
   const [newUser, setNewUser] = useState(false);
   const [tokenUser, setTokenUser] = useState(
     JSON.parse(localStorage.getItem("tokenUser")) || null
@@ -64,8 +64,13 @@ const AuthProvider = ({ children }) => {
         }
       })
       .then((data) => {
+<<<<<<< HEAD
         console.log("token", data.access_token);
         console.log("data", data);
+=======
+        console.log('token', data.access_token);
+        // console.log('data', data);
+>>>>>>> frontend
         setTokenUser(data.access_token);
         return tokenUser;
       })
