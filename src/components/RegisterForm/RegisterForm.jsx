@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import SearchAddress from "../SearchAddress";
 import FormGroup from "./Forms/FormGroup";
 import { LabelsFormData, ValuesRegisterForm } from "./Forms/FormData";
+import { successRegister } from "../SwalAlertData";
 
 export default function RegisterForm(formType) {
 
@@ -69,21 +70,18 @@ export default function RegisterForm(formType) {
     }, [newValue, values[newValue]])
 
     const onSubmit = () => {
+        if(type === "user") {
+            auth.register(values);
+            history.push("/verificacion");
+        }
         auth.register(values)
         type === "user"
             ? history.push("/verificacion")
-            : Swal.fire({
-                title: "Registro realizado",
-                html: 'El paciente será verificado antes de ser agregado como miembro al grupo familiar. ',
-                icon: "success",
-                showCancelButton: false,
-                confirmButtonText: "Continuar",
-                confirmButtonColor: "#Dc3545",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    history.push("/usuario/grupo-familiar");
-                }
-            });
+             : Swal.fire(successRegister).then((result) => {
+            if (result.isConfirmed) {
+                history.push("/usuario/grupo-familiar");
+            }
+        });
     }
 
     const personalDataForm =
@@ -262,7 +260,7 @@ export default function RegisterForm(formType) {
                 </>
             }
         </Row>
-    console.log('step', step, 'type', type)
+        
     const conditionDataForm =
         <Row className={step === 4 || step === 2 ? "in" : "out"}>
             {step === 4 && type === 'user' || step === 2 && type === 'patient' ?
