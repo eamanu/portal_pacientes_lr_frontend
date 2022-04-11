@@ -92,7 +92,7 @@ const AuthProvider = ({ children }) => {
 
   const register = useCallback((body) => {
     console.log('body', body);
-    // setNewUser(body);
+    setNewUser(body);
     registerPersonService(body)
     .then((response) => {
       console.log(response)

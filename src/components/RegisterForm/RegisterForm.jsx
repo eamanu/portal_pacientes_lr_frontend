@@ -37,23 +37,25 @@ export default function RegisterForm(formType) {
             );
             setNewValue(targetName)
         } else {
+            // const [month, day, year] = [e.getMonth(), e.getDate(), e.getFullYear()];
+            let value = e.toString()
             setValues({
                 ...values,
-                ["birthdate"]: e,
+                ["birthdate"]: value,
             }
             );
         }
     }
     const getAddress = (obj) => {
         if (obj.address) {
-            let data = ['postal_address', 'address_number', 'address_street', 'locality', 'departament']
+            let data = ['postal_address', 'address_number', 'address_street', 'locality', 'department']
             setValues({
                 ...values,
                 ['postal_address']: obj.address.road + '' + obj.address.house_number,
                 ['address_number']: obj.address.house_number,
                 ['address_street']: obj.address.road,
                 ['locality']: obj.address.town || obj.address.city,
-                ['departament']: obj.address.state_district || obj.address.suburb
+                ['department']: obj.address.state_district || obj.address.suburb
             })
             data.map((item) => {
                 setNewValue(item)
@@ -70,18 +72,36 @@ export default function RegisterForm(formType) {
     }, [newValue, values[newValue]])
 
     const onSubmit = () => {
-        if(type === "user") {
-            auth.register(values);
+        let body = values
+        delete body.confirmEmail
+        delete body.confirmPassword
+        delete body.postal_address
+        delete body.photo_dni_front
+        delete body.photo_dni_back
+        body.is_diabetic = body.is_diabetic === 'true' ? true : false
+        body.is_hypertensive = body.is_hypertensive === 'true' ? true : false
+        body.is_chronic_kidney_disease = body.is_chronic_kidney_disease === 'true' ? true : false
+        body.is_chronic_respiratory_disease = body.is_chronic_respiratory_disease === 'true' ? true : false
+        body.id_department = 1 //hardcode
+        body.id_locality = 1 //hardcode
+        body.id_identification_type = parseInt(body.id_identification_type)
+        body.id_gender = parseInt(body.id_gender)
+        body.id_usual_institution = parseInt(body.id_usual_institution)
+        body.identification_number_master = body.identification_number // note - should be a string
+        body.username = body.email
+        console.log('body form', body)
+        if (type === "user") {
+            auth.register(body);
             history.push("/verificacion");
         }
-        auth.register(values)
-        type === "user"
-            ? history.push("/verificacion")
-             : Swal.fire(successRegister).then((result) => {
-            if (result.isConfirmed) {
-                history.push("/usuario/grupo-familiar");
-            }
-        });
+        // auth.register(values)
+        // type === "user"
+        //     ? history.push("/verificacion")
+        //      : Swal.fire(successRegister).then((result) => {
+        //     if (result.isConfirmed) {
+        //         history.push("/usuario/grupo-familiar");
+        //     }
+        // });
     }
 
     const personalDataForm =
@@ -241,11 +261,11 @@ export default function RegisterForm(formType) {
                                 {errors[f.locality.form_name] && <ErrorMessage><p>{errors[f.locality.form_name].message}</p></ErrorMessage>}
                             </Col>
                             <Col xs={12} sm={6}>
-                                <FormGroup inputType={f.departament.inputType} label={f.departament.label} name={f.departament.form_name} value={values.departament}
-                                    {...register(`${f.departament.form_name}`, f.departament.register)}
+                                <FormGroup inputType={f.department.inputType} label={f.department.label} name={f.department.form_name} value={values.department}
+                                    {...register(`${f.department.form_name}`, f.department.register)}
                                     onChange={handleChange}
                                 />
-                                {errors[f.departament.form_name] && <ErrorMessage><p>{errors[f.departament.form_name].message}</p></ErrorMessage>}
+                                {errors[f.department.form_name] && <ErrorMessage><p>{errors[f.department.form_name].message}</p></ErrorMessage>}
                             </Col>
                         </>
                     }
@@ -259,7 +279,7 @@ export default function RegisterForm(formType) {
                 </>
             }
         </Row>
-        
+
     const conditionDataForm =
         <Row className={step === 4 || step === 2 ? "in" : "out"}>
             {step === 4 && type === 'user' || step === 2 && type === 'patient' ?

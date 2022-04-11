@@ -217,8 +217,8 @@ export const LabelsFormData = {
       },
     },
   },
-  id_departament: {
-    form_name: "id_departament",
+  id_department: {
+    form_name: "id_department",
     label: "Departamento",
     inputType: "input",
     type: "text",
@@ -365,8 +365,8 @@ export const ValuesRegisterForm = {
   address_number: "",
   id_locality: "",
   locality: "",
-  id_departament: "",
-  departament: "",
+  id_department: "",
+  department: "",
   postal_address: "",
   phone_number: "",
   id_usual_institution: "",
@@ -376,4 +376,5 @@ export const ValuesRegisterForm = {
   is_chronic_kidney_disease: null,
   photo_dni_front: null,
   photo_dni_back: null,
+  username: "",
 };
