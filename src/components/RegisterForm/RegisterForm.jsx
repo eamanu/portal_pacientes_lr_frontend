@@ -32,16 +32,14 @@ export default function RegisterForm(formType) {
             let targetName = e.target.name
             setValues({
                 ...values,
-                [targetName || "birthdate"]: e.target?.value,
+                [targetName]: e.target?.value,
             }
             );
             setNewValue(targetName)
-        } else {
-            // const [month, day, year] = [e.getMonth(), e.getDate(), e.getFullYear()];
-            let value = e.toString()
+        } else if (e) {
             setValues({
                 ...values,
-                ["birthdate"]: value,
+                ["birthdate"]: e,
             }
             );
         }
@@ -65,7 +63,9 @@ export default function RegisterForm(formType) {
 
     useEffect(() => {
         setValue('birthdate', values.birthdate);
-    }, [values.birthdate, setValue])
+        setValue('postal_address', values.address_street);
+        // console.log('values.birthdate', values.birthdate)
+    }, [values.birthdate, values.address_street])
 
     useEffect(() => {
         setValue(`${newValue}`, values[newValue]);
@@ -78,6 +78,9 @@ export default function RegisterForm(formType) {
         delete body.postal_address
         delete body.photo_dni_front
         delete body.photo_dni_back
+        const [month, day, year] = [body.birthdate.getMonth() + 1, body.birthdate.getDate(), body.birthdate.getFullYear()];
+        let date = `${day}/${month}/${year}`
+        body.birthdate = date
         body.is_diabetic = body.is_diabetic === 'true' ? true : false
         body.is_hypertensive = body.is_hypertensive === 'true' ? true : false
         body.is_chronic_kidney_disease = body.is_chronic_kidney_disease === 'true' ? true : false
@@ -103,6 +106,42 @@ export default function RegisterForm(formType) {
         //     }
         // });
     }
+
+    // const body1 = {
+    //     address_number: "63",
+    //     address_street: "José Bonifacio",
+    //     birthdate: "5/4/2008",
+    //     department: "Comuna 6",
+    //     email: "personprueba3@mail.com",
+    //     id_department: 1,
+    //     id_gender: 1,
+    //     id_identification_type: 1,
+    //     id_locality: 1,
+    //     id_usual_institution: 1,
+    //     identification_number: "1234567",
+    //     identification_number_master: "1234567",
+    //     is_chronic_kidney_disease: false,
+    //     is_chronic_respiratory_disease: false,
+    //     is_diabetic: false,
+    //     is_hypertensive: false,
+    //     locality: "Buenos Aires",
+    //     name: "person prueba3",
+    //     password: "123",
+    //     phone_number: "1122334455",
+    //     surname: "person prueba3",
+    //     username: "personprueba3@mail.com",
+    //     id_person: null,
+    //     id_patient: null,
+    //     id_admin_status: null,
+    //     id_user_status: null,
+    //     is_deleted: false,
+    // }
+
+
+    // useEffect(() => {
+    //       auth.register(body1);
+    // }, [])
+    
 
     const personalDataForm =
         <Row className={`${step === 1 ? "in" : "out"} d-flex`}>
@@ -276,14 +315,6 @@ export default function RegisterForm(formType) {
                         />
                         {errors[f.phone_number.form_name] && <ErrorMessage><p>{errors[f.phone_number.form_name].message}</p></ErrorMessage>}
                     </Col>
-                </>
-            }
-        </Row>
-
-    const conditionDataForm =
-        <Row className={step === 4 || step === 2 ? "in" : "out"}>
-            {step === 4 && type === 'user' || step === 2 && type === 'patient' ?
-                <>
                     <Col xs={12} >
                         <FormGroup inputType={f.id_usual_institution.inputType} label={f.id_usual_institution.label} name={f.id_usual_institution.form_name} selectValue={values.id_usual_institution}
                             variants={f.id_usual_institution.variants}
@@ -292,6 +323,14 @@ export default function RegisterForm(formType) {
                         />
                         {errors[f.id_usual_institution.form_name] && <ErrorMessage><p>{errors[f.id_usual_institution.form_name].message}</p></ErrorMessage>}
                     </Col>
+                </>
+            }
+        </Row>
+
+    const conditionDataForm =
+        <Row className={step === 4 || step === 2 ? "in" : "out"}>
+            {step === 4 && type === 'user' || step === 2 && type === 'patient' ?
+                <>
                     <Col xs={12}>
                         <Form.Label className="mb-0">¿Padecés alguna de las siguientes afecciones crónicas? (Opcional)</Form.Label>
                         <FormGroup inputType={f.is_diabetic.inputType} label={f.is_diabetic.label} name={f.is_diabetic.form_name} value={values.is_diabetic} type={f.is_diabetic.type}
@@ -357,7 +396,7 @@ export default function RegisterForm(formType) {
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">2 de 5...</p>
                                 <div>
-                                    <button className="btn text-danger" type="button" onClick={() => { back() }}>Anterior</button>
+                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
                                     <Button variant="danger" type="submit">Siguiente</Button>
                                 </div>
                             </div>
@@ -368,7 +407,7 @@ export default function RegisterForm(formType) {
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">2 de 3...</p>
                                 <div>
-                                    <button className="btn text-danger" type="button" onClick={() => { back() }}>Anterior</button>
+                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
                                     <Button variant="danger" type="submit">Siguiente</Button>
                                 </div>
                             </div>
@@ -386,7 +425,7 @@ export default function RegisterForm(formType) {
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">3 de 5...</p>
                                 <div>
-                                    <button className="btn text-danger" type="button" onClick={() => { back() }}>Anterior</button>
+                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
                                     <Button variant="danger" type="submit">Siguiente</Button>
                                 </div>
                             </div>
@@ -397,7 +436,7 @@ export default function RegisterForm(formType) {
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">3 de 3...</p>
                                 <div>
-                                    <button className="btn text-danger" type="button" onClick={() => { back() }}>Anterior</button>
+                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
                                     <Button variant="danger" type="submit">Registrar</Button>
                                 </div>
                             </div>
@@ -414,7 +453,7 @@ export default function RegisterForm(formType) {
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className="text-danger d-inline m-0">4 de 5...</p>
                         <div>
-                            <button className="btn text-danger" type="button" onClick={() => { back() }}>Anterior</button>
+                            <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
                             <Button variant="danger" type="submit">Siguiente</Button>
                         </div>
                     </div>
@@ -428,7 +467,7 @@ export default function RegisterForm(formType) {
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className="text-danger d-inline m-0">5 de 5...</p>
                         <div>
-                            <button className="btn text-danger" type="button" onClick={() => { back() }}>Anterior</button>
+                            <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
                             <Button variant="danger" type="submit">Registrarse</Button>
                         </div>
                     </div>

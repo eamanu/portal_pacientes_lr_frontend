@@ -18,7 +18,7 @@ export async function post(url, header, data) {
   const promise = await fetch(url, {
     method: "POST",
     headers: header,
-    body: data,
+    body: JSON.stringify(data),
   });
   return promise;
 }

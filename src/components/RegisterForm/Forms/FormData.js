@@ -1,5 +1,15 @@
+import institutionsServices from "../../../services/institutionsServices";
 import { endDate, variantsDNI, variantsGender } from "../../ComponentsData";
 const minimunAge = endDate(); //Over 14 years old
+
+// let variantsInstitutions
+// const getInstitutions = async () => {
+//   const promise = await institutionsServices()
+//   console.log(promise)
+//   let variantsInstitutions = promise
+//   return promise
+// }
+// getInstitutions()
 
 export const LabelsFormData = {
   name: {
@@ -189,7 +199,7 @@ export const LabelsFormData = {
   },
   address_number: {
     form_name: "address_number",
-    label: "Nçumero",
+    label: "Número",
     inputType: "input",
     type: "text",
     variants: false,
@@ -232,6 +242,36 @@ export const LabelsFormData = {
       },
     },
   },
+  locality: {
+    form_name: "locality",
+    label: "Localidad",
+    inputType: "input",
+    type: "text",
+    variants: false,
+    maxDate: false,
+    sm: 8,
+    register: {
+      required: {
+        value: true,
+        message: "El campo es requerido.",
+      },
+    },
+  },
+  department: {
+    form_name: "department",
+    label: "Departamento",
+    inputType: "input",
+    type: "text",
+    variants: false,
+    maxDate: false,
+    sm: 8,
+    register: {
+      required: {
+        value: true,
+        message: "El campo es requerido.",
+      },
+    },
+  },
   phone_number: {
     form_name: "phone_number",
     label: "Teléfono celular",
@@ -252,7 +292,7 @@ export const LabelsFormData = {
     label: "Establecimiento de atención usual",
     inputType: "select",
     type: "number",
-    variants: variantsDNI,
+    variants: variantsGender,
     maxDate: false,
     sm: 6,
     register: {
@@ -328,7 +368,7 @@ export const LabelsFormData = {
     register: {
       required: {
         value: false,
-        message: "Ingrese una imagen"
+        message: "Ingrese una imagen",
       },
     },
   },
@@ -343,7 +383,7 @@ export const LabelsFormData = {
     register: {
       required: {
         value: false,
-        message: "Ingrese una imagen"
+        message: "Ingrese una imagen",
       },
     },
   },
@@ -377,4 +417,5 @@ export const ValuesRegisterForm = {
   photo_dni_front: null,
   photo_dni_back: null,
   username: "",
+  id_user_status: 1,
 };
