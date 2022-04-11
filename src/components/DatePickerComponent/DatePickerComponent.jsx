@@ -9,7 +9,7 @@ registerLocale("es", es);
 const DatePickerComponent = React.forwardRef((props, ref) => {
 
     const { name, maxDate, handleChange, selectValue, onBlur, disabled } = props
-    const [startDate, setStartDate] = useState(false);
+    const [startDate, setStartDate] = useState(selectValue ? selectValue : false);
 
     const change = (date) => {
         handleChange(date)
