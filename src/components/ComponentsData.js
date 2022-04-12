@@ -1,14 +1,3 @@
-import institutionsServices from "../services/institutionsServices";
-
-export const variantsDNI = [
-  { id: 1, name: "DNI" },
-  { id: 2, name: "CI" },
-  { id: 3, name: "LC" },
-  { id: 4, name: "LE" },
-  { id: 5, name: "CUIT" },
-  { id: 6, name: "CUIL" },
-  { id: 10, name: "OTRO" },
-];
 
 export const variantsGender = [
   { id: 1, name: "Femenino" },
@@ -25,11 +14,12 @@ export const endDate = () => {
   return endDate;
 };
 
-export const variantsInstitutions = async () => {
-    const promise = await institutionsServices()
-    console.log(promise)
-    return promise
-}
-
-// getInstitutions() 
-
+// export const variantsDNI = [
+//   { id: 1, name: "DNI" },
+//   { id: 2, name: "CI" },
+//   { id: 3, name: "LC" },
+//   { id: 4, name: "LE" },
+//   { id: 5, name: "CUIT" },
+//   { id: 6, name: "CUIL" },
+//   { id: 10, name: "OTRO" },
+// ];

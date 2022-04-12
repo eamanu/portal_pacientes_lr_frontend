@@ -1,4 +1,4 @@
-import { endDate, variantsDNI, variantsGender } from "../../ComponentsData";
+import { endDate, variantsGender } from "../../ComponentsData";
 const minimunAge = endDate(); //Over 14 years old
 
 export const LabelsFormData = {

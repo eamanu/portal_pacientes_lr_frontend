@@ -3,7 +3,7 @@ import { Modal, Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import DatePickerComponent from '../../components/DatePickerComponent';
 import SelectType from '../../components/SelectType';
-import { variantsGender, variantsDNI, endDate } from '../../components/ComponentsData';
+import { variantsGender, endDate } from '../../components/ComponentsData';
 import useAuth from '../../hooks/useAuth';
 import "../../styles/PerfilUsuario.scss"
 
@@ -90,9 +90,10 @@ function PerfilUsuario({ show, handleClose }) {
                                 <Col xs={6} >
                                     <Form.Group className="mb-3" >
                                         <Form.Label className="mb-0">Tipo de documento</Form.Label>
+                                        {/* hardecode variants */}
                                         <SelectType
                                             name="id_type"
-                                            variants={variantsDNI}
+                                            variants={false}
                                             nameForm="id_type"
                                             disabled
                                             selectValue={1}
