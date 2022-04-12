@@ -5,6 +5,7 @@ const baseUrl = environment.baseURL;
 export let LOGIN_HEADER = () => {
   let header = {
     accept: "application/json",
+    "Content-Type": "application/x-www-form-urlencoded"
   };
   return header;
 };
