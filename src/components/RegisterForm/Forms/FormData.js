@@ -1,15 +1,5 @@
-import institutionsServices from "../../../services/institutionsServices";
 import { endDate, variantsDNI, variantsGender } from "../../ComponentsData";
 const minimunAge = endDate(); //Over 14 years old
-
-// let variantsInstitutions
-// const getInstitutions = async () => {
-//   const promise = await institutionsServices()
-//   console.log(promise)
-//   let variantsInstitutions = promise
-//   return promise
-// }
-// getInstitutions()
 
 export const LabelsFormData = {
   name: {
@@ -47,7 +37,7 @@ export const LabelsFormData = {
     label: "Tipo de documento",
     inputType: "select",
     type: "number",
-    variants: variantsDNI,
+    variants: "variantsDNI",
     maxDate: false,
     sm: 6,
     register: {
@@ -96,7 +86,7 @@ export const LabelsFormData = {
     label: "Sexo",
     inputType: "select",
     type: "number",
-    variants: variantsGender,
+    variants: "variantsGender",
     maxDate: false,
     sm: 6,
     register: {
@@ -292,7 +282,7 @@ export const LabelsFormData = {
     label: "Establecimiento de atención usual",
     inputType: "select",
     type: "number",
-    variants: variantsGender,
+    variants: "variantsInstitutions",
     maxDate: false,
     sm: 6,
     register: {

@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Col, Form } from 'react-bootstrap'
+import institutionsServices from '../../../services/institutionsServices';
+import identificationsTypeServices from '../../../services/parametricServices';
+import { variantsGender } from '../../ComponentsData';
 import DatePickerComponent from '../../DatePickerComponent';
 import { ErrorMessage } from '../../ErrorMessage/ErrorMessage';
 import SelectType from '../../SelectType';
@@ -19,6 +22,63 @@ const FormGroup = React.forwardRef((props, ref) => {
     selectValue,
     handleChange,
     maxDate } = props
+
+  const vaGender = variantsGender
+  const [options, setOptions] = useState([]);
+
+  const getInstitutionsVariants = useCallback(
+    () => {
+      institutionsServices()
+        .then((res) => {
+          const inst = res
+          return inst;
+        })
+        .then((res) => {
+          if(res?.length > 0) {
+            setOptions(res);
+            return options
+          }
+        })
+        .catch((err) => { console.log(err) })
+    },
+    [],
+  )
+
+  const getDNIVariants = useCallback(
+    () => {
+      identificationsTypeServices()
+        .then((res) => {
+          const types = res
+          return types;
+        })
+        .then((res) => {
+          if(res?.length > 0) {
+            setOptions(res);
+            return options
+          }
+        })
+        .catch((err) => { console.log(err) })
+    },
+    [],
+  )
+
+  const getGenderVariants = () => {
+    setOptions(vaGender);
+    return options
+  }
+
+  useEffect(() => {
+    if (variants === "variantsInstitutions") {
+      getInstitutionsVariants();
+    }
+    if (variants === "variantsDNI") {
+      getDNIVariants();
+    }
+    if (variants === "variantsGender") {
+      getGenderVariants();
+    }
+  }, [])
+
 
   return (
     <Form.Group>
@@ -40,7 +100,7 @@ const FormGroup = React.forwardRef((props, ref) => {
       {inputType === 'select' &&
         <SelectType
           name={name}
-          variants={variants}
+          variants={options}
           selectValue={selectValue}
           handleChange={handleChange}
         />
@@ -80,11 +140,10 @@ const FormGroup = React.forwardRef((props, ref) => {
       {
         inputType === 'file' &&
         <>
-          <input className="form-control border mb-3" type="file" id="formFile"  accept=".png,.jpg"/>
+          <input className="form-control border mb-3" type="file" id="formFile" accept=".png,.jpg" />
           <br />
         </>
       }
-
 
     </Form.Group>
   )
