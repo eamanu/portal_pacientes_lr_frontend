@@ -32,13 +32,14 @@ function UserHeader() {
                         <NavLink activeClassName="" to={"/usuario/notificaciones"}>
                             <div className='icon_container'><FaIcon.FaRegBell className='notification_icon' />{p.patient.mensajes?.length > 0 && <div className='notification_circle in'></div>}</div>
                         </NavLink>
-                        <NavDropdown title="Cambiar paciente" id="basic-nav-dropdown">
+                        {thisLocation != '/usuario/grupo-familiar' &&
+                         <NavDropdown title="Cambiar paciente" id="basic-nav-dropdown">
                             {p.allPatients.map((patient) => {
                                 return (
                                     <NavDropdown.Item className='p-2' key={patient.id} onClick={() => { setIdPatient(patient.id) }} >{patient.nombre} {patient.apellido}</NavDropdown.Item>
                                 )
                             })}
-                        </NavDropdown>
+                        </NavDropdown>}
                     </div>
                 </div>
             </div>

@@ -62,10 +62,10 @@ const PatientProvider = ({ children }) => {
       });
   }, []);
 
-  useEffect(() => {
-    getPatientBasicData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
-    getPatientCompleteData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
-  }, [])
+  // useEffect(() => {
+  //   getPatientBasicData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
+  //   getPatientCompleteData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
+  // }, [])
   
 
   const contextValue = {
