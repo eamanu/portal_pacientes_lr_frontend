@@ -10,16 +10,9 @@ export let LOGIN_HEADER = () => {
   return header;
 };
 
-export let API_HEADER = () => {
+export let API_HEADER = () => { //note - could be Content-type: application/json
   let header = {
-    "Accept": "application/json",
-  };
-  return header;
-};
-
-export let API_HEADER_V2 = () => { //note - test 
-  let header = {
-    "Content-type": "application/json",
+    "Content-Type": "application/json",
   };
   return header;
 };
@@ -32,16 +25,26 @@ export let AUTH_HEADER = (tokenId) => {
   return header;
 };
 
+// login
 export const API_ENDPOINTS_LOGIN = `${baseUrl}/login`;
 
+// register
 export const API_ENDPOINTS_CREATEPERSONANDUSER = `${baseUrl}/createpersonanduser`;
 
 export const API_ENDPOINTS_CREATEPERSON = `${baseUrl}/createperson`;
 
+// get patients/users data
+export const API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER = (query) => {
+  let url = `${baseUrl}/getpersonbyidentificationnumber?${query}`;
+  return url
+}
+
+// formData
 export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
 
 export const API_ENDPOINTS_PARAMETRIC = `${baseUrl}/parametric`;
 
+// messages
 export const API_ENDPOINTS_GETMESSAGES = `${baseUrl}/getmessages`;
 
 export const API_ENDPOINTS_SETMESSAGESREAD = `${baseUrl}/setmessagesread`;
