@@ -1,14 +1,13 @@
-import { endDate, variantsDNI, variantsGender } from "../../ComponentsData";
+import { endDate, variantsGender } from "../../ComponentsData";
 const minimunAge = endDate(); //Over 14 years old
 
 export const LabelsFormData = {
-  firstName: {
-    form_name: "firstName",
+  name: {
+    form_name: "name",
     label: "Nombres",
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -17,13 +16,12 @@ export const LabelsFormData = {
       },
     },
   },
-  lastName: {
-    form_name: "lastName",
+  surname: {
+    form_name: "surname",
     label: "Apellidos",
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -32,13 +30,12 @@ export const LabelsFormData = {
       },
     },
   },
-  id_type: {
-    form_name: "id_type",
+  id_identification_type: {
+    form_name: "id_identification_type",
     label: "Tipo de documento",
     inputType: "select",
     type: "number",
-    variants: variantsDNI,
-    maxDate: false,
+    variants: "variantsDNI",
     sm: 6,
     register: {
       required: {
@@ -51,13 +48,12 @@ export const LabelsFormData = {
       },
     },
   },
-  id_number: {
-    form_name: "id_number",
+  identification_number: {
+    form_name: "identification_number",
     label: "Número de documento",
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 6,
     register: {
       required: {
@@ -66,8 +62,8 @@ export const LabelsFormData = {
       },
     },
   },
-  date_of_birth: {
-    form_name: "date_of_birth",
+  birthdate: {
+    form_name: "birthdate",
     label: "Fecha de nacimiento",
     inputType: "datePicker",
     type: "text",
@@ -86,8 +82,7 @@ export const LabelsFormData = {
     label: "Sexo",
     inputType: "select",
     type: "number",
-    variants: variantsGender,
-    maxDate: false,
+    variants: "variantsGender",
     sm: 6,
     register: {
       required: {
@@ -106,7 +101,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "email",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -125,7 +119,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "email",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -144,7 +137,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "password",
     variants: false,
-    maxDate: false,
     sm: 6,
     register: {
       required: {
@@ -163,7 +155,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "password",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -172,13 +163,12 @@ export const LabelsFormData = {
       },
     },
   },
-  calle: {
-    form_name: "calle",
+  address_street: {
+    form_name: "address_street",
     label: "Calle",
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 8,
     register: {
       required: {
@@ -187,13 +177,12 @@ export const LabelsFormData = {
       },
     },
   },
-  numero_domicilio: {
-    form_name: "numero_domicilio",
-    label: "Nçumero",
+  address_number: {
+    form_name: "address_number",
+    label: "Número",
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 4,
     register: {
       required: {
@@ -202,13 +191,12 @@ export const LabelsFormData = {
       },
     },
   },
-  localidad: {
-    form_name: "localidad",
+  id_locality: {
+    form_name: "id_locality",
     label: "Localidad",
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 8,
     register: {
       required: {
@@ -217,13 +205,12 @@ export const LabelsFormData = {
       },
     },
   },
-  departamento: {
-    form_name: "departamento",
+  id_department: {
+    form_name: "id_department",
     label: "Departamento",
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 8,
     register: {
       required: {
@@ -232,13 +219,54 @@ export const LabelsFormData = {
       },
     },
   },
-  establishment_of_care: {
-    form_name: "establishment_of_care",
-    label: "Establecimiento de atención",
+  locality: {
+    form_name: "locality",
+    label: "Localidad",
+    inputType: "input",
+    type: "text",
+    variants: false,
+    sm: 8,
+    register: {
+      required: {
+        value: true,
+        message: "El campo es requerido.",
+      },
+    },
+  },
+  department: {
+    form_name: "department",
+    label: "Departamento",
+    inputType: "input",
+    type: "text",
+    variants: false,
+    sm: 8,
+    register: {
+      required: {
+        value: true,
+        message: "El campo es requerido.",
+      },
+    },
+  },
+  phone_number: {
+    form_name: "phone_number",
+    label: "Teléfono celular",
+    inputType: "input",
+    type: "text",
+    variants: false,
+    sm: 12,
+    register: {
+      required: {
+        value: true,
+        message: "El campo es requerido.",
+      },
+    },
+  },
+  id_usual_institution: {
+    form_name: "id_usual_institution",
+    label: "Establecimiento de atención usual",
     inputType: "select",
     type: "number",
-    variants: variantsDNI,
-    maxDate: false,
+    variants: "variantsInstitutions",
     sm: 6,
     register: {
       required: {
@@ -246,13 +274,12 @@ export const LabelsFormData = {
       },
     },
   },
-  diabetes: {
-    form_name: "diabetes",
+  is_diabetic: {
+    form_name: "is_diabetic",
     label: "Diabetes",
     inputType: "radio",
     type: "radio",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -260,13 +287,12 @@ export const LabelsFormData = {
       },
     },
   },
-  hipertension: {
-    form_name: "hipertension",
+  is_hypertensive: {
+    form_name: "is_hypertensive",
     label: "Hipertension",
     inputType: "radio",
     type: "radio",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -274,13 +300,12 @@ export const LabelsFormData = {
       },
     },
   },
-  enfermedad_respiratoria: {
-    form_name: "enfermedad_respiratoria",
+  is_chronic_respiratory_disease: {
+    form_name: "is_chronic_respiratory_disease",
     label: "Enfermedad respiratoria",
     inputType: "radio",
     type: "radio",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -288,13 +313,12 @@ export const LabelsFormData = {
       },
     },
   },
-  enfermedad_renal: {
-    form_name: "enfermedad_renal",
+  is_chronic_kidney_disease: {
+    form_name: "is_chronic_kidney_disease",
     label: "Enfermedad respiratoria",
     inputType: "radio",
     type: "radio",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -308,12 +332,11 @@ export const LabelsFormData = {
     inputType: "file",
     type: "file",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
         value: false,
-        message: "Ingrese una imagen"
+        message: "Ingrese una imagen",
       },
     },
   },
@@ -323,38 +346,48 @@ export const LabelsFormData = {
     inputType: "file",
     type: "file",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
         value: false,
-        message: "Ingrese una imagen"
+        message: "Ingrese una imagen",
       },
     },
   },
 };
 
 export const ValuesRegisterForm = {
-  firstName: "",
-  lastName: "",
-  id_type: "",
-  id_number: "",
-  date_of_birth: "",
+  name: "",
+  surname: "",
+  id_identification_type: "",
+  identification_number: "",
+  identification_number_master: "",
+  birthdate: "",
   id_gender: "",
   email: "",
   confirmEmail: "",
   password: "",
   confirmPassword: "",
-  calle: "",
-  numero_domicilio: "",
-  localidad: "",
-  departamento: "",
-  domicilio_postal: "",
-  establecimiento: "",
-  diabetes: null,
-  hipertension: null,
-  enfermedad_respiratoria: null,
-  enfermedad_renal: null,
+  address_street: "",
+  address_number: "",
+  id_locality: 1, //hardcode
+  locality: "",
+  id_department: 1, //hardcode
+  department: "",
+  postal_address: "",
+  phone_number: "",
+  id_usual_institution: "",
+  is_diabetic: null,
+  is_hypertensive: null,
+  is_chronic_respiratory_disease: null,
+  is_chronic_kidney_disease: null,
   photo_dni_front: null,
   photo_dni_back: null,
+  username: "",
+  id_user_status: 1,
+  id_person: null, //hardcode
+  id_patient: null, //hardcode
+  id_admin_status: null, //hardcode
+  id_user_status: null, //hardcode
+  is_deleted: false, //hardcode
 };

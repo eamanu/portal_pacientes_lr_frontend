@@ -3,10 +3,12 @@ import { loginServiceFetch } from "../services/loginService";
 import loginService from "../services/loginService";
 import Swal from "sweetalert2";
 import { logOut, expiredSession, loginError } from "../components/SwalAlertData";
+import { registerPersonService } from "../services/registerServices";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   ); //hardcode
@@ -129,6 +131,10 @@ const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const newRegisterUser = (values) => {
+    setNewUser(values);
+  }
+
   const contextValue = {
     user,
     tokenUser,
@@ -144,7 +150,7 @@ const AuthProvider = ({ children }) => {
       }
     },
     newUser,
-    register,
+    newRegisterUser,
   };
 
   return (

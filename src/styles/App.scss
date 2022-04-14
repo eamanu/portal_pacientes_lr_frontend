@@ -253,6 +253,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  .col-12, .col-6 {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
 }
 // Iconos y botones
 .btn-icon,

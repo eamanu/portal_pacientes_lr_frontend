@@ -10,7 +10,7 @@ const SelectType = React.forwardRef((props, ref) => {
             handleChange(e)
             setIdValue(e.target.value)
     }
-
+    
     return (
         <Form.Select className='m-0'
             name={name}
@@ -21,9 +21,9 @@ const SelectType = React.forwardRef((props, ref) => {
             onChange={(e) => change(e)}
         >
             {!idValue && <option>Seleccionar...</option>}
-            {variants.map((variant) => {
+            {variants.length > 0 && variants.map((variant) => {
                 return (
-                    <option key={variant.id} value={variant.id} >{variant.type}</option>
+                    <option key={`${variant.id}-${variant.name}`} value={variant.id} >{variant.name ||variant.description}</option>
                 )
             })}
         </Form.Select>
