@@ -7,6 +7,7 @@ import { registerPersonService } from "../services/registerServices";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   ); //hardcode
@@ -14,7 +15,7 @@ const AuthProvider = ({ children }) => {
   const [tokenUser, setTokenUser] = useState(
     JSON.parse(localStorage.getItem("tokenUser")) || null
   );
-
+  
   useEffect(() => {
     try {
       delete user.password;
@@ -90,15 +91,9 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  const register = useCallback((body) => {
-    console.log('body', body);
-    setNewUser(body);
-    registerPersonService(body)
-    .then((response) => {
-      console.log(response)
-    })
-    .catch(err => console.log(err))
-  }, []);
+  const newRegisterUser = (values) => {
+    setNewUser(values);
+  }
 
   const contextValue = {
     user,
@@ -110,7 +105,7 @@ const AuthProvider = ({ children }) => {
       return !!user;
     },
     newUser,
-    register,
+    newRegisterUser,
   };
 
   return (
