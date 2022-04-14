@@ -8,7 +8,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -23,7 +22,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -38,7 +36,6 @@ export const LabelsFormData = {
     inputType: "select",
     type: "number",
     variants: "variantsDNI",
-    maxDate: false,
     sm: 6,
     register: {
       required: {
@@ -57,7 +54,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 6,
     register: {
       required: {
@@ -87,7 +83,6 @@ export const LabelsFormData = {
     inputType: "select",
     type: "number",
     variants: "variantsGender",
-    maxDate: false,
     sm: 6,
     register: {
       required: {
@@ -106,7 +101,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "email",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -125,7 +119,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "email",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -144,7 +137,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "password",
     variants: false,
-    maxDate: false,
     sm: 6,
     register: {
       required: {
@@ -163,7 +155,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "password",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -178,7 +169,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 8,
     register: {
       required: {
@@ -193,7 +183,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 4,
     register: {
       required: {
@@ -208,7 +197,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 8,
     register: {
       required: {
@@ -223,7 +211,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 8,
     register: {
       required: {
@@ -238,7 +225,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 8,
     register: {
       required: {
@@ -253,7 +239,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 8,
     register: {
       required: {
@@ -268,7 +253,6 @@ export const LabelsFormData = {
     inputType: "input",
     type: "text",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -283,7 +267,6 @@ export const LabelsFormData = {
     inputType: "select",
     type: "number",
     variants: "variantsInstitutions",
-    maxDate: false,
     sm: 6,
     register: {
       required: {
@@ -297,7 +280,6 @@ export const LabelsFormData = {
     inputType: "radio",
     type: "radio",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -311,7 +293,6 @@ export const LabelsFormData = {
     inputType: "radio",
     type: "radio",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -325,7 +306,6 @@ export const LabelsFormData = {
     inputType: "radio",
     type: "radio",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -339,7 +319,6 @@ export const LabelsFormData = {
     inputType: "radio",
     type: "radio",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -353,7 +332,6 @@ export const LabelsFormData = {
     inputType: "file",
     type: "file",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -368,7 +346,6 @@ export const LabelsFormData = {
     inputType: "file",
     type: "file",
     variants: false,
-    maxDate: false,
     sm: 12,
     register: {
       required: {
@@ -393,9 +370,9 @@ export const ValuesRegisterForm = {
   confirmPassword: "",
   address_street: "",
   address_number: "",
-  id_locality: "",
+  id_locality: 1, //hardcode
   locality: "",
-  id_department: "",
+  id_department: 1, //hardcode
   department: "",
   postal_address: "",
   phone_number: "",
@@ -408,4 +385,9 @@ export const ValuesRegisterForm = {
   photo_dni_back: null,
   username: "",
   id_user_status: 1,
+  id_person: null, //hardcode
+  id_patient: null, //hardcode
+  id_admin_status: null, //hardcode
+  id_user_status: null, //hardcode
+  is_deleted: false, //hardcode
 };

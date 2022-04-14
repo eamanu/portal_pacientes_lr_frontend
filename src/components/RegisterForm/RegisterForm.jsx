@@ -1,20 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import useAuth from '../../hooks/useAuth';
 import '../../styles/Transitions.scss';
-import Swal from "sweetalert2";
 import SearchAddress from "../SearchAddress";
 import FormGroup from "./Forms/FormGroup";
 import { LabelsFormData, ValuesRegisterForm } from "./Forms/FormData";
+import usePatient from "../../hooks/usePatient";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
 import { successRegister } from "../SwalAlertData";
+import { registerPersonAndUserService, registerPersonService } from "../../services/registerServices";
 
 export default function RegisterForm(formType) {
 
     const auth = useAuth();
-    const history = useHistory()
+    const history = useHistory();
     // steps
     const [step, setStep] = useState(1)
     const next = () => { setStep(step + 1) }
@@ -27,6 +29,7 @@ export default function RegisterForm(formType) {
     const [newValue, setNewValue] = useState("") //Get and set values form to required
     const [search, setSearch] = useState(true) //Get addres by search or not
 
+    // set values 
     const handleChange = (e) => {
         if (e.target?.name) {
             let targetName = e.target.name
@@ -44,6 +47,7 @@ export default function RegisterForm(formType) {
             );
         }
     }
+
     const getAddress = (obj) => {
         if (obj.address) {
             let data = ['postal_address', 'address_number', 'address_street', 'locality', 'department']
@@ -76,72 +80,66 @@ export default function RegisterForm(formType) {
         delete body.confirmEmail
         delete body.confirmPassword
         delete body.postal_address
-        delete body.photo_dni_front
-        delete body.photo_dni_back
+        delete body.photo_dni_front //note - is necesary, but not now
+        delete body.photo_dni_back //note - is necesary, but not now
         const [month, day, year] = [body.birthdate.getMonth() + 1, body.birthdate.getDate(), body.birthdate.getFullYear()];
         let date = `${day}/${month}/${year}`
         body.birthdate = date
+        body.id_identification_type = parseInt(body.id_identification_type)
+        body.id_gender = parseInt(body.id_gender)
+        body.id_usual_institution = parseInt(body.id_usual_institution)
         body.is_diabetic = body.is_diabetic === 'true' ? true : false
         body.is_hypertensive = body.is_hypertensive === 'true' ? true : false
         body.is_chronic_kidney_disease = body.is_chronic_kidney_disease === 'true' ? true : false
         body.is_chronic_respiratory_disease = body.is_chronic_respiratory_disease === 'true' ? true : false
-        body.id_department = 1 //hardcode
-        body.id_locality = 1 //hardcode
-        body.id_identification_type = parseInt(body.id_identification_type)
-        body.id_gender = parseInt(body.id_gender)
-        body.id_usual_institution = parseInt(body.id_usual_institution)
-        body.identification_number_master = body.identification_number // note - should be a string
-        body.username = body.email
-        console.log('body form', body)
         if (type === "user") {
-            auth.register(body);
-            history.push("/verificacion");
+            body.identification_number_master = body.identification_number
+            body.username = body.email
+            sendRegisterNewUserForm(body);
+        } else if (type === "patient") {
+            delete body.username
+            delete body.password
+            body.identification_number_master = "1234567" //hardcode - need user identification_number_master
+            body.address_street = "1" //hardcode - need user data
+            body.address_number = "1" //hardcode - need user data
+            body.locality = "1" //hardcode - need user data
+            body.department = "1" //hardcode - need user data
+            body.phone_number = "1" //hardcode - need user data
+            body.email = "1" //hardcode - need user data
+            sendRegisterNewPatientForm(body);
         }
-        // auth.register(values)
-        // type === "user"
-        //     ? history.push("/verificacion")
-        //      : Swal.fire(successRegister).then((result) => {
-        //     if (result.isConfirmed) {
-        //         history.push("/usuario/grupo-familiar");
-        //     }
-        // });
     }
 
-    // const body1 = {
-    //     address_number: "63",
-    //     address_street: "José Bonifacio",
-    //     birthdate: "5/4/2008",
-    //     department: "Comuna 6",
-    //     email: "personprueba3@mail.com",
-    //     id_department: 1,
-    //     id_gender: 1,
-    //     id_identification_type: 1,
-    //     id_locality: 1,
-    //     id_usual_institution: 1,
-    //     identification_number: "1234567",
-    //     identification_number_master: "1234567",
-    //     is_chronic_kidney_disease: false,
-    //     is_chronic_respiratory_disease: false,
-    //     is_diabetic: false,
-    //     is_hypertensive: false,
-    //     locality: "Buenos Aires",
-    //     name: "person prueba3",
-    //     password: "123",
-    //     phone_number: "1122334455",
-    //     surname: "person prueba3",
-    //     username: "personprueba3@mail.com",
-    //     id_person: null,
-    //     id_patient: null,
-    //     id_admin_status: null,
-    //     id_user_status: null,
-    //     is_deleted: false,
-    // }
+    const sendRegisterNewUserForm = useCallback((body) => {
+        // console.log('body register', body);
+        registerPersonAndUserService(body)
+            .then((response) => {
+                if (response.ok) {
+                    auth.newRegisterUser(body)
+                    console.log('response', response)
+                    history.push("/verificacion");
+                }
+            })
+            .catch(err => console.log(err))
+    }, []);
 
 
-    // useEffect(() => {
-    //       auth.register(body1);
-    // }, [])
-    
+    const sendRegisterNewPatientForm = useCallback((body) => {
+        // console.log('body patient', body);
+        registerPersonService(body)
+            .then((response) => {
+                if (response.ok) {
+                    // auth.newRegisterUser(body)
+                    console.log('response', response)
+                    Swal.fire(successRegister).then((result) => {
+                        if (result.isConfirmed) {
+                            history.push("/usuario/grupo-familiar");
+                        }
+                    })
+                }
+            })
+            .catch(err => console.log(err))
+    }, []);
 
     const personalDataForm =
         <Row className={`${step === 1 ? "in" : "out"} d-flex`}>
@@ -178,7 +176,7 @@ export default function RegisterForm(formType) {
                     </Col>
                     <Col xs={12} sm={6}>
                         <FormGroup inputType={f.birthdate.inputType} label={f.birthdate.label} name={f.birthdate.form_name} selectValue={values.birthdate}
-                            maxDate={f.birthdate.maxDate}
+                            maxDate={type === "user" ? f.birthdate.maxDate : new Date()}
                             {...register(`${f.birthdate.form_name}`, f.birthdate.register)}
                             handleChange={(e) => handleChange(e)}
                         />
@@ -315,14 +313,6 @@ export default function RegisterForm(formType) {
                         />
                         {errors[f.phone_number.form_name] && <ErrorMessage><p>{errors[f.phone_number.form_name].message}</p></ErrorMessage>}
                     </Col>
-                    <Col xs={12} >
-                        <FormGroup inputType={f.id_usual_institution.inputType} label={f.id_usual_institution.label} name={f.id_usual_institution.form_name} selectValue={values.id_usual_institution}
-                            variants={f.id_usual_institution.variants}
-                            handleChange={(e) => handleChange(e)}
-                            {...register(`${f.id_usual_institution.form_name}`, f.id_usual_institution.register)}
-                        />
-                        {errors[f.id_usual_institution.form_name] && <ErrorMessage><p>{errors[f.id_usual_institution.form_name].message}</p></ErrorMessage>}
-                    </Col>
                 </>
             }
         </Row>
@@ -331,7 +321,15 @@ export default function RegisterForm(formType) {
         <Row className={step === 4 || step === 2 ? "in" : "out"}>
             {step === 4 && type === 'user' || step === 2 && type === 'patient' ?
                 <>
-                    <Col xs={12}>
+                    <Col xs={12} >
+                        <FormGroup inputType={f.id_usual_institution.inputType} label={f.id_usual_institution.label} name={f.id_usual_institution.form_name} selectValue={values.id_usual_institution}
+                            variants={f.id_usual_institution.variants}
+                            handleChange={(e) => handleChange(e)}
+                            {...register(`${f.id_usual_institution.form_name}`, f.id_usual_institution.register)}
+                        />
+                        {errors[f.id_usual_institution.form_name] && <ErrorMessage><p>{errors[f.id_usual_institution.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} className="mt-3">
                         <Form.Label className="mb-0">¿Padecés alguna de las siguientes afecciones crónicas? (Opcional)</Form.Label>
                         <FormGroup inputType={f.is_diabetic.inputType} label={f.is_diabetic.label} name={f.is_diabetic.form_name} value={values.is_diabetic} type={f.is_diabetic.type}
                             onChange={handleChange}
