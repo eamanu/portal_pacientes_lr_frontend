@@ -13,11 +13,11 @@ export default function loginService(em, p) {
 }
 
 // aL INTENTAR HACER CON AXIOS, NO RECONOCE HEADER CONTENT-TYPE
-export async function loginServiceFetch() {
+export async function loginServiceFetch() { //hardcode
   try {
     const searchParams = new URLSearchParams({
-      username: "admin",
-      password: "admin123",
+      username: "personprueba3@mail.com",
+      password: "123",
     });
     let data = searchParams.toString();
     const promise = await post(API_ENDPOINTS_LOGIN, LOGIN_HEADER(), data);
