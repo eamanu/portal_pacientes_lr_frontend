@@ -2,12 +2,18 @@ import { useCallback, useEffect, useState } from "react";
 import { createContext } from "react";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
-import patientBasicDataServices, { patientCompleteDataServices } from "../services/patientService";
+// import patientBasicDataServices, { patientCompleteDataServices } from "../services/patientService";
+// import { getPersonByIdentificationNumber } from "../services/personServices";
+import { useHistory } from "react-router-dom";
+
 
 export const PatientContext = createContext();
 
 const PatientProvider = ({ children }) => {
+
   const auth = useAuth();
+  const history = useHistory();
+
   const allPatients = auth.user.grupo_familiar.pacientes; //hardcode
   const [patient, setPatient] = useState(allPatients[0]); //hardcode
 
@@ -22,6 +28,7 @@ const PatientProvider = ({ children }) => {
     },
   });
 
+ 
   const getPatient = useCallback(
     (n) => {
       const promise = allPatients.find((patient) => patient.id === n);
@@ -36,42 +43,47 @@ const PatientProvider = ({ children }) => {
     [patient, allPatients, Toast]
   );
 
-  const getPatientBasicData = useCallback((tokenId, data) => {
-    patientBasicDataServices(tokenId, data)
-      .then((res) => {
-        return res;
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // const getPatientBasicData = useCallback((tokenId, data) => {
+  //   patientBasicDataServices(tokenId, data)
+  //     .then((res) => {
+  //       return res;
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
-  const getPatientCompleteData = useCallback((tokenId, data) => {
-    patientCompleteDataServices(tokenId, data)
-      .then((res) => {
-        return res;
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // const getPatientCompleteData = useCallback((tokenId, data) => {
+  //   patientCompleteDataServices(tokenId, data)
+  //     .then((res) => {
+  //       return res;
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
-  useEffect(() => {
-    getPatientBasicData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
-    getPatientCompleteData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
-  }, [])
+  // useEffect(() => {
+  //   getPatientBasicData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
+  //   getPatientCompleteData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
+  // }, [])
+
+  // useEffect(() => {
+  //   getPersonByIdentificationNumber(); 
+  // }, [])
   
 
   const contextValue = {
     patient,
     allPatients,
     getPatient,
+    // register
   };
 
   return (
