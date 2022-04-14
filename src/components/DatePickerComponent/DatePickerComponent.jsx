@@ -31,7 +31,7 @@ const DatePickerComponent = React.forwardRef((props, ref) => {
                 showMonthDropdown
                 showYearDropdown
                 dropdownMode="select"
-                maxDate={maxDate}
+                maxDate={maxDate ? maxDate : false}
                 popperClassName="some-custom-class"
                 popperPlacement="top-end"
                 popperModifiers={[
