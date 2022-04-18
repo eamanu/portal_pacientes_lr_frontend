@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import institutionsServices from '../../../../services/institutionsServices'
 import useAuth from '../../../../hooks/useAuth.js'
+import Loader from '../../../../components/Loader'
 
 
 
@@ -18,7 +19,7 @@ export default function CentrosMedicos() {
                 })
                 .then((res) => {
                     setInstitutions(res);
-                    console.log(res)
+                    // console.log(res)
                     return institutions
                 })
                 .catch((err) => { console.log(err) })
@@ -31,14 +32,14 @@ export default function CentrosMedicos() {
     }, [])
 
     return (
-        <div className='in'>
+        <div className="section-contennt in">
             <h5>Centros Médicos</h5>
             {institutions?.length > 0 ? institutions.map((ins) => {
                 return (
                     <p key={ins.id}>{ins.name}</p>
                 )
             }) :
-                <h6>Cargando...</h6>
+                <Loader isActive={true}></Loader>
             }
         </div>
     )

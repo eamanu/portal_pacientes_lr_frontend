@@ -81,8 +81,8 @@
   background-color: $third;
 }
 // Loader
-.loader_container {
-  position: fixed;
+.loader_container{
+  // position: fixed;
   // display: flex;
   justify-content: center;
   align-items: center;
@@ -531,4 +531,8 @@
 }
 .my-tooltip:hover .tiptext {
   visibility: visible;
+}
+// section-content
+.section-contennt{
+  padding-top: 1rem;
 }
