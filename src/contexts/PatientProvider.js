@@ -16,6 +16,7 @@ const PatientProvider = ({ children }) => {
 
   const allPatients = auth.user.grupo_familiar.pacientes; //hardcode
   const [patient, setPatient] = useState(allPatients[0]); //hardcode
+  const [patientInstitution, setPatientInstitution] = useState(1); //hardcode
 
   const Toast = Swal.mixin({
     toast: true,
@@ -42,6 +43,11 @@ const PatientProvider = ({ children }) => {
     },
     [patient, allPatients, Toast]
   );
+
+  const changeInstitution = (e) => {
+    let id_institution = parseInt(e.target.value)
+    setPatientInstitution(id_institution);
+  }
 
   // const getPatientBasicData = useCallback((tokenId, data) => {
   //   patientBasicDataServices(tokenId, data)
@@ -77,12 +83,16 @@ const PatientProvider = ({ children }) => {
   // useEffect(() => {
   //   getPersonByIdentificationNumber(); 
   // }, [])
-  
+
+  const idPatient = 35 //hardcode
 
   const contextValue = {
     patient,
     allPatients,
     getPatient,
+    patientInstitution, 
+    changeInstitution,
+    idPatient
     // register
   };
 
