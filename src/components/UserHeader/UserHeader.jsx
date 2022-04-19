@@ -13,13 +13,13 @@ function UserHeader() {
 
     // Paciente
     const p = usePatient();
-    const [idPatient, setIdPatient] = useState(p.patient.id);
+    const [dniPatient, setDniPatient] = useState(p.patient.identification_number);
     function handleChange() {
-        p.getPatient(idPatient)
+        p.getPatient(dniPatient)
     }
     useEffect(() => {
         handleChange();
-    }, [idPatient]);
+    }, [dniPatient]);
 
     // console.log(p.patient)
 
@@ -27,7 +27,7 @@ function UserHeader() {
         <>
             <div className='user-header'>
                 <div className='w-100 d-flex align-items-center user-header__name justify-content-between justify-content-sm-start pe-2'>
-                    <p className='mb-0 ms-3'>Paciente: <span className='fw-bold'>{p.patient.nombre} {p.patient.apellido} </span></p>
+                    <p className='mb-0 ms-3'>Paciente: <span className='fw-bold'>{p.patient.name} {p.patient.surname} </span></p>
                     <div className='d-flex align-items-center'>
                         <NavLink activeClassName="" to={"/usuario/notificaciones"}>
                             <div className='icon_container'><FaIcon.FaRegBell className='notification_icon' />{p.patient.mensajes?.length > 0 && <div className='notification_circle in'></div>}</div>
@@ -36,7 +36,7 @@ function UserHeader() {
                          <NavDropdown title="Cambiar paciente" id="basic-nav-dropdown">
                             {p.allPatients.map((patient) => {
                                 return (
-                                    <NavDropdown.Item className='p-2' key={patient.id} onClick={() => { setIdPatient(patient.id) }} >{patient.nombre} {patient.apellido}</NavDropdown.Item>
+                                    <NavDropdown.Item className='p-2' key={patient.identification_number} onClick={() => { setDniPatient(patient.identification_number) }} >{patient.name} {patient.surname}</NavDropdown.Item>
                                 )
                             })}
                         </NavDropdown>}

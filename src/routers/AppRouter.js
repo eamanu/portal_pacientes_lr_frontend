@@ -3,6 +3,7 @@ import PrivateRoute from "./PrivateRoute"
 import PublicRoute from "./PublicRoute"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
+import LoginPerson from "../pages/LoginPerson"
 import Login from "../pages/Login"
 import Register from "../pages/Register"
 import UserRouter from "./UserRouter"
@@ -16,7 +17,8 @@ export default function AppRouter() {
             <Header />
             <div className="main-container">
             <Switch>
-                <PublicRoute exact path='/login' component={Login}/>
+                <PublicRoute exact path='/login' component={LoginPerson }/>
+                <PublicRoute exact path='/admin-pplr' component={Login}/>
                 <PublicRoute exact path='/register' component={Register}/>
                 <PublicRoute exact path='/verificacion' component={AvisoVerificacion}/>
                 <PublicRoute exact path='/recuperar-contraseña' component={RecuperarContraseña}/>

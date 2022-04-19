@@ -16,6 +16,7 @@ import { registerPersonAndUserService, registerPersonService } from "../../servi
 export default function RegisterForm(formType) {
 
     const auth = useAuth();
+    const user = auth.user ? auth.user : null
     const history = useHistory();
     // steps
     const [step, setStep] = useState(1)
@@ -99,13 +100,20 @@ export default function RegisterForm(formType) {
         } else if (type === "patient") {
             delete body.username
             delete body.password
-            body.identification_number_master = "1234567" //hardcode - need user identification_number_master
-            body.address_street = "1" //hardcode - need user data
-            body.address_number = "1" //hardcode - need user data
-            body.locality = "1" //hardcode - need user data
-            body.department = "1" //hardcode - need user data
-            body.phone_number = "1" //hardcode - need user data
-            body.email = "1" //hardcode - need user data
+            body.identification_number_master = user.identification_number 
+            body.address_street = user.address_street 
+            body.address_number = user.address_number
+            body.locality = user.locality
+            body.department = user.department
+            body.phone_number = user.phone_number
+            body.email = user.email
+            // body.identification_number_master = "1234567" //hardcode - need user identification_number_master
+            // body.address_street = "1" //hardcode - need user data
+            // body.address_number = "1" //hardcode - need user data
+            // body.locality = "1" //hardcode - need user data
+            // body.department = "1" //hardcode - need user data
+            // body.phone_number = "1" //hardcode - need user data
+            // body.email = "1" //hardcode - need user data
             sendRegisterNewPatientForm(body);
         }
     }

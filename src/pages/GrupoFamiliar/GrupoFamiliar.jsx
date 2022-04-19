@@ -9,23 +9,24 @@ import { Paciente } from './Paciente/Paciente';
 function GrupoFamiliar() {
 
     const p = usePatient();
-    const [idPatient, setIdPatient] = useState(p.patient.id);
+    const [dniPatient, setDniPatient] = useState(p.patient.identification_number);
+
 
     const handlePatient = (id) => {
-        setIdPatient(id)
+        setDniPatient(id)
     }
 
     const history = useHistory();
     const verHistoriaClinica = (id) => {
-        setIdPatient(id);
+        setDniPatient(id);
         setTimeout(() => {
             history.push('/usuario/historia-clinica');
         }, 300);
     }
 
     useEffect(() => {
-        p.getPatient(idPatient)
-    }, [p, idPatient]);
+        p.getPatient(dniPatient)
+    }, [p, dniPatient]);
 
     return (
         <Container className='p-3'>
@@ -33,10 +34,10 @@ function GrupoFamiliar() {
             {p.allPatients.map((patient) => {
                 return (
                     <Paciente
-                        key={patient.id}
-                        patientId={patient.id}
-                        patientNombre={patient.nombre}
-                        patientApellido={patient.apellido}
+                        key={patient.identification_number}
+                        patientId={patient.identification_number}
+                        patientNombre={patient.name}
+                        patientApellido={patient.surname}
                         verHistoriaClinica={verHistoriaClinica}
                         handlePatient={handlePatient}
                     />

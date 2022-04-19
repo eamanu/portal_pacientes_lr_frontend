@@ -12,9 +12,10 @@ export const PatientContext = createContext();
 const PatientProvider = ({ children }) => {
 
   const auth = useAuth();
+  console.log(auth.user)
   const history = useHistory();
 
-  const allPatients = auth.user.grupo_familiar.pacientes; //hardcode
+  const allPatients = auth.user.family_group; //hardcode
   const [patient, setPatient] = useState(allPatients[0]); //hardcode
   const [patientInstitution, setPatientInstitution] = useState(1); //hardcode
 
@@ -31,13 +32,13 @@ const PatientProvider = ({ children }) => {
 
  
   const getPatient = useCallback(
-    (n) => {
-      const promise = allPatients.find((patient) => patient.id === n);
+    (identification_number) => {
+      const promise = allPatients.find((patient) => patient.identification_number === identification_number);
       setPatient(promise);
       Toast.fire({
         position: "bottom-end",
         icon: "success",
-        title: `Paciente activo: ${promise.nombre} ${promise.apellido}`,
+        title: `Paciente activo: ${promise.name} ${promise.surname}`,
       });
       return patient;
     },

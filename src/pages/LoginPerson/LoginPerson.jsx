@@ -8,7 +8,7 @@ import useAuth from '../../hooks/useAuth';
 // import { loginServiceFetch } from "../../services/loginService";
 
 
-function Login() {
+function LoginPerson() {
 
     const [email, setEmail] = useState(JSON.parse(localStorage.getItem("loginDataEmail")) || "");
     const [password, setPassword] = useState("");
@@ -25,8 +25,7 @@ function Login() {
     }, [auth, history, previousObjetURL])
 
     const onSubmit = () => {
-        // auth.loginFetch()
-        auth.login(email, password)
+        auth.loginPerson(email, password);
         if (saveData) {
             localStorage.setItem("loginDataEmail", JSON.stringify(email));
         }
@@ -116,4 +115,4 @@ function Login() {
     )
 }
 
-export default Login;
+export default LoginPerson;

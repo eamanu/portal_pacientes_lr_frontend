@@ -14,7 +14,7 @@ export const Paciente = (props) => {
                 <h6 className='mb-0'>{`${patientNombre} ${patientApellido}`}</h6>
             </div>
             <div className='patient-actions'>
-                <p className={`mb-0 me-2 ${patientId === p.patient.id ? 'badge bg-success' : 'badge bg-light text-dark'}`}>{patientId === p.patient.id ? 'Activo' : 'Inactivo'}</p>
+                <p className={`mb-0 me-2 ${patientId === p.patient.identification_number ? 'badge bg-success' : 'badge bg-light text-dark'}`}>{patientId === p.patient.identification_number ? 'Activo' : 'Inactivo'}</p>
                 <div className="my-tooltip">
                     <button className='btn text-secondary btn-icon' onClick={() => { verHistoriaClinica(patientId) }}><MdIcon.MdFolderShared style={{ fontSize: '1.5rem' }} /></button>
                     <span className="tiptext">
