@@ -13,13 +13,10 @@ export const endDate = () => {
 
   return endDate;
 };
-
-// export const variantsDNI = [
-//   { id: 1, name: "DNI" },
-//   { id: 2, name: "CI" },
-//   { id: 3, name: "LC" },
-//   { id: 4, name: "LE" },
-//   { id: 5, name: "CUIT" },
-//   { id: 6, name: "CUIL" },
-//   { id: 10, name: "OTRO" },
-// ];
+export const receiverCategory =[
+  { id: 1, description: "Todos los pacientes" },
+  { id: 2, description: "Pacientes con diabetes crónica" },
+  { id: 3, description: "Pacientes con hipertensión crónica" },
+  { id: 4, description: "Pacientes con enfermedad respiratoria crónica" },
+  { id: 5, description: "Pacientes con enfermedad renal crónica" },
+]

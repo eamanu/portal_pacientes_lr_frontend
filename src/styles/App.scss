@@ -508,7 +508,7 @@
       padding: auto;
     }
   }
-  .mensaje_text {
+  .mensaje_text, .message_text {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -516,10 +516,11 @@
   .asunto {
     color: $text-primary;
   }
-  .mensaje {
+  .mensaje, .receiver {
     color: $text-secondary;
     font-size: 0.8rem;
   }
+
 }
 // Tooltip
 .my-tooltip {
@@ -565,7 +566,7 @@
   font-size: 0.8rem;
   font-style: italic;
 }
-.admin-patients__patient {
+.admin-patients__patient, .admin-message__message{
   margin-bottom: 0.5rem;
   padding: 0.5rem;
   border-radius: 5px;
@@ -573,11 +574,8 @@
   box-shadow: $shadow-four;
   cursor: pointer;
   transition: 0.2s;
-
-  @media only screen and (min-width: $tablet) {
-    // flex-direction: row;
-    // justify-content: space-between;
-    // height: 5.5rem;
+  p{
+    margin-bottom: 0;
   }
   .status-container{
     display: flex;
