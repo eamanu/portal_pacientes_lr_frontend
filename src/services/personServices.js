@@ -10,7 +10,7 @@ export async function getPersonByIdentificationNumber(idn) {
       const promise = await get(API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER(query), API_HEADER());
       return promise;
     } catch (err) {
-      console.log("Error al iniciar sesión: ", err);
+      console.log("Error ", err);
     }
   }
 
@@ -24,6 +24,6 @@ export async function getPersonByIdentificationNumber(idn) {
       const promise = await get(API_ENDPOINT_SETADMINSTATUS(query), API_HEADER());
       return promise;
     } catch (err) {
-      console.log("Error al iniciar sesión: ", err);
+      console.log("Error", err);
     }
   }
