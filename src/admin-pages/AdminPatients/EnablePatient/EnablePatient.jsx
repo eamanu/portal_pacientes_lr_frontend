@@ -3,7 +3,7 @@ import Loader from '../../../components/Loader'
 import { Modal, Button, Col, Container, Row } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import ImgRotate from '../../../components/ImgRotate';
-import { confirm, error } from '../../../components/SwalAlertData';
+import { confirm, error, success } from '../../../components/SwalAlertData';
 import identificationsTypeServices from '../../../services/parametricServices';
 import { getPersonByIdentificationNumber, setAdminStatusToPerson } from '../../../services/personServices';
 
@@ -61,6 +61,8 @@ export default function EnablePatient({ show, handleClose, idn }) {
                 .then((res) => {
                     console.log('res', res)
                     // hardcode falta respuesta
+                    Swal.fire(success('El paciente ha sido validado'))
+                    Swal.fire(error('Hubo un error al validar paciente'))
                 })
                 .catch((err) => {
                     console.log('error', err)
