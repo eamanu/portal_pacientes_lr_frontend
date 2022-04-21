@@ -15,7 +15,13 @@
 .btn:focus,
 .btn-close:focus {
   outline: 0;
-  box-shadow: $shadow-primary;
+  box-shadow: none;
+}
+.btn-check:active + .btn,
+.btn:active,
+.btn-close:active {
+  outline: 0;
+  background-color: rgba(0, 0, 0, 0.116);
 }
 .z-index-1 {
   z-index: 1;
@@ -81,13 +87,16 @@
   background-color: $third;
 }
 // Loader
-.loader_container{
+.loader_container {
   // position: fixed;
   // display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  // justify-content: center;
+  // align-items: center;
+  // width: 100%;
+  // height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   background-color: #ffffffab;
   z-index: 2;
 }
@@ -253,7 +262,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  .col-12, .col-6 {
+  .col-12,
+  .col-6 {
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -533,6 +543,101 @@
   visibility: visible;
 }
 // section-content
-.section-contennt{
+.section-contennt {
   padding-top: 1rem;
+}
+// admin
+.admin-header-text {
+  color: $text-light !important;
+}
+.admin-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // z-index: 1031;
+  @media only screen and (min-width: $desktop) {
+    width: calc(100% - 21rem);
+    transform: translateX(15rem);
+  }
+}
+//adminPatients
+.admin-patients_text {
+  font-size: 0.8rem;
+  font-style: italic;
+}
+.admin-patients__patient {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: $third;
+  box-shadow: $shadow-four;
+  cursor: pointer;
+  transition: 0.2s;
+
+  @media only screen and (min-width: $tablet) {
+    // flex-direction: row;
+    // justify-content: space-between;
+    // height: 5.5rem;
+  }
+  .status-container{
+    display: flex;
+    justify-content: center;
+    min-width: 7rem;
+    padding: 0.2rem;
+    border-radius: 1rem;
+    color: $text-light;
+    p{
+      display: flex;
+      font-size: 0.8rem;
+    }
+  }
+  .bg-1{
+    background-color: $accent ;
+  }
+  .bg-2{
+    background-color: $success;
+  }
+  .bg-3{
+    background-color: $primary;
+  }
+}
+.admin-patient__modal{
+  .modal-content{
+    min-height: 80vh;
+  }
+}
+.admin-patient__list {
+  list-style: none;
+  border-right: 1px solid $secondary-light;
+  padding-left: 0;
+  font-weight: lighter;
+  li{
+    margin-bottom: 0.5rem;
+  }
+  strong{
+    text-transform: uppercase;
+  }
+}
+.admin-patient__img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 210px;
+  height: 210px;
+  overflow: hidden;
+  border: 1px solid $secondary-light;
+  border-radius: 5px;
+  @media only screen and (min-width: $tablet) {
+    width: 330px;
+    height: 330px;
+  }
+  .admin-patient__img {
+    width: 100%;
+    height: auto;
+  }
+}
+.rotate-img {
+  transform: rotate(90deg);
+  width: auto !important;
+  height: 100% !important;
 }

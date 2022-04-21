@@ -1,7 +1,5 @@
-import React from "react";
 import * as MdIcon from "react-icons/md";
 import * as FaIcon from "react-icons/fa";
-// import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 export const SidebarData = {
@@ -9,7 +7,7 @@ export const SidebarData = {
     {
       id: 1,
       title: "Inicio",
-      path: "/usuario",
+      path: "/",
       icon: <MdIcon.MdOutlineHome className="menu-icon" />,
       acordeon: false,
       a: false,
@@ -218,5 +216,29 @@ export const SidebarData = {
       aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
       options: false,
     },
+  ],
+  admin: [
+    {
+      id: 14,
+      title: "Alta de pacientes",
+      path: "/admin/alta-de-pacientes",
+      icon: <FaIcon.FaUserCheck className="menu-icon" />,
+      acordeon: false,
+      a: false,
+      cName: "sidebar-text",
+      aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
+      options: false,
+    },
+    {
+      id: 15,
+      title: "Mensajería",
+      path: "/admin/mensajeria",
+      icon: <MdIcon.MdOutlineMessage className="menu-icon" />,
+      acordeon: false,
+      a: false,
+      cName: "sidebar-text",
+      aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
+      options: false,
+    }
   ],
 };

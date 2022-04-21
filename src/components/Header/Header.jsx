@@ -18,11 +18,12 @@ function Header() {
     const location = useLocation()
     const mql = window.matchMedia("(min-width: 992px)")
     const [sidebar, setSidebar] = useState(false);
-    const navbarDropdownTitle =
+    const navbarDropdownTitle = 
             <span className='navbar_dropdown-title'>
-                <p className='m-0 d-none d-lg-inline-block'>{auth.user?.nombre + ' ' + auth.user?.apellido}</p>
+                <p className='m-0 d-none d-lg-inline-block'>{auth.typeUser === 1 ? "Usuario administrador" : auth.user?.name + ' ' + auth.user?.surname}</p>
                 <BsIcon.BsPersonCircle className='user-icon'></BsIcon.BsPersonCircle>
             </span>
+    
 
     const handleClick = e => {
         e.preventDefault();
@@ -55,7 +56,10 @@ function Header() {
                             <MdIcon.MdClose className={`menu-icon ${sidebar ? 'd-block in' : 'd-none'}`} />
                         </button>
                     </div>}
-                    <Link to='/usuario' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start' : 'justify-content-start'}`} ><img className="logo" src={logo} alt="logo portal del paciente - La Rioja" /></Link>
+                    <Link to='/usuario' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start' : 'justify-content-start'}`} >
+                        <img className="logo" src={logo} alt="logo portal del paciente - La Rioja" />
+                     {location.pathname === "/login-admin" || auth.typeUser === 1 ? <p className="mb-0 ms-2 admin-header-text d-none d-sm-block"> / administrador </p> : <></>}
+                     </Link>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
                             {auth.isLogged() &&

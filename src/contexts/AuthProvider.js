@@ -12,13 +12,14 @@ const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState( JSON.parse(localStorage.getItem("user")) || null ); //hardcode
   const [tokenUser, setTokenUser] = useState( JSON.parse(localStorage.getItem("tokenUser")) || null );
-  const [typeUser, setTypeUser ] =useState(null); //note: 1 = admin / 2 = person
+  const [typeUser, setTypeUser ] =useState( JSON.parse(localStorage.getItem("typeUser")) || null); //note: 1 = admin / 2 = person
     const curtime = new Date().getTime();
     const [newUser, setNewUser] = useState(false);
 
   useEffect(() => {
     {try {
       delete user.password;
+      localStorage.setItem("typeUser", JSON.stringify(typeUser));
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("tokenUser", JSON.stringify(tokenUser));
       if(tokenUser){
@@ -31,8 +32,9 @@ const AuthProvider = ({ children }) => {
     } catch (error) {
       localStorage.removeItem("user");
       localStorage.removeItem("tokenUser");
+      localStorage.removeItem("typeUser");
     }}
-  }, [user, tokenUser]);
+  }, [user, tokenUser, typeUser]);
 
   // fake login
   // const login = useCallback( //hardcode
@@ -60,6 +62,34 @@ const AuthProvider = ({ children }) => {
   //   [user]
   // );
 
+  const loginAdmin = useCallback(
+    (u, p) => {
+    loginService(u, p)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          if(res.code === 401){
+            Swal.fire(loginError);
+          }
+        }
+      })
+      .then((data) => {
+        console.log(data)
+        console.log("token", data.access_token);
+        // console.log('data user', data.data);
+        setTypeUser(1) //hardcode 
+        setUser(data);
+        setTokenUser(data.access_token);
+        return tokenUser;
+      })
+      .catch((err) => {
+        console.log('error: ', err);
+        Swal.fire(loginError);
+      });
+  }, [tokenUser]);
+
+
   const loginPerson = useCallback(
     (u, p) => {
     loginPersonService(u, p)
@@ -78,7 +108,7 @@ const AuthProvider = ({ children }) => {
         console.log('data user', data.data);
         setUser(data.data);
         setTokenUser(data.access_token);
-        getTypeOfUser(2)
+        setTypeUser(2) //hardcode 
         return tokenUser;
       })
       .catch((err) => {
@@ -92,16 +122,16 @@ const AuthProvider = ({ children }) => {
   //   setNewUser(objet);
   // }, []);
 
-  const getTypeOfUser = (id) => { //hardcode - note: if admin id_admin_status ? 
-    if(id === 1){
-      setTypeUser(1)
-    }
-    if(id === 2){
-      setTypeUser(2)
-    }
-  }
+  // const getTypeOfUser = (id) => { //hardcode - note: if admin id_admin_status ? 
+  //   if(id === 1){ //hardcode admin
+  //     setTypeUser(id)
+  //   }
+  //   if(id === 2){ //hardcode person
+  //     setTypeUser(id)
+  //   }
+  // }
 
-  function getLocalStorage(key) {
+  function getLocalStorage(key) { //note - debería suceder al hacer el login??
     let exp = 60 * 60 * 24 * 1000; //hardcode - milisegundo en un día
     // let exp = 10000;
     if (localStorage.getItem(key)) {
@@ -157,7 +187,9 @@ const AuthProvider = ({ children }) => {
   const contextValue = {
     user,
     tokenUser,
+    typeUser,
     loginPerson,
+    loginAdmin,
     logout,
     isLogged() {
       getLocalStorage("curtime");

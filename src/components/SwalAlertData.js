@@ -30,3 +30,25 @@ export const loginError =  {
   showConfirmButton: false,
   timer: 2000,
 }
+
+export const error = (error) => {
+let content = {
+  text: error,
+  icon: "error",
+  showConfirmButton: false,
+  timer: 2000,
+}
+return content
+}
+
+export const confirm = (text) => {
+  let content = {
+    title: text,
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Confirmar",
+    confirmButtonColor: "#Dc3545",
+  }
+  return content
+};
