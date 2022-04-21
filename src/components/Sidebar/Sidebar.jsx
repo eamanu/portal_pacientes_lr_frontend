@@ -173,7 +173,7 @@ function Sidebar({ isActive, action }) {
                         })
                         }</>}
                 </ul>
-                <p className='footer-text fixed-bottom bg-ligth'>v0.1.0 - 2022</p>
+                <p className='footer-text bg-ligth'>v0.1.0 - 2022</p>
             </div>
         </>
     )
