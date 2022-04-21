@@ -56,7 +56,7 @@ function Header() {
                             <MdIcon.MdClose className={`menu-icon ${sidebar ? 'd-block in' : 'd-none'}`} />
                         </button>
                     </div>}
-                    <Link to='/usuario' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start' : 'justify-content-start'}`} >
+                    <Link to='/' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start' : 'justify-content-start'}`} >
                         <img className="logo" src={logo} alt="logo portal del paciente - La Rioja" />
                      {location.pathname === "/login-admin" || auth.typeUser === 1 ? <p className="mb-0 ms-2 admin-header-text d-none d-sm-block"> / administrador </p> : <></>}
                      </Link>
