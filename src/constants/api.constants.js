@@ -41,24 +41,29 @@ export const API_ENDPOINT_SETADMINSTATUS = (query) => {
   return url;
 };
 
-// get patients/users data
+// get patients/users data ---------------------------------------
 export const API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER = (query) => {
   let url = `${baseUrl}/getpersonbyidentificationnumber?${query}`;
   return url;
 };
 
-// formData
+// formData---------------------------------------
 export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
 
 export const API_ENDPOINTS_PARAMETRIC = `${baseUrl}/parametric`;
 
-// messages
+// messages---------------------------------------
 export const API_ENDPOINTS_GETMESSAGES = `${baseUrl}/getmessages`;
 
 export const API_ENDPOINTS_SETMESSAGESREAD = `${baseUrl}/setmessagesread`;
 
-// hce
+// sumar ---------------------------------------
+export const API_ENDPOINTS_SUMAR = (idn) =>{
+  let url = `${baseUrl}/sumar/data/${idn}`;
+  return url;
+}
 
+// hce---------------------------------------
 export const API_ENDPOINTS_ALLERGIES = (institution_id, patient_id) => {
   let url = `${baseUrl}/hcegeneral/${institution_id}/allergies/${patient_id}`;
   return url;
@@ -148,4 +153,3 @@ export const API_ENDPOINTS_PERSONALHYSTORIES = (institution_id, patient_id) => {
 
 // }
 
-export const API_INMUNIZATIONS = `${baseUrl}/hcegeneral/1/immunizations/1`;
