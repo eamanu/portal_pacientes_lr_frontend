@@ -48,7 +48,7 @@ export const API_ENDPOINTS_UPLOADIDENTIFICATIONIMAGES = (query) => {
   return url
 }
 
-export const API_ENDPOINT_SETADMINSTATUS = (query) => {
+export const API_ENDPOINT_SETADMINSTATUSTOPERSON = (query) => {
   let url = `${baseUrl}/setadminstatustoperson?${query}`;
   return url;
 };

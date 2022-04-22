@@ -1,5 +1,5 @@
-import {API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER, API_ENDPOINT_SETADMINSTATUS, API_HEADER} from '../constants/api.constants';
-import { get } from './httpServices';
+import {API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER, API_ENDPOINT_SETADMINSTATUSTOPERSON, API_HEADER} from '../constants/api.constants';
+import { get, put } from './httpServices';
 
 export async function getPersonByIdentificationNumber(idn) { 
     try {
@@ -21,7 +21,7 @@ export async function getPersonByIdentificationNumber(idn) {
         admin_status_id: status 
       });
       let query = searchParams.toString();
-      const promise = await get(API_ENDPOINT_SETADMINSTATUS(query), API_HEADER());
+      const promise = await put(API_ENDPOINT_SETADMINSTATUSTOPERSON(query), API_HEADER());
       return promise;
     } catch (err) {
       console.log("Error", err);
