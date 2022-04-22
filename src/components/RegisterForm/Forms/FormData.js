@@ -335,7 +335,7 @@ export const LabelsFormData = {
     sm: 12,
     register: {
       required: {
-        value: false,
+        value: true,
         message: "Ingrese una imagen",
       },
     },
@@ -349,7 +349,7 @@ export const LabelsFormData = {
     sm: 12,
     register: {
       required: {
-        value: false,
+        value: true,
         message: "Ingrese una imagen",
       },
     },

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
+import Loader from '../Loader/Loader';
 import useAuth from '../../hooks/useAuth';
 import '../../styles/Transitions.scss';
 import SearchAddress from "../SearchAddress";
@@ -10,16 +11,17 @@ import { LabelsFormData, ValuesRegisterForm } from "./Forms/FormData";
 import usePatient from "../../hooks/usePatient";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
-import { successRegister } from "../SwalAlertData";
-import { registerPersonAndUserService, registerPersonService } from "../../services/registerServices";
+import { error, successRegister } from "../SwalAlertData";
+import { registerPersonAndUserService, registerPersonService, uploadIdentificationImagesService } from "../../services/registerServices";
 
 export default function RegisterForm(formType) {
 
+    const [loading, setLoading] = useState(false)
     const auth = useAuth();
     const user = auth.user ? auth.user : null
     const history = useHistory();
     // steps
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(5)
     const next = () => { setStep(step + 1) }
     const back = () => { setStep(step - 1) }
     // useForm
@@ -29,6 +31,10 @@ export default function RegisterForm(formType) {
     const [values, setValues] = useState(ValuesRegisterForm); //Get and set values form
     const [newValue, setNewValue] = useState("") //Get and set values form to required
     const [search, setSearch] = useState(true) //Get addres by search or not
+    const [photoFront, setPhotoFront] = useState(false)
+    const [photoBack, setPhotoBack] = useState(false)
+    // newPerson
+    const [newPersonId, setNewPersonId] = useState(null)
 
     // set values 
     const handleChange = (e) => {
@@ -46,6 +52,19 @@ export default function RegisterForm(formType) {
                 ["birthdate"]: e,
             }
             );
+        }
+    }
+
+    const handleChangeImage = (e) => {
+        if (e.target.files) {
+            // console.log('file', e.target.files[0])
+            let targetName = e.target.name
+            setValues({
+                ...values,
+                [targetName]: e.target.files[0],
+            }
+            );
+            setNewValue(targetName)
         }
     }
 
@@ -73,10 +92,19 @@ export default function RegisterForm(formType) {
     }, [values.birthdate, values.address_street])
 
     useEffect(() => {
+        // console.log('values', values)
+        if (newValue === 'photo_dni_front') {
+            convertImageToBinaryFront(values.photo_dni_front)
+        }
+        if (newValue === 'photo_dni_back') {
+            convertImageToBinaryBack(values.photo_dni_front)
+        }
         setValue(`${newValue}`, values[newValue]);
+        console.log('values', values)
     }, [newValue, values[newValue]])
 
     const onSubmit = () => {
+        setLoading(true)
         let body = values
         delete body.confirmEmail
         delete body.confirmPassword
@@ -100,54 +128,111 @@ export default function RegisterForm(formType) {
         } else if (type === "patient") {
             delete body.username
             delete body.password
-            body.identification_number_master = user.identification_number 
-            body.address_street = user.address_street 
+            body.identification_number_master = user.identification_number
+            body.address_street = user.address_street
             body.address_number = user.address_number
             body.locality = user.locality
             body.department = user.department
             body.phone_number = user.phone_number
             body.email = user.email
-            // body.identification_number_master = "1234567" //hardcode - need user identification_number_master
-            // body.address_street = "1" //hardcode - need user data
-            // body.address_number = "1" //hardcode - need user data
-            // body.locality = "1" //hardcode - need user data
-            // body.department = "1" //hardcode - need user data
-            // body.phone_number = "1" //hardcode - need user data
-            // body.email = "1" //hardcode - need user data
             sendRegisterNewPatientForm(body);
         }
     }
 
+    const onSubmitImages = () => {
+        setLoading(true)
+        let images = {
+            file: photoFront,
+            file2: photoBack,
+        }
+        console.log('photos', images)
+        uploadIdentificationImages(newPersonId, images);
+    }
+
     const sendRegisterNewUserForm = useCallback((body) => {
-        // console.log('body register', body);
+        console.log('body register', body);
         registerPersonAndUserService(body)
             .then((response) => {
                 if (response.ok) {
-                    auth.newRegisterUser(body)
                     console.log('response', response)
-                    history.push("/verificacion");
+                    auth.newRegisterUser(body) //note - should be response.data 
+                    setNewPersonId(18) //hardcode -  should be response.data.id
+                    next()
+                    setLoading(false)
                 }
             })
-            .catch(err => console.log(err))
+            .catch((err) => {
+                console.log('error', err)
+                Swal.fire(error('Hubo un error al confirmar datos'))
+                setLoading(false)
+            })
     }, []);
 
 
     const sendRegisterNewPatientForm = useCallback((body) => {
-        // console.log('body patient', body);
+        console.log('body patient', body);
         registerPersonService(body)
             .then((response) => {
                 if (response.ok) {
-                    // auth.newRegisterUser(body)
                     console.log('response', response)
-                    Swal.fire(successRegister).then((result) => {
-                        if (result.isConfirmed) {
-                            history.push("/usuario/grupo-familiar");
-                        }
-                    })
+                    setNewPersonId(18) //hardcode -  should be response.data.id
+                    next()
+                    setLoading(false)
                 }
             })
             .catch(err => console.log(err))
     }, []);
+
+    const uploadIdentificationImages = useCallback(
+        (id, body) => {
+            uploadIdentificationImagesService(18, body) //hardcode
+                .then((res) => {
+                    console.log(res)
+                    if (res && type === "user") {
+                        setLoading(false)
+                        history.push("/verificacion")
+                    } else if (res && type === "patient") {
+                        Swal.fire(successRegister).then((result) => {
+                            if (result.isConfirmed) {
+                                setLoading(false)
+                                history.push("/usuario/grupo-familiar");
+                            }
+                        })
+                    }
+                })
+                .catch((err) => {
+                    console.log('error', err)
+                    Swal.fire(error('Ha ocurrido un error al cargar las imágenes'))
+                })
+        },
+        [],
+    );
+
+    const convertImageToBinaryFront = (image) => {
+        var file = image;
+        var reader = new FileReader();
+        reader.onloadend = () => {
+            // console.log('Encoded Base 64 File String:', reader.result);
+            /******************* for Binary ***********************/
+            var data = (reader.result).split(',')[1];
+            var binaryBlob = atob(data);
+            setPhotoFront(binaryBlob)
+        }
+        reader.readAsDataURL(file);
+    }
+
+    const convertImageToBinaryBack = (image) => {
+        var file = image;
+        var reader = new FileReader();
+        reader.onloadend = () => {
+            // console.log('Encoded Base 64 File String:', reader.result);
+            /******************* for Binary ***********************/
+            var data = (reader.result).split(',')[1];
+            var binaryBlob = atob(data);
+            setPhotoBack(binaryBlob)
+        }
+        reader.readAsDataURL(file);
+    }
 
     const personalDataForm =
         <Row className={`${step === 1 ? "in" : "out"} d-flex`}>
@@ -356,25 +441,24 @@ export default function RegisterForm(formType) {
             }
         </Row>
 
-    const photoDataForm =
-        <Row className={step === 5 || step === 3 ? "in" : "out"}>
-            {step === 5 && type === 'user' || step === 3 && type === 'patient' ?
-                <>
-                    <Col xs={12}>
-                        {errors[f.photo_dni_front.form_name] && <ErrorMessage><p>{errors[f.photo_dni_front.form_name].message}</p></ErrorMessage>}
-                        <FormGroup inputType={f.photo_dni_front.inputType} label={f.photo_dni_front.label} name={f.photo_dni_front.form_name} value={values.photo_dni_front}
-                            {...register(`${f.photo_dni_front.form_name}`, f.photo_dni_front.register)}
-                            onChange={handleChange}
-                        />
-                        {errors[f.photo_dni_back.form_name] && <ErrorMessage><p>{errors[f.photo_dni_back.form_name].message}</p></ErrorMessage>}
-                        <FormGroup inputType={f.photo_dni_back.inputType} label={f.photo_dni_back.label} name={f.photo_dni_back.form_name} value={values.photo_dni_back}
-                            {...register(`${f.photo_dni_back.form_name}`, f.photo_dni_back.register)}
-                            onChange={handleChange}
-                        />
-                    </Col>
-                </> : <></>
-            }
-        </Row>
+    const photoDataForm = <Row className={step === 5 || step === 3 ? "in" : "out"}>
+        {step === 5 && type === 'user' || step === 3 && type === 'patient' ?
+            <>
+                <Col xs={12}>
+                    {errors[f.photo_dni_front.form_name] && <ErrorMessage><p>{errors[f.photo_dni_front.form_name].message}</p></ErrorMessage>}
+                    <FormGroup inputType={f.photo_dni_front.inputType} label={f.photo_dni_front.label} name={f.photo_dni_front.form_name} value={values.photo_dni_front}
+                        {...register(`${f.photo_dni_front.form_name}`, f.photo_dni_front.register)}
+                        onChange={handleChangeImage}
+                    />
+                    {errors[f.photo_dni_back.form_name] && <ErrorMessage><p>{errors[f.photo_dni_back.form_name].message}</p></ErrorMessage>}
+                    <FormGroup inputType={f.photo_dni_back.inputType} label={f.photo_dni_back.label} name={f.photo_dni_back.form_name} value={values.photo_dni_back}
+                        {...register(`${f.photo_dni_back.form_name}`, f.photo_dni_back.register)}
+                        onChange={handleChangeImage}
+                    />
+                </Col>
+            </> : <></>
+        }
+    </Row>
 
     return (
         <>
@@ -408,7 +492,7 @@ export default function RegisterForm(formType) {
                             </div>
                         </Form>
                         :
-                        <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
+                        <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
                             {conditionDataForm}
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <p className="text-danger d-inline m-0">2 de 3...</p>
@@ -437,30 +521,35 @@ export default function RegisterForm(formType) {
                             </div>
                         </Form>
                         :
-                        <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
-                            {photoDataForm}
-                            <div className="d-flex w-100 justify-content-between align-items-center">
-                                <p className="text-danger d-inline m-0">3 de 3...</p>
-                                <div>
-                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
-                                    <Button variant="danger" type="submit">Registrar</Button>
-                                </div>
-                            </div>
-                        </Form>
+                        <>
+                            {loading
+                                ? <Loader isActive={loading} />
+                                : <Form className="form-group form_register" onSubmit={handleSubmit(onSubmitImages)}>
+                                    {photoDataForm}
+                                    <div className="d-flex w-100 justify-content-between align-items-center">
+                                        <p className="text-danger d-inline m-0">3 de 3...</p>
+                                        <div>
+                                            {/* <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button> */}
+                                            <Button variant="danger" type="submit">Registrar</Button>
+                                        </div>
+                                    </div>
+                                </Form>
+                            }
+                        </>
+
                     }
                 </>
-
             }
             {/* Four */}
             {
                 step === 4 &&
-                <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
+                <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
                     {conditionDataForm}
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className="text-danger d-inline m-0">4 de 5...</p>
                         <div>
                             <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
-                            <Button variant="danger" type="submit">Siguiente</Button>
+                            <Button variant="danger" type="submit">Confirmar</Button>
                         </div>
                     </div>
                 </Form>
@@ -468,16 +557,22 @@ export default function RegisterForm(formType) {
             {/* Five */}
             {
                 step === 5 &&
-                <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
-                    {photoDataForm}
-                    <div className="d-flex w-100 justify-content-between align-items-center">
-                        <p className="text-danger d-inline m-0">5 de 5...</p>
-                        <div>
-                            <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
-                            <Button variant="danger" type="submit">Registrarse</Button>
-                        </div>
-                    </div>
-                </Form>
+                <>
+                    {loading
+                        ? <Loader isActive={loading} />
+                        : <Form className="form-group form_register" onSubmit={handleSubmit(onSubmitImages)}>
+                            {photoDataForm}
+                            <div className="d-flex w-100 justify-content-between align-items-center">
+                                <p className="text-danger d-inline m-0">5 de 5...</p>
+                                <div>
+                                    {/* <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button> */}
+                                    <Button variant="danger" type="submit">Registrarse</Button>
+                                </div>
+                            </div>
+                        </Form>
+                    }
+                </>
+
             }
         </>
     )

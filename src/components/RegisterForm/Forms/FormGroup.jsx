@@ -140,7 +140,13 @@ const FormGroup = React.forwardRef((props, ref) => {
       {
         inputType === 'file' &&
         <>
-          <input className="form-control border mb-3" type="file" id="formFile" accept=".png,.jpg" />
+          <input 
+          className="form-control border mb-3" 
+          type="file"
+          name={name} 
+          onChange={onChange}
+          onBlur={onBlur}
+          accept="image/png, image/jpeg, .image/jpg" />
           <br />
         </>
       }

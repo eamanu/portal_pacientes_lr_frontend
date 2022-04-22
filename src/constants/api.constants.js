@@ -18,6 +18,13 @@ export let API_HEADER = () => {
   return header;
 };
 
+export let UPLOAD_HEADER = () => {
+  let header = {
+    "Content-Type": "multipart/form-data",
+  };
+  return header;
+};
+
 export let AUTH_HEADER = (tokenId) => {
   let header = {
     accept: "application/json",
@@ -35,6 +42,11 @@ export const API_ENDPOINTS_LOGINPERSON = `${baseUrl}/login-person`;
 export const API_ENDPOINTS_CREATEPERSONANDUSER = `${baseUrl}/createpersonanduser`;
 
 export const API_ENDPOINTS_CREATEPERSON = `${baseUrl}/createperson`;
+
+export const API_ENDPOINTS_UPLOADIDENTIFICATIONIMAGES = (query) => {
+  let url = `${baseUrl}/uploadidentificationimages?${query}`;
+  return url
+}
 
 export const API_ENDPOINT_SETADMINSTATUS = (query) => {
   let url = `${baseUrl}/setadminstatustoperson?${query}`;
