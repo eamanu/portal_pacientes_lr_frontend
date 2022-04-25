@@ -34,9 +34,9 @@ export let AUTH_HEADER = (tokenId) => {
 };
 
 // login
-export const API_ENDPOINTS_LOGIN = `${baseUrl}/login`;
+export const API_ENDPOINTS_LOGINADMIN = `${baseUrl}/login-admin`;
 
-export const API_ENDPOINTS_LOGINPERSON = `${baseUrl}/login-person`;
+export const API_ENDPOINTS_LOGINPERSON = `${baseUrl}/login`;
 
 // register
 export const API_ENDPOINTS_CREATEPERSONANDUSER = `${baseUrl}/createpersonanduser`;
