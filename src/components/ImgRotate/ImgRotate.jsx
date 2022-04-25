@@ -22,7 +22,7 @@ const ImgRotate = ({ img }) => {
                 </span>
             </div>
             <div className="admin-patient__img-container">
-                <img className={`admin-patient__img ${rotate ? 'rotate-img' : ''}`} style={{ transform: `rotate(${deg}deg)` }} src={nImg} alt={`document image patient ${nImg}`} />
+                <img className={`admin-patient__img ${rotate ? 'rotate-img' : ''}`} style={{ transform: `rotate(${deg}deg)` }} src={nImg} alt={`document patient ${nImg}`} />
             </div>
         </>
     )

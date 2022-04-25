@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
     const [newUser, setNewUser] = useState(false);
 
   useEffect(() => {
-    {try {
+    try {
       delete user.password;
       localStorage.setItem("typeUser", JSON.stringify(typeUser));
       localStorage.setItem("user", JSON.stringify(user));
@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem("user");
       localStorage.removeItem("tokenUser");
       localStorage.removeItem("typeUser");
-    }}
+    }
   }, [user, tokenUser, typeUser]);
 
   // fake login

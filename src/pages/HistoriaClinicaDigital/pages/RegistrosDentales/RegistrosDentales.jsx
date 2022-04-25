@@ -34,7 +34,7 @@ function RegistrosDentales() {
                     setLoading(false);
                 })
         },
-        [p.patientInstitution, data],
+        [data],
     )
 
     useEffect(() => {

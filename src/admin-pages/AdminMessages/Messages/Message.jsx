@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import * as MdIcon from "react-icons/md";
 import Swal from 'sweetalert2';
 import { receiverCategory } from '../../../components/ComponentsData';

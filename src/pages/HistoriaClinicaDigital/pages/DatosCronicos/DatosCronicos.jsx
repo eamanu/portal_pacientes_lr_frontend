@@ -34,7 +34,7 @@ function DatosCronicos() {
                     setLoading(false);
                 })
         },
-        [p.patientInstitution, data],
+        [data],
     )
 
     useEffect(() => {

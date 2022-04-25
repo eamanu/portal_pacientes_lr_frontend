@@ -7,7 +7,7 @@ import useAuth from '../../hooks/useAuth';
 import usePatient from '../../hooks/usePatient';
 import { updatePerson } from '../../services/personServices';
 import Loader from '../Loader/Loader';
-import { LabelsFormData, ValuesRegisterForm } from '../RegisterForm/Forms/FormData';
+import { LabelsFormData } from '../RegisterForm/Forms/FormData';
 import { error, success, confirm } from '../SwalAlertData';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 
@@ -24,9 +24,7 @@ function Profile({ show, handleClose, type }) {
     //set form with data
     const setForm = () => {
         if (show) {
-            let count = 0
             Object.entries(data).forEach(([key, value], i) => {
-                count++
                 setValue(`${key}`, value);
             })
         }
@@ -34,7 +32,7 @@ function Profile({ show, handleClose, type }) {
     useEffect(() => {
         setForm();
         setLoading(false);
-    }, [show])
+    }, [show, setForm])
 
     // set new values 
     const handleChange = (e) => {
@@ -50,7 +48,7 @@ function Profile({ show, handleClose, type }) {
     }
     useEffect(() => {
         setValue(`${newValue}`, values[newValue]);
-    }, [newValue, values[newValue]])
+    }, [newValue])
 
     const onSubmit = () => {
         setLoading(true)

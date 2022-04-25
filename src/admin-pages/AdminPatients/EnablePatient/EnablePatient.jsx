@@ -112,13 +112,13 @@ export default function EnablePatient({ show, handleClose, idn }) {
         if (show) {
             getPatient(idn)
         }
-    }, [show, idn])
+    }, [show, idn, getPatient])
 
     useEffect(() => {
         if (show && patient) {
             getDNIVariants(patient.id_identification_type)
         }
-    }, [show, patient])
+    }, [show, patient, getDNIVariants])
 
     return (
         < Modal

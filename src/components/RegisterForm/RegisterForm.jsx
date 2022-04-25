@@ -8,7 +8,6 @@ import '../../styles/Transitions.scss';
 import SearchAddress from "../SearchAddress";
 import FormGroup from "./Forms/FormGroup";
 import { LabelsFormData, ValuesRegisterForm } from "./Forms/FormData";
-import usePatient from "../../hooks/usePatient";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 import { error, successRegister } from "../SwalAlertData";
@@ -79,6 +78,7 @@ export default function RegisterForm(formType) {
             })
             data.map((item) => {
                 setNewValue(item)
+                return newValue
             })
         }
     }
@@ -432,7 +432,7 @@ export default function RegisterForm(formType) {
 
     const conditionDataForm =
         <Row className={step === 4 || step === 2 ? "in" : "out"}>
-            {step === 4 && type === 'user' || step === 2 && type === 'patient' ?
+            {(step === 4 && type === 'user') || (step === 2 && type === 'patient') ?
                 <>
                     <Col xs={12} >
                         <FormGroup inputType={f.id_usual_institution.inputType} label={f.id_usual_institution.label} name={f.id_usual_institution.form_name} selectValue={values.id_usual_institution}
@@ -462,7 +462,7 @@ export default function RegisterForm(formType) {
         </Row>
 
     const photoDataForm = <Row className={step === 5 || step === 3 ? "in" : "out"}>
-        {step === 5 && type === 'user' || step === 3 && type === 'patient' ?
+        {(step === 5 && type === 'user') || (step === 3 && type === 'patient') ?
             <>
                 <Col xs={12}>
                     {errors[f.photo_dni_front.form_name] && <ErrorMessage><p>{errors[f.photo_dni_front.form_name].message}</p></ErrorMessage>}

@@ -2,31 +2,26 @@ import { useCallback, useEffect, useState } from "react";
 import { createContext } from "react";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
-import { useHistory } from "react-router-dom";
-import patientBasicDataServices, {
-  patientCompleteDataServices,
-} from "../services/patientService";
+import patientBasicDataServices from "../services/patientService";
 import { toastPatient } from "../components/SwalAlertData";
 
 export const PatientContext = createContext();
 
 const PatientProvider = ({ children }) => {
   const auth = useAuth();
-  // console.log(auth.user)
-  // const history = useHistory();
   const allPatients = auth.user.family_group;
   const [patient, setPatient] = useState( JSON.parse(localStorage.getItem("patient")) || allPatients[0] );
   const [patientInstitution, setPatientInstitution] = useState(patient.id_usual_institution);
   const [idPatient, setIdPatient] = useState( JSON.parse(localStorage.getItem("idPatient")) || null );
 
   useEffect(() => {
-    {try {
+    try {
       localStorage.setItem("patient", JSON.stringify(patient));
       localStorage.setItem("idPatient", JSON.stringify(idPatient));
     } catch (error) {
       localStorage.removeItem("idPatient");
       localStorage.removeItem("patient");
-    }}
+    }
   }, [patient, idPatient]);
 
   const Toast = Swal.mixin({

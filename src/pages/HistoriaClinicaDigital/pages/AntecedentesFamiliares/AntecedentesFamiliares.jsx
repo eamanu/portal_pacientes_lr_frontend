@@ -35,14 +35,14 @@ function AntecedentesFamiliares() {
                     setLoading(false);
                 })
         },
-        [p.patientInstitution, data],
+        [data],
     )
 
     useEffect(() => {
         setLoading(true);
         console.log('inst', p.patientInstitution)
         getData(p.patientInstitution, p.idPatient); 
-    }, [p.patientInstitution, p.idPatient]);
+    }, [p.idPatient]);
 
     return (
         <div className='in'>

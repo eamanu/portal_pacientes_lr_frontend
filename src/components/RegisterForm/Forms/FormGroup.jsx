@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Col, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import institutionsServices from '../../../services/institutionsServices';
 import identificationsTypeServices from '../../../services/parametricServices';
 import { variantsGender } from '../../ComponentsData';
 import DatePickerComponent from '../../DatePickerComponent';
-import { ErrorMessage } from '../../ErrorMessage/ErrorMessage';
 import SelectType from '../../SelectType';
 
 const FormGroup = React.forwardRef((props, ref) => {
@@ -15,7 +14,6 @@ const FormGroup = React.forwardRef((props, ref) => {
     name,
     type,
     value,
-    className,
     disabled,
     onChange,
     onBlur,
@@ -78,7 +76,7 @@ const FormGroup = React.forwardRef((props, ref) => {
     if (variants === "variantsGender") {
       getGenderVariants();
     }
-  }, [])
+  }, [variants])
 
 
   return (

@@ -6,7 +6,6 @@ import useAuth from '../../hooks/useAuth';
 import * as MdIcon from 'react-icons/md';
 import * as BsIcon from 'react-icons/bs';
 import Sidebar from '../Sidebar';
-import usePatient from '../../hooks/usePatient';
 import Profile from '../Profile/Profile';
 
 function Header() {

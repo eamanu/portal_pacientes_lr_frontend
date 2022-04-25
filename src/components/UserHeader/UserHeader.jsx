@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import usePatient from '../../hooks/usePatient'
 import * as FaIcon from 'react-icons/fa'
-import Sidebar from '../Sidebar';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { NavLink } from 'react-router-dom';
 
@@ -32,7 +31,7 @@ function UserHeader() {
                         <NavLink activeClassName="" to={"/usuario/notificaciones"}>
                             <div className='icon_container'><FaIcon.FaRegBell className='notification_icon' />{p.patient.mensajes?.length > 0 && <div className='notification_circle in'></div>}</div>
                         </NavLink>
-                        {thisLocation != '/usuario/grupo-familiar' &&
+                        {thisLocation !== '/usuario/grupo-familiar' &&
                          <NavDropdown title="Cambiar paciente" id="basic-nav-dropdown">
                             {p.allPatients.map((patient) => {
                                 return (
