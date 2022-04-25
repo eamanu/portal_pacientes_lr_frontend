@@ -27,7 +27,7 @@ export default function HCDRouter() {
                 <Route path='/usuario/historia-clinica/problemas-activos' component={ProblemasActivos }/>
                 <Route path='/usuario/historia-clinica/registros-dentales' component={RegistrosDentales }/>
                 <Route path='/usuario/historia-clinica/404' component={NotFound}/>   
-                <Route path='/usuario/historia-clinica/*'><Redirect to='/usuario/404'/></Route> 
+                <Route path='/usuario/historia-clinica/*'><Redirect to='/404'/></Route> 
             </Switch>
     )
 }

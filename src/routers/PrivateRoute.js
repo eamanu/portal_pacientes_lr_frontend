@@ -8,7 +8,7 @@ import useAuth from "../hooks/useAuth";
 export default function PrivateRoute({ component: Component, ...res }) {
   const location = useLocation();
   const auth = useAuth();
-  const path = auth.typeUser === 1 ? '/login-admin' : 'login'
+  const path = auth.typeUser === 1 ? '/login-admin' : '/login'
 
   return (
     <Route {...res}>
