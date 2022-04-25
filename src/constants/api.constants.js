@@ -59,6 +59,17 @@ export const API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER = (query) => {
   return url;
 };
 
+export const API_ENDPOINTS_PATIENTBASICDATA = (query) =>{
+  let url = `${baseUrl}/patient/basicData?${query}`;
+  return url;
+}
+
+export const API_ENDPOINTS_PATIENTCOMPLETEDATA = (query) =>{
+  let url = `${baseUrl}/patient/completeData?${query}`;
+  return url;
+}
+
+
 // formData---------------------------------------
 export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
 
@@ -153,15 +164,4 @@ export const API_ENDPOINTS_PERSONALHYSTORIES = (institution_id, patient_id) => {
 //   return url;
 // }
 
-// export const API_ENDPOINTS_PATIENTBASICDATA = (gender_id, identification_number, type_id) =>{
-//   let url = `${baseUrl}/patient/basicData?gender_id=${gender_id}&identification_number=${identification_number}&type_id=${type_id}`;
-//   return url;
-
-// }
-
-// export const API_ENDPOINTS_PATIENTCOMPLETEDATA = (gender_id, identification_number, type_id) =>{
-//   let url = `${baseUrl}/patient/completeData?gender_id=${gender_id}&identification_number=${identification_number}&type_id=${type_id}`;
-//   return url;
-
-// }
 
