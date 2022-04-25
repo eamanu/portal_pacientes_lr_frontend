@@ -238,15 +238,14 @@ function Profile({ show, handleClose, type }) {
                                 </>
                             }
                             <div className='d-flex justify-content-end'>
-                                <Button variant='success' type="submit">Guardar cambios</Button>
-                                <Button variant='outline-secondary' onClick={() => handleClose()}>Cancelar</Button>
+                                <Button variant='success' className="me-2" type="submit">Guardar cambios</Button>
                             </div>
                         </Form>
                     </Container>
                 }
             </Modal.Body>
             <Modal.Footer>
-                <Button variant='outline-secondary' onClick={() => handleClose()}>Cerrar</Button>
+                <Button variant='outline-secondary' onClick={() => handleClose()}>Cancelar</Button>
             </Modal.Footer>
         </Modal>
     )

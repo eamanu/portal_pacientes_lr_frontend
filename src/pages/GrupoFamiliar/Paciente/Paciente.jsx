@@ -3,6 +3,7 @@ import usePatient from '../../../hooks/usePatient';
 import * as FaIcon from 'react-icons/fa';
 import * as MdIcon from 'react-icons/md';
 import Profile from '../../../components/Profile/Profile';
+import { Row, Col } from 'react-bootstrap';
 
 export const Paciente = (props) => {
 
@@ -13,12 +14,14 @@ export const Paciente = (props) => {
     const handleShow = () => setShow(true);
 
     return (
-        <div className={`patient in`}>
-            <div onClick={() => { handlePatient(patientId) }} className='patient-name'>
-                <h6 className='mb-0'>{`${patientNombre} ${patientApellido}`}</h6>
-            </div>
-            <div className='patient-actions'>
-                <p className={`mb-0 me-2 ${patientId === p.patient.identification_number ? 'badge bg-success' : 'badge bg-light text-dark'}`}>{patientId === p.patient.identification_number ? 'Activo' : 'Inactivo'}</p>
+        <Row className={`patient in`}>
+            <Col xs={12} md={8} className='patient-name'>
+                <h6 className='mb-0'>{`${patientNombre} ${patientApellido}`} nombre nombre nombre</h6>
+            </Col>
+            <Col xs={12} md={4} className='patient-actions'>
+                <div className={`status-container ${patientId === p.patient.identification_number ? 'bg-success' : 'bg-secondary'}`} onClick={() => { handlePatient(patientId) }}>
+                    <p className="mb-0 text-ligth">{patientId === p.patient.identification_number ? 'Perfil activo' : 'Activar perfil'}</p>
+                </div>
                 <div className="my-tooltip">
                     <button className='btn text-secondary btn-icon' onClick={() => { verHistoriaClinica(patientId) }}><MdIcon.MdFolderShared style={{ fontSize: '1.5rem' }} /></button>
                     <span className="tiptext">
@@ -26,13 +29,13 @@ export const Paciente = (props) => {
                     </span>
                 </div>
                 <div className="my-tooltip">
-                    <button className='btn text-secondary btn-icon' onClick={() => {handleShow()}} ><FaIcon.FaUserEdit style={{ fontSize: '1.5rem' }} /></button>
+                    <button className='btn text-secondary btn-icon' onClick={() => { handleShow() }} ><FaIcon.FaUserEdit style={{ fontSize: '1.5rem' }} /></button>
                     <span className="tiptext">
                         Editar
                     </span>
                 </div>
                 {show && <Profile type={'patient'} show={show} handleClose={handleClose} />}
-            </div>
-        </div>
+            </Col>
+        </Row>
     )
 }
