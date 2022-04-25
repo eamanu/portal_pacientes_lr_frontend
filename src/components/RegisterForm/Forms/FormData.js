@@ -360,6 +360,7 @@ export const ValuesRegisterForm = {
   name: "",
   surname: "",
   id_identification_type: "",
+  id_identification_type_master: "",
   identification_number: "",
   identification_number_master: "",
   birthdate: "",

@@ -16,6 +16,7 @@ const FormGroup = React.forwardRef((props, ref) => {
     type,
     value,
     className,
+    disabled,
     onChange,
     onBlur,
     variants,
@@ -34,7 +35,7 @@ const FormGroup = React.forwardRef((props, ref) => {
           return inst;
         })
         .then((res) => {
-          if(res?.length > 0) {
+          if (res?.length > 0) {
             setOptions(res);
             return options
           }
@@ -52,7 +53,7 @@ const FormGroup = React.forwardRef((props, ref) => {
           return types;
         })
         .then((res) => {
-          if(res?.length > 0) {
+          if (res?.length > 0) {
             setOptions(res);
             return options
           }
@@ -89,6 +90,7 @@ const FormGroup = React.forwardRef((props, ref) => {
           value={value}
           type={type ? type : 'text'}
           className="form-control"
+          disabled={disabled ? disabled : false}
           onChange={onChange}
           onBlur={onBlur}
           onPaste={(e) => {
@@ -102,6 +104,7 @@ const FormGroup = React.forwardRef((props, ref) => {
           name={name}
           variants={options}
           selectValue={selectValue}
+          disabled={disabled ? disabled : false}
           handleChange={handleChange}
         />
       }
@@ -109,6 +112,7 @@ const FormGroup = React.forwardRef((props, ref) => {
         <DatePickerComponent
           name={name}
           selectValue={selectValue}
+          disabled={disabled ? disabled : false}
           handleChange={handleChange}
           maxDate={maxDate}
         />
@@ -121,7 +125,9 @@ const FormGroup = React.forwardRef((props, ref) => {
             type={type}
             name={name}
             className="form-check-input"
+            disabled={disabled ? disabled : false}
             value={true}
+            checked={value ? true : false}
             onChange={onChange}
           /> <label className="form-label me-3">
             Sí
@@ -129,8 +135,10 @@ const FormGroup = React.forwardRef((props, ref) => {
           <input
             type={type}
             name={name}
+            disabled={disabled ? disabled : false}
             className="form-check-input"
             value={false}
+            checked={!value ? true : false}
             onChange={onChange}
           /> <label className="form-label">
             No
@@ -140,13 +148,14 @@ const FormGroup = React.forwardRef((props, ref) => {
       {
         inputType === 'file' &&
         <>
-          <input 
-          className="form-control border mb-3" 
-          type="file"
-          name={name} 
-          onChange={onChange}
-          onBlur={onBlur}
-          accept="image/png, image/jpeg, .image/jpg" />
+          <input
+            className="form-control border mb-3"
+            type="file"
+            name={name}
+            disabled={disabled ? disabled : false}
+            onChange={onChange}
+            onBlur={onBlur}
+            accept="image/png, image/jpeg, .image/jpg" />
           <br />
         </>
       }

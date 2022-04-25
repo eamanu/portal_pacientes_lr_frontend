@@ -28,8 +28,9 @@ export async function uploadIdentificationImagesService(id, body) {
   try {
     const searchParams = new URLSearchParams({ person_id: id });
     let query = searchParams.toString();
-    const data = JSON.stringify(body);
-    // console.log('file', data)
+    // const data = JSON.stringify(body);
+    const data = body;
+    console.log('file', data)
     const promise = await post(API_ENDPOINTS_UPLOADIDENTIFICATIONIMAGES(query), UPLOAD_HEADER(), data);
     return promise;
   } catch (err) {

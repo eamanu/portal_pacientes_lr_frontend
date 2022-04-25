@@ -21,7 +21,7 @@ export default function RegisterForm(formType) {
     const user = auth.user ? auth.user : null
     const history = useHistory();
     // steps
-    const [step, setStep] = useState(5)
+    const [step, setStep] = useState(1)
     const next = () => { setStep(step + 1) }
     const back = () => { setStep(step - 1) }
     // useForm
@@ -31,8 +31,6 @@ export default function RegisterForm(formType) {
     const [values, setValues] = useState(ValuesRegisterForm); //Get and set values form
     const [newValue, setNewValue] = useState("") //Get and set values form to required
     const [search, setSearch] = useState(true) //Get addres by search or not
-    const [photoFront, setPhotoFront] = useState(false)
-    const [photoBack, setPhotoBack] = useState(false)
     // newPerson
     const [newPersonId, setNewPersonId] = useState(null)
 
@@ -92,15 +90,13 @@ export default function RegisterForm(formType) {
     }, [values.birthdate, values.address_street])
 
     useEffect(() => {
-        // console.log('values', values)
-        if (newValue === 'photo_dni_front') {
-            convertImageToBinaryFront(values.photo_dni_front)
+        if (newValue === 'photo_dni_front' || newValue === 'photo_dni_back') {
+            setValue(`${newValue}`, values[newValue]);
+            console.log(values)
+            // convertFileToJson(newValue, values[newValue])
+        } else {
+            setValue(`${newValue}`, values[newValue]);
         }
-        if (newValue === 'photo_dni_back') {
-            convertImageToBinaryBack(values.photo_dni_front)
-        }
-        setValue(`${newValue}`, values[newValue]);
-        console.log('values', values)
     }, [newValue, values[newValue]])
 
     const onSubmit = () => {
@@ -123,29 +119,32 @@ export default function RegisterForm(formType) {
         body.is_chronic_respiratory_disease = body.is_chronic_respiratory_disease === 'true' ? true : false
         if (type === "user") {
             body.identification_number_master = body.identification_number
+            body.id_identification_type_master = body.id_identification_type
             body.username = body.email
             sendRegisterNewUserForm(body);
         } else if (type === "patient") {
             delete body.username
             delete body.password
             body.identification_number_master = user.identification_number
+            body.id_identification_type_master = user.id_identification_type
             body.address_street = user.address_street
             body.address_number = user.address_number
             body.locality = user.locality
             body.department = user.department
             body.phone_number = user.phone_number
             body.email = user.email
+            console.log('body', body)
             sendRegisterNewPatientForm(body);
         }
     }
 
     const onSubmitImages = () => {
         setLoading(true)
-        let images = {
-            file: photoFront,
-            file2: photoBack,
-        }
-        console.log('photos', images)
+        console.log('file1', values.photo_dni_front)
+        console.log('file2', values.photo_dni_back)
+        const images = new FormData()
+        images.append('file1', values.photo_dni_front)
+        images.append('file2', values.photo_dni_back)
         uploadIdentificationImages(newPersonId, images);
     }
 
@@ -157,7 +156,7 @@ export default function RegisterForm(formType) {
                     console.log('response', response)
                     auth.newRegisterUser(body) //note - should be response.data 
                     setNewPersonId(18) //hardcode -  should be response.data.id
-                    next()
+                    setStep(5)
                     setLoading(false)
                 }
             })
@@ -176,7 +175,8 @@ export default function RegisterForm(formType) {
                 if (response.ok) {
                     console.log('response', response)
                     setNewPersonId(18) //hardcode -  should be response.data.id
-                    next()
+                    setStep(3)
+                    console.log(step)
                     setLoading(false)
                 }
             })
@@ -189,8 +189,12 @@ export default function RegisterForm(formType) {
                 .then((res) => {
                     console.log(res)
                     if (res && type === "user") {
-                        setLoading(false)
-                        history.push("/verificacion")
+                        if (res.ok) {
+                            setLoading(false)
+                            history.push("/verificacion")
+                        } else {
+                            Swal.fire(error('Ha ocurrido un error al cargar las imágenes'))
+                        }
                     } else if (res && type === "patient") {
                         Swal.fire(successRegister).then((result) => {
                             if (result.isConfirmed) {
@@ -208,31 +212,47 @@ export default function RegisterForm(formType) {
         [],
     );
 
-    const convertImageToBinaryFront = (image) => {
-        var file = image;
-        var reader = new FileReader();
-        reader.onloadend = () => {
-            // console.log('Encoded Base 64 File String:', reader.result);
-            /******************* for Binary ***********************/
-            var data = (reader.result).split(',')[1];
-            var binaryBlob = atob(data);
-            setPhotoFront(binaryBlob)
-        }
-        reader.readAsDataURL(file);
-    }
+    // const convertFileToJson = (newValue, image) => {
+    //     console.log('image', image)
+    //     if(image){
+    //         let newObject  = {
+    //             'lastModified'     : image.lastModified,
+    //             'lastModifiedDate' : image.lastModifiedDate,
+    //             'name'             : image.name,
+    //             'size'             : image.size,
+    //             'type'             : image.type
+    //          };
+    //         console.log('newObject', newObject)
+    //          newValue === 'photo_dni_front' ? setPhotoFront(newObject) : setPhotoBack(newObject)
+    //     }
+    // }
 
-    const convertImageToBinaryBack = (image) => {
-        var file = image;
-        var reader = new FileReader();
-        reader.onloadend = () => {
-            // console.log('Encoded Base 64 File String:', reader.result);
-            /******************* for Binary ***********************/
-            var data = (reader.result).split(',')[1];
-            var binaryBlob = atob(data);
-            setPhotoBack(binaryBlob)
-        }
-        reader.readAsDataURL(file);
-    }
+    // const convertImageToBinaryFront = (image) => {
+    //     console.log('image', image)
+    //     var file = image;
+    //     var reader = new FileReader();
+    //     reader.onloadend = () => {
+    //         // console.log('Encoded Base 64 File String:', reader.result);
+    //         /******************* for Binary ***********************/
+    //         var data = (reader.result).split(',')[1];
+    //         var binaryBlob = atob(data);
+    //         setPhotoFront(binaryBlob)
+    //     }
+    //     reader.readAsDataURL(file);
+    // }
+
+    // const convertImageToBinaryBack = (image) => {
+    //     var file = image;
+    //     var reader = new FileReader();
+    //     reader.onloadend = () => {
+    //         // console.log('Encoded Base 64 File String:', reader.result);
+    //         /******************* for Binary ***********************/
+    //         var data = (reader.result).split(',')[1];
+    //         var binaryBlob = atob(data);
+    //         setPhotoBack(binaryBlob)
+    //     }
+    //     reader.readAsDataURL(file);
+    // }
 
     const personalDataForm =
         <Row className={`${step === 1 ? "in" : "out"} d-flex`}>
