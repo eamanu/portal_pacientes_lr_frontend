@@ -38,10 +38,12 @@ export const API_ENDPOINTS_LOGINADMIN = `${baseUrl}/login-admin`;
 
 export const API_ENDPOINTS_LOGINPERSON = `${baseUrl}/login`;
 
-// register
+// PERSON
 export const API_ENDPOINTS_CREATEPERSONANDUSER = `${baseUrl}/createpersonanduser`;
 
 export const API_ENDPOINTS_CREATEPERSON = `${baseUrl}/createperson`;
+
+export const API_ENDPOINTS_UPDATEPEROSN = `${baseUrl}/updateperson`;
 
 export const API_ENDPOINTS_UPLOADIDENTIFICATIONIMAGES = (query) => {
   let url = `${baseUrl}/uploadidentificationimages?${query}`;
@@ -54,6 +56,7 @@ export const API_ENDPOINT_SETADMINSTATUSTOPERSON = (query) => {
 };
 
 // get patients/users data ---------------------------------------
+
 export const API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER = (query) => {
   let url = `${baseUrl}/getpersonbyidentificationnumber?${query}`;
   return url;
@@ -68,7 +71,6 @@ export const API_ENDPOINTS_PATIENTCOMPLETEDATA = (query) =>{
   let url = `${baseUrl}/patient/completeData?${query}`;
   return url;
 }
-
 
 // formData---------------------------------------
 export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
