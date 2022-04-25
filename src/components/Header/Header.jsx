@@ -3,11 +3,11 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Navbar, Container, NavDropdown } from 'react-bootstrap';
 import logo from '../../assets/statics/logo-ligth.png'
 import useAuth from '../../hooks/useAuth';
-import PerfilUsuario from '../../pages/PerfilUsuario';
 import * as MdIcon from 'react-icons/md';
 import * as BsIcon from 'react-icons/bs';
 import Sidebar from '../Sidebar';
 import usePatient from '../../hooks/usePatient';
+import Profile from '../Profile/Profile';
 
 function Header() {
     const auth = useAuth();
@@ -84,7 +84,7 @@ function Header() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <PerfilUsuario show={show} handleClose={handleClose} />
+            {show && <Profile type={'user'} show={show} handleClose={handleClose} />}
             <div className={`container-block ${sidebar ? 'show' : 'close'}`} onClick={showSidebar}></div>
             {auth.isLogged() && <Sidebar isActive={sidebar ? 'show' : 'close'} action={showSidebar} ></Sidebar>}
         </>

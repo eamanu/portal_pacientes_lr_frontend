@@ -1,4 +1,4 @@
-import {API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER, API_ENDPOINT_SETADMINSTATUSTOPERSON, API_HEADER} from '../constants/api.constants';
+import {API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER, API_ENDPOINTS_UPDATEPEROSN, API_ENDPOINT_SETADMINSTATUSTOPERSON, API_HEADER} from '../constants/api.constants';
 import { get, put } from './httpServices';
 
 export async function getPersonByIdentificationNumber(idn) { 
@@ -11,6 +11,17 @@ export async function getPersonByIdentificationNumber(idn) {
       return promise;
     } catch (err) {
       console.log("Error ", err);
+    }
+  }
+
+  export async function updatePerson(body){
+    try {
+      const data = JSON.stringify(body);
+      // console.log('data person', data)
+      const promise = await put(API_ENDPOINTS_UPDATEPEROSN, API_HEADER(), data);
+      return promise;
+    } catch (err) {
+      console.log("Error al crear persona: ", err);
     }
   }
 
