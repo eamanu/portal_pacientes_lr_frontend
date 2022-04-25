@@ -31,10 +31,10 @@ function GrupoFamiliar() {
     return (
         <Container className='p-3'>
             <h5 className='section-title mb-3'>Grupo familiar</h5>
-            {p.allPatients.map((patient) => {
+            {p.allPatients.map((patient, i ) => {
                 return (
                     <Paciente
-                        key={patient.identification_number}
+                        key={patient.identification_number + i}
                         patientId={patient.identification_number}
                         patientNombre={patient.name}
                         patientApellido={patient.surname}
