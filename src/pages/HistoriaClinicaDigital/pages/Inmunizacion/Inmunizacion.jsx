@@ -3,6 +3,8 @@ import usePatient from '../../../../hooks/usePatient';
 import Loader from '../../../../components/Loader';
 import DataNotFound from '../../../../components/DataNotFound';
 import inmunizationsServices from '../../../../services/hceServices/inmunizationServices';
+import Swal from 'sweetalert2';
+import { error } from '../../../../components/SwalAlertData';
 
 function Inmunizacion() {
 
@@ -26,7 +28,11 @@ function Inmunizacion() {
                         setLoading(false);
                     }
                 })
-                .catch((err) => { console.log(err) })
+                .catch((err) => { 
+                    console.log(err) 
+                    Swal.fire(error('Hubo un error al solicitar datos'))
+                    setLoading(false);
+                })
         },
         [p.patientInstitution, data],
     )

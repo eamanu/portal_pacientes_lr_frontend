@@ -63,3 +63,12 @@ export const success = (text) => {
   };
   return content;
 };
+
+export const toastPatient = (text) => {
+  let content = {
+    position: "bottom-end",
+    icon: "success",
+    title: `Perfil de paciente ${text}`,
+  }
+  return content;
+};
