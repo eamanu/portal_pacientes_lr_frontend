@@ -59,17 +59,17 @@ export const SidebarData = {
         }
       ]
     },
-    {
-      id: 5,
-      title: "Estudios",
-      path: "/usuario/estudios",
-      icon: <MdIcon.MdTextSnippet className="menu-icon" />,
-      acordeon: false,
-      a: false,
-      cName: "sidebar-text acordeon",
-      aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
-      options: false,
-    },
+    // {
+    //   id: 5,
+    //   title: "Estudios",
+    //   path: "/usuario/estudios",
+    //   icon: <MdIcon.MdTextSnippet className="menu-icon" />,
+    //   acordeon: false,
+    //   a: false,
+    //   cName: "sidebar-text acordeon",
+    //   aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
+    //   options: false,
+    // },
     {
       id: 6,
       title: "Historia Clínica",
@@ -126,26 +126,26 @@ export const SidebarData = {
         }, 
       ],
     },
-    {
-      id: 7,
-      title: "Vacunación",
-      path: false,
-      icon: <MdIcon.MdEditCalendar className="menu-icon" />,
-      acordeon: true,
-      a: false,
-      cName: "sidebar-text",
-      aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
-      options:[
-        {
-          title: "Historial",
-          path: "/usuario/calendario-vacunacion/historial"
-        },
-        {
-          title: "Turno de vacunación",
-          path: "/usuario/calendario-vacunacion/turno-vacunacion"
-        } 
-      ],
-    },
+    // {
+    //   id: 7,
+    //   title: "Vacunación",
+    //   path: false,
+    //   icon: <MdIcon.MdEditCalendar className="menu-icon" />,
+    //   acordeon: true,
+    //   a: false,
+    //   cName: "sidebar-text",
+    //   aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
+    //   options:[
+    //     {
+    //       title: "Historial",
+    //       path: "/usuario/calendario-vacunacion/historial"
+    //     },
+    //     {
+    //       title: "Turno de vacunación",
+    //       path: "/usuario/calendario-vacunacion/turno-vacunacion"
+    //     } 
+    //   ],
+    // },
     {
       id: 8,
       title: "Programa Sumar",
@@ -194,22 +194,22 @@ export const SidebarData = {
       aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
       options: false,
     },
-    {
-      id: 12,
-      title: "Guardias",
-      path: "/usuario/instituciones/guardias",
-      icon: <MdIcon.MdEmergency className="menu-icon" />,
-      acordeon: false,
-      a: false,
-      cName: "sidebar-text",
-      aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
-      options: false,
-    },
+    // {
+    //   id: 12,
+    //   title: "Guardias",
+    //   path: "/usuario/instituciones/guardias",
+    //   icon: <MdIcon.MdEmergency className="menu-icon" />,
+    //   acordeon: false,
+    //   a: false,
+    //   cName: "sidebar-text",
+    //   aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
+    //   options: false,
+    // },
     {
       id: 13,
-      title: "Teléfonos importantes",
-      path: "/usuario/instituciones/telefonos",
-      icon: <MdIcon.MdLocalPhone className="menu-icon" />,
+      title: "Datos institucionales",
+      path: "/usuario/instituciones/datos-institucionales",
+      icon: <MdIcon.MdEmergency className="menu-icon" />,
       acordeon: false,
       a: false,
       cName: "sidebar-text",

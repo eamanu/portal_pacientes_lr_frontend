@@ -9,7 +9,7 @@ const Main = () => {
     const links = [
         { id: 1, path: "/usuario/grupo-familiar", namePath: "Grupo Familiar", icon: <MdIcon.MdFamilyRestroom className="main__icon" /> },
         { id: 2, path: "/usuario/historia-clinica", namePath: "Historia Clínica", icon: <MdIcon.MdFolderShared className="main__icon" /> },
-        { id: 3, path: "/usuario/calendario-vacunacion", namePath: "Calendario de Vacunación", icon: <MdIcon.MdEditCalendar className="main__icon" /> },
+        // { id: 3, path: "/usuario/calendario-vacunacion", namePath: "Calendario de Vacunación", icon: <MdIcon.MdEditCalendar className="main__icon" /> },
         { id: 4, path: "/usuario/programa-sumar", namePath: "Programa Sumar", icon: <MdIcon.MdAddCircleOutline className="main__icon" /> }
     ]
 

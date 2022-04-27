@@ -10,7 +10,8 @@ import institutionsServices from '../../services/institutionsServices';
 const HistoriaClinicaDigital = () => {
 
     const p = usePatient();
-    const routes = SidebarData.perfilDelPaciente[4].options;
+    const datahc = SidebarData.perfilDelPaciente.find(d => d.id === 6)
+    const routes = datahc.options;
     const [institutions, setInstitutions] = useState([]);
     const getInstitutions = useCallback(
         () => {
