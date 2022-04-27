@@ -9,7 +9,8 @@ export const PatientContext = createContext();
 
 const PatientProvider = ({ children }) => {
   const auth = useAuth();
-  const allPatients = auth.user.family_group;
+  const allPatients = [] 
+  auth.user.family_group.length > 0 ? auth.user.family_group.map((p) => allPatients.push(p)) : allPatients.push(auth.user) ;
   const [patient, setPatient] = useState( JSON.parse(localStorage.getItem("patient")) || allPatients[0] );
   const [patientInstitution, setPatientInstitution] = useState(patient.id_usual_institution);
   const [idPatient, setIdPatient] = useState( JSON.parse(localStorage.getItem("idPatient")) || null );
