@@ -144,7 +144,7 @@ export const LabelsFormData = {
         message: "El campo es requerido.",
       },
       minLength: {
-        value: 3,
+        value: 6,
         message: "La contraseña debe tener al menos 3 caracteres",
       },
     },
@@ -326,8 +326,8 @@ export const LabelsFormData = {
       },
     },
   },
-  photo_dni_front: {
-    form_name: "photo_dni_front",
+  file1: {
+    form_name: "file1",
     label: "Foto de DNI - FRENTE",
     inputType: "file",
     type: "file",
@@ -340,8 +340,8 @@ export const LabelsFormData = {
       },
     },
   },
-  photo_dni_back: {
-    form_name: "photo_dni_back",
+  file2: {
+    form_name: "file2",
     label: "Foto de DNI - DORSO",
     inputType: "file",
     type: "file",
@@ -382,8 +382,8 @@ export const ValuesRegisterForm = {
   is_hypertensive: null,
   is_chronic_respiratory_disease: null,
   is_chronic_kidney_disease: null,
-  photo_dni_front: null,
-  photo_dni_back: null,
+  file1: null,
+  file2: null,
   username: "",
   id_person: null, //hardcode
   id_patient: null, //hardcode

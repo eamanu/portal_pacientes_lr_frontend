@@ -20,7 +20,7 @@ export let API_HEADER = () => {
 
 export let UPLOAD_HEADER = () => {
   let header = {
-    "Content-Type": "multipart/form-data",
+    // "Content-Type": "multipart/form-data",
   };
   return header;
 };

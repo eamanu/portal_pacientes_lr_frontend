@@ -20,7 +20,7 @@ export default function RegisterForm(formType) {
     const user = auth.user ? auth.user : null
     const history = useHistory();
     // steps
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(3)
     const next = () => { setStep(step + 1) }
     const back = () => { setStep(step - 1) }
     // useForm
@@ -90,7 +90,7 @@ export default function RegisterForm(formType) {
     }, [values.birthdate, values.address_street])
 
     useEffect(() => {
-        if (newValue === 'photo_dni_front' || newValue === 'photo_dni_back') {
+        if (newValue === 'file1' || newValue === 'file2') {
             setValue(`${newValue}`, values[newValue]);
             console.log(values)
             // convertFileToJson(newValue, values[newValue])
@@ -105,8 +105,8 @@ export default function RegisterForm(formType) {
         delete body.confirmEmail
         delete body.confirmPassword
         delete body.postal_address
-        delete body.photo_dni_front //note - is necesary, but not now
-        delete body.photo_dni_back //note - is necesary, but not now
+        delete body.file1 //note - is necesary, but not now
+        delete body.file2 //note - is necesary, but not now
         const [month, day, year] = [body.birthdate.getMonth() + 1, body.birthdate.getDate(), body.birthdate.getFullYear()];
         let date = `${day}/${month}/${year}`
         body.birthdate = date
@@ -140,23 +140,37 @@ export default function RegisterForm(formType) {
 
     const onSubmitImages = () => {
         setLoading(true)
-        console.log('file1', values.photo_dni_front)
-        console.log('file2', values.photo_dni_back)
-        const images = new FormData()
-        images.append('file1', values.photo_dni_front)
-        images.append('file2', values.photo_dni_back)
-        uploadIdentificationImages(newPersonId, images);
+        let images = new FormData();
+        images.append('file1', values.file1, 'file1')
+        images.append('file2', values.file2, 'file2')
+        uploadIdentificationImages(18, images); //hardcode
     }
 
     const sendRegisterNewUserForm = useCallback((body) => {
-        console.log('body register', body);
         registerPersonAndUserService(body)
-            .then((response) => {
-                if (response.ok) {
-                    console.log('response', response)
-                    auth.newRegisterUser(body) //note - should be response.data 
-                    setNewPersonId(18) //hardcode -  should be response.data.id
+            .then((res) => {
+                if (res.ok) {
+                    auth.newRegisterUser(body) //note - should be res.data 
+                    setNewPersonId(4) //hardcode -  should be res.data.id
                     setStep(5)
+                    setLoading(false)
+                    // TO GET RESPONSE READEBLE ERROR
+                    // return res.text().then(text => {
+                    //     let exception = JSON.parse(text)
+                    //     if (exception.status) {
+                    //         auth.newRegisterUser(body) //note - should be res.data 
+                    //         setNewPersonId(4) //hardcode -  should be res.data.id
+                    //         setStep(5)
+                    //         setLoading(false)
+                    //     } else {
+                    //         console.log('estoy aqui')
+                    //         Swal.fire(error('Hubo un error al confirmar datos'))
+                    //         throw new Error(text)
+                    //     }
+                    // })
+                } else {
+                    console.log('res', res.body)
+                    Swal.fire(error('Hubo un error al confirmar datos'))
                     setLoading(false)
                 }
             })
@@ -171,12 +185,15 @@ export default function RegisterForm(formType) {
     const sendRegisterNewPatientForm = useCallback((body) => {
         console.log('body patient', body);
         registerPersonService(body)
-            .then((response) => {
-                if (response.ok) {
-                    console.log('response', response)
-                    setNewPersonId(18) //hardcode -  should be response.data.id
+            .then((res) => {
+                if (res.ok) {
+                    console.log('res', res)
+                    setNewPersonId(4) //hardcode -  should be res.data.id
                     setStep(3)
-                    console.log(step)
+                    setLoading(false)
+                } else {
+                    console.log('res', res)
+                    Swal.fire(error('Hubo un error al confirmar datos'))
                     setLoading(false)
                 }
             })
@@ -185,23 +202,26 @@ export default function RegisterForm(formType) {
 
     const uploadIdentificationImages = useCallback(
         (id, body) => {
-            uploadIdentificationImagesService(18, body) //hardcode
+            uploadIdentificationImagesService(id, body)
                 .then((res) => {
-                    console.log(res)
                     if (res && type === "user") {
                         if (res.ok) {
                             setLoading(false)
                             history.push("/verificacion")
                         } else {
-                            Swal.fire(error('Ha ocurrido un error al cargar las imágenes'))
+                            Swal.fire(error('Ha ocurrido un error al enviar las imágenes'))
                         }
                     } else if (res && type === "patient") {
-                        Swal.fire(successRegister).then((result) => {
-                            if (result.isConfirmed) {
-                                setLoading(false)
-                                history.push("/usuario/grupo-familiar");
-                            }
-                        })
+                        if (res.ok) {
+                            Swal.fire(successRegister).then((result) => {
+                                if (result.isConfirmed) {
+                                    setLoading(false)
+                                    history.push("/usuario/grupo-familiar");
+                                }
+                            })
+                        } else {
+                            Swal.fire(error('Ha ocurrido un error al enviar las imágenes'))
+                        }
                     }
                 })
                 .catch((err) => {
@@ -212,47 +232,6 @@ export default function RegisterForm(formType) {
         [],
     );
 
-    // const convertFileToJson = (newValue, image) => {
-    //     console.log('image', image)
-    //     if(image){
-    //         let newObject  = {
-    //             'lastModified'     : image.lastModified,
-    //             'lastModifiedDate' : image.lastModifiedDate,
-    //             'name'             : image.name,
-    //             'size'             : image.size,
-    //             'type'             : image.type
-    //          };
-    //         console.log('newObject', newObject)
-    //          newValue === 'photo_dni_front' ? setPhotoFront(newObject) : setPhotoBack(newObject)
-    //     }
-    // }
-
-    // const convertImageToBinaryFront = (image) => {
-    //     console.log('image', image)
-    //     var file = image;
-    //     var reader = new FileReader();
-    //     reader.onloadend = () => {
-    //         // console.log('Encoded Base 64 File String:', reader.result);
-    //         /******************* for Binary ***********************/
-    //         var data = (reader.result).split(',')[1];
-    //         var binaryBlob = atob(data);
-    //         setPhotoFront(binaryBlob)
-    //     }
-    //     reader.readAsDataURL(file);
-    // }
-
-    // const convertImageToBinaryBack = (image) => {
-    //     var file = image;
-    //     var reader = new FileReader();
-    //     reader.onloadend = () => {
-    //         // console.log('Encoded Base 64 File String:', reader.result);
-    //         /******************* for Binary ***********************/
-    //         var data = (reader.result).split(',')[1];
-    //         var binaryBlob = atob(data);
-    //         setPhotoBack(binaryBlob)
-    //     }
-    //     reader.readAsDataURL(file);
-    // }
 
     const personalDataForm =
         <Row className={`${step === 1 ? "in" : "out"} d-flex`}>
@@ -288,7 +267,7 @@ export default function RegisterForm(formType) {
                         {errors[f.identification_number.form_name] && <ErrorMessage><p>{errors[f.identification_number.form_name].message}</p></ErrorMessage>}
                     </Col>
                     <Col xs={12} sm={6}>
-                        <FormGroup inputType={f.birthdate.inputType} label={f.birthdate.label} name={f.birthdate.form_name} selectValue={values.birthdate}
+                        <FormGroup inputType={f.birthdate.inputType} label={f.birthdate.label} name={f.birthdate.form_name}
                             maxDate={type === "user" ? f.birthdate.maxDate : new Date()}
                             {...register(`${f.birthdate.form_name}`, f.birthdate.register)}
                             handleChange={(e) => handleChange(e)}
@@ -329,10 +308,15 @@ export default function RegisterForm(formType) {
                         {errors[f.confirmEmail.form_name] && <ErrorMessage><p>{errors[f.confirmEmail.form_name].message}</p></ErrorMessage>}
                     </Col>
                     <Col xs={12} sm={6} >
-                        <FormGroup inputType={f.password.inputType} label={f.password.label} name={f.password.form_name} value={values.password} type={f.password.type}
-                            {...register(`${f.password.form_name}`, f.password.register)}
-                            onChange={handleChange}
-                        />
+                        <div className="my-tooltip">
+                            <FormGroup inputType={f.password.inputType} label={f.password.label} name={f.password.form_name} value={values.password} type={f.password.type}
+                                {...register(`${f.password.form_name}`, f.password.register)}
+                                onChange={handleChange}
+                            />
+                            <span className="tiptext">
+                                La contraseña debe tener al menos 6 dígitos.
+                            </span>
+                        </div>
                         {errors[f.password.form_name] && <ErrorMessage><p>{errors[f.password.form_name].message}</p></ErrorMessage>}
                     </Col>
                     <Col xs={12} sm={6} >
@@ -355,17 +339,21 @@ export default function RegisterForm(formType) {
                     <Col xs={12}>
                         <Form.Group>
                             <Form.Label className="mb-0">Domicilio</Form.Label>
-                            <input type="radio" id="searchCheck" name="search" className="form-check-input ms-3" value={true}
-                                checked={search ? true : false}
-                                onChange={() => setSearch(true)}
-                            /> <label className="form-label" htmlFor="searchCheck">
-                                Buscar
-                            </label>
-                            <input type="radio" id="searchNoCheck" name="search" className="form-check-input ms-3" value={false}
-                                onChange={() => setSearch(false)}
-                            /> <label className="form-label" htmlFor="searchNoCheck">
-                                Ingresar manualmente
-                            </label>
+                            <div>
+                                <input type="radio" id="searchCheck" name="search" className="form-check-input ms-3" value={true}
+                                    checked={search ? true : false}
+                                    onChange={() => setSearch(true)}
+                                /> <label className="form-label" htmlFor="searchCheck">
+                                    Buscar
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" id="searchNoCheck" name="search" className="form-check-input ms-3" value={false}
+                                    onChange={() => setSearch(false)}
+                                /> <label className="form-label" htmlFor="searchNoCheck">
+                                    Ingresar manualmente
+                                </label>
+                            </div>
                         </Form.Group>
                     </Col>
                     {search ?
@@ -465,14 +453,14 @@ export default function RegisterForm(formType) {
         {(step === 5 && type === 'user') || (step === 3 && type === 'patient') ?
             <>
                 <Col xs={12}>
-                    {errors[f.photo_dni_front.form_name] && <ErrorMessage><p>{errors[f.photo_dni_front.form_name].message}</p></ErrorMessage>}
-                    <FormGroup inputType={f.photo_dni_front.inputType} label={f.photo_dni_front.label} name={f.photo_dni_front.form_name} value={values.photo_dni_front}
-                        {...register(`${f.photo_dni_front.form_name}`, f.photo_dni_front.register)}
+                    {errors[f.file1.form_name] && <ErrorMessage><p>{errors[f.file1.form_name].message}</p></ErrorMessage>}
+                    <FormGroup inputType={f.file1.inputType} label={f.file1.label} name={f.file1.form_name} value={values.file1}
+                        {...register(`${f.file1.form_name}`, f.file1.register)}
                         onChange={handleChangeImage}
                     />
-                    {errors[f.photo_dni_back.form_name] && <ErrorMessage><p>{errors[f.photo_dni_back.form_name].message}</p></ErrorMessage>}
-                    <FormGroup inputType={f.photo_dni_back.inputType} label={f.photo_dni_back.label} name={f.photo_dni_back.form_name} value={values.photo_dni_back}
-                        {...register(`${f.photo_dni_back.form_name}`, f.photo_dni_back.register)}
+                    {errors[f.file2.form_name] && <ErrorMessage><p>{errors[f.file2.form_name].message}</p></ErrorMessage>}
+                    <FormGroup inputType={f.file2.inputType} label={f.file2.label} name={f.file2.form_name} value={values.file2}
+                        {...register(`${f.file2.form_name}`, f.file2.register)}
                         onChange={handleChangeImage}
                     />
                 </Col>
@@ -563,16 +551,21 @@ export default function RegisterForm(formType) {
             {/* Four */}
             {
                 step === 4 &&
-                <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
-                    {conditionDataForm}
-                    <div className="d-flex w-100 justify-content-between align-items-center">
-                        <p className="text-danger d-inline m-0">4 de 5...</p>
-                        <div>
-                            <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
-                            <Button variant="danger" type="submit">Confirmar</Button>
-                        </div>
-                    </div>
-                </Form>
+                <>
+                    {loading
+                        ? <Loader isActive={loading} />
+                        : <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
+                            {conditionDataForm}
+                            <div className="d-flex w-100 justify-content-between align-items-center">
+                                <p className="text-danger d-inline m-0">4 de 5...</p>
+                                <div>
+                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
+                                    <Button variant="danger" type="submit">Confirmar</Button>
+                                </div>
+                            </div>
+                        </Form>
+                    }
+                </>
             }
             {/* Five */}
             {
