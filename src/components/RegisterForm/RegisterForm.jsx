@@ -20,7 +20,7 @@ export default function RegisterForm(formType) {
     const user = auth.user ? auth.user : null
     const history = useHistory();
     // steps
-    const [step, setStep] = useState(3)
+    const [step, setStep] = useState(1)
     const next = () => { setStep(step + 1) }
     const back = () => { setStep(step - 1) }
     // useForm
