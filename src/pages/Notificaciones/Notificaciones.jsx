@@ -1,53 +1,71 @@
 import { useCallback, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
+import Swal from "sweetalert2";
 import DataNotFound from "../../components/DataNotFound";
 import { Mensaje } from "../../components/Mensaje/Mensaje";
+import { error } from "../../components/SwalAlertData";
 import useAuth from "../../hooks/useAuth";
 import usePatient from '../../hooks/usePatient'
-import getMessagesServices from "../../services/messagesServices";
+import { getMessagesByPerson } from "../../services/messagesServices";
+import Loader from '../../components/Loader'
 
 export default function Notificaciones() {
 
+    const [loading, setLoading] = useState(true);
     var tokenUser = useAuth().tokenUser;
-
-    const { patient } = usePatient()
-    // const mensajes = patient.mensajes
+    //Person
+    const p = usePatient();
+    const idPerson = 4 //hardcode - should be p.patient.id 
 
     const [messages, setMessages] = useState();
 
     const getMessages = useCallback(
-        () => {
-            getMessagesServices(tokenUser)
+        (person_id, only_unread) => {
+            getMessagesByPerson(person_id, only_unread) 
                 .then((res) => {
-                    const allMessages = res
-                    return allMessages;
+                    if (res.length) {
+                        console.log(res)
+                        setMessages(res);
+                        setLoading(false)
+                        return messages
+                    }
                 })
-                .then((res) => {
-                    setMessages(res);
-                    console.log(res)
-                    return messages
+                .catch((err) => { 
+                    console.log(err)
+                    Swal.fire(error('Error al cargar los mensajes')) 
+                    setLoading(false)
                 })
-                .catch((err) => { console.log(err) })
         },
         [messages, tokenUser],
     )
 
     useEffect(() => {
-        getMessages()
+        getMessages(4, false) //hardcode
     }, [])
 
 
 
-    return (
-        <Container className='notificaciones p-3'>
-            <h5 className='section-title'>Notificaciones</h5>
-            {messages ? messages.map((mensaje, i) => {
-                return <Mensaje key={i} asunto={mensaje.asunto} from={mensaje.from} mensaje={mensaje.mensaje} {...i}></Mensaje>
-            }
-            )
-                :
-                <DataNotFound text="notificaciones"></DataNotFound>
-            }
-        </Container>
+    return (<>
+        {loading
+            ? <Loader isActive={loading} />
+            : <Container className='notificaciones p-3'>
+                <h5 className='section-title'>Notificaciones</h5>
+                {messages ? messages.map((m, i) => {
+                    return <Mensaje 
+                    key={m.message.id + i} 
+                    idMessage={m.message.id}
+                    asunto={m.message.header} 
+                    from='Portal del paciente | La Rioja' 
+                    mensaje={m.message.body} {...i}
+                    isRead={m.read_datetime}
+                     />
+                }
+                )
+                    :
+                    <DataNotFound text="notificaciones"></DataNotFound>
+                }
+            </Container>
+        }
+    </>
     )
 }
