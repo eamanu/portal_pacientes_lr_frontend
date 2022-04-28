@@ -72,6 +72,8 @@ export const API_ENDPOINTS_PATIENTCOMPLETEDATA = (query) =>{
   return url;
 }
 
+export const API_ENDPOINTS_CATEGORIES = `${baseUrl}/categories`;
+
 // formData---------------------------------------
 export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
 
