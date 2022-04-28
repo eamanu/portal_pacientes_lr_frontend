@@ -145,7 +145,7 @@ export const LabelsFormData = {
       },
       minLength: {
         value: 6,
-        message: "La contraseña debe tener al menos 3 caracteres",
+        message: "La contraseña debe tener al menos 6 caracteres",
       },
     },
   },
@@ -270,7 +270,8 @@ export const LabelsFormData = {
     sm: 6,
     register: {
       required: {
-        value: false,
+        value: true,
+        message: 'El campo es requerido.'
       },
     },
   },
@@ -328,7 +329,7 @@ export const LabelsFormData = {
   },
   file1: {
     form_name: "file1",
-    label: "Foto de DNI - FRENTE",
+    label: "Foto - FRENTE",
     inputType: "file",
     type: "file",
     variants: false,
@@ -342,7 +343,7 @@ export const LabelsFormData = {
   },
   file2: {
     form_name: "file2",
-    label: "Foto de DNI - DORSO",
+    label: "Foto - DORSO",
     inputType: "file",
     type: "file",
     variants: false,

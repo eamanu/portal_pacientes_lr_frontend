@@ -28,7 +28,7 @@ export default function RegisterForm(formType) {
     const type = formType.formType //Tipe of form "user" or "patient"
     const f = LabelsFormData //Information to build form fields
     const [values, setValues] = useState(ValuesRegisterForm); //Get and set values form
-    const [newValue, setNewValue] = useState("") //Get and set values form to required
+    const [newValue, setNewValue] = useState("") //Get and set values form to validate required fields
     const [search, setSearch] = useState(true) //Get addres by search or not
     // newPerson
     const [newPersonId, setNewPersonId] = useState(null)
@@ -54,7 +54,6 @@ export default function RegisterForm(formType) {
 
     const handleChangeImage = (e) => {
         if (e.target.files) {
-            // console.log('file', e.target.files[0])
             let targetName = e.target.name
             setValues({
                 ...values,
@@ -86,14 +85,11 @@ export default function RegisterForm(formType) {
     useEffect(() => {
         setValue('birthdate', values.birthdate);
         setValue('postal_address', values.address_street);
-        // console.log('values.birthdate', values.birthdate)
     }, [values.birthdate, values.address_street])
 
     useEffect(() => {
         if (newValue === 'file1' || newValue === 'file2') {
             setValue(`${newValue}`, values[newValue]);
-            console.log(values)
-            // convertFileToJson(newValue, values[newValue])
         } else {
             setValue(`${newValue}`, values[newValue]);
         }
@@ -143,31 +139,25 @@ export default function RegisterForm(formType) {
         let images = new FormData();
         images.append('file1', values.file1, 'file1')
         images.append('file2', values.file2, 'file2')
-        uploadIdentificationImages(18, images); //hardcode
+        uploadIdentificationImages(newPersonId, images);
     }
 
     const sendRegisterNewUserForm = useCallback((body) => {
         registerPersonAndUserService(body)
             .then((res) => {
                 if (res.ok) {
-                    auth.newRegisterUser(body) //note - should be res.data 
-                    setNewPersonId(4) //hardcode -  should be res.data.id
-                    setStep(5)
-                    setLoading(false)
-                    // TO GET RESPONSE READEBLE ERROR
-                    // return res.text().then(text => {
-                    //     let exception = JSON.parse(text)
-                    //     if (exception.status) {
-                    //         auth.newRegisterUser(body) //note - should be res.data 
-                    //         setNewPersonId(4) //hardcode -  should be res.data.id
-                    //         setStep(5)
-                    //         setLoading(false)
-                    //     } else {
-                    //         console.log('estoy aqui')
-                    //         Swal.fire(error('Hubo un error al confirmar datos'))
-                    //         throw new Error(text)
-                    //     }
-                    // })
+                    return res.text().then(text => {
+                        let readeble = JSON.parse(text)
+                        if (readeble.status) {
+                            auth.newRegisterUser(body)
+                            setNewPersonId(readeble.value)
+                            setStep(5)
+                            setLoading(false)
+                        } else {
+                            Swal.fire(error('Hubo un error al confirmar datos'))
+                            throw new Error(text)
+                        }
+                    })
                 } else {
                     console.log('res', res.body)
                     Swal.fire(error('Hubo un error al confirmar datos'))
@@ -187,17 +177,27 @@ export default function RegisterForm(formType) {
         registerPersonService(body)
             .then((res) => {
                 if (res.ok) {
-                    console.log('res', res)
-                    setNewPersonId(4) //hardcode -  should be res.data.id
-                    setStep(3)
-                    setLoading(false)
+                    return res.text().then(text => {
+                        let readeble = JSON.parse(text)
+                        if (readeble.status) {
+                            setNewPersonId(readeble.value)
+                            setStep(3)
+                            setLoading(false)
+                        } else {
+                            Swal.fire(error('Hubo un error al confirmar datos'))
+                            throw new Error(text)
+                        }
+                    })
                 } else {
-                    console.log('res', res)
+                    console.log('res', res.body)
                     Swal.fire(error('Hubo un error al confirmar datos'))
-                    setLoading(false)
                 }
             })
-            .catch(err => console.log(err))
+            .catch((err) => {
+                console.log('error', err)
+                Swal.fire(error('Hubo un error al confirmar datos'))
+                setLoading(false)
+            })
     }, []);
 
     const uploadIdentificationImages = useCallback(
@@ -452,6 +452,7 @@ export default function RegisterForm(formType) {
     const photoDataForm = <Row className={step === 5 || step === 3 ? "in" : "out"}>
         {(step === 5 && type === 'user') || (step === 3 && type === 'patient') ?
             <>
+                <p>Para finalizar, ingresá foto de tu documento de identidad</p>
                 <Col xs={12}>
                     {errors[f.file1.form_name] && <ErrorMessage><p>{errors[f.file1.form_name].message}</p></ErrorMessage>}
                     <FormGroup inputType={f.file1.inputType} label={f.file1.label} name={f.file1.form_name} value={values.file1}
