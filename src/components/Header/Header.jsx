@@ -7,6 +7,8 @@ import * as MdIcon from 'react-icons/md';
 import * as BsIcon from 'react-icons/bs';
 import Sidebar from '../Sidebar';
 import Profile from '../Profile/Profile';
+import Swal from 'sweetalert2';
+import { logOut } from '../SwalAlertData';
 
 function Header() {
     const auth = useAuth();
@@ -26,7 +28,11 @@ function Header() {
 
     const handleClick = e => {
         e.preventDefault();
-        auth.logout()
+        Swal.fire(logOut).then((result) => {
+            if (result.isConfirmed) {
+                auth.logout()
+            }
+          });
     }
 
     // Media query sidebar

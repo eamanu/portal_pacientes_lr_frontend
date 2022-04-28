@@ -1,9 +1,18 @@
 export const successRegister = {
   title: "Registro realizado",
-  html: "El paciente será verificado antes de ser agregado como miembro al grupo familiar. ",
+  html: "Inicie sesión nuevamente para cargar nuevos datos. ",
   icon: "success",
   showCancelButton: false,
   confirmButtonText: "Continuar",
+  confirmButtonColor: "#198754",
+};
+
+export const errorActivePatient = {
+  title: "Error al activar paciente",
+  html: "Intente iniciar sesión nuevamente. ",
+  icon: "error",
+  showCancelButton: false,
+  confirmButtonText: "Aceptar",
   confirmButtonColor: "#198754",
 };
 
