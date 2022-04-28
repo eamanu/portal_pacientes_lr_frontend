@@ -11,10 +11,13 @@ export const Mensaje = (props) => {
     const p = usePatient();
     const idPerson = 4 //hardcode - should be p.patient.id 
     //Message
-    const { asunto, from, mensaje, isRead, idMessage} = props
+    const { asunto, from, mensaje, isRead, idMessage, action} = props
     // Modal
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        action()
+    }
     const handleShow = () => setShow(true);
     // Icon
     const [open, setOpen] = useState(false);

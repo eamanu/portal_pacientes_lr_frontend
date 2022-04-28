@@ -12,11 +12,11 @@ export const endDate = () => {
   var endDate = new Date(endYear, todayMonth, todayDay);
 
   return endDate;
-};
-export const receiverCategory =[
-  { id: 1, description: "Todos los pacientes" },
-  { id: 2, description: "Pacientes con diabetes crónica" },
-  { id: 3, description: "Pacientes con hipertensión crónica" },
-  { id: 4, description: "Pacientes con enfermedad respiratoria crónica" },
-  { id: 5, description: "Pacientes con enfermedad renal crónica" },
+}; 
+export const receiverCategory =[ //hardcode note - Check endpoint /categories. exists, but is incomplete. 
+  { id: 0, description: "Todos los pacientes" },
+  { id: 1, description: "Pacientes con diabetes crónica" },
+  { id: 2, description: "Pacientes con hipertensión crónica" },
+  { id: 3, description: "Pacientes con enfermedad respiratoria crónica" },
+  { id: 4, description: "Pacientes con enfermedad renal crónica" },
 ]

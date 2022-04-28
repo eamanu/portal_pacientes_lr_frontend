@@ -126,7 +126,7 @@ export const CreateMessage = (props) => {
         if(idCategoryReceiver){
             let category_id = parseInt(idCategoryReceiver)
             let receiverMessage = receiverCategory.find(r => r.id === parseInt(idCategoryReceiver))
-            let isForAll = category_id === 1 ? true : false
+            let isForAll = category_id === 0 ? true : false
             Swal.fire(confirm(`¿Enviar mensaje a ${receiverMessage.description}?`)).then((result) => {
                 if (result.isConfirmed) {
                     send(newMessageId, category_id, isForAll)
@@ -195,6 +195,8 @@ export const CreateMessage = (props) => {
                         <Form.Control
                             name="body"
                             type="text"
+                            as="textarea" 
+                            rows={3}
                             value={valuesCreate.body}
                             className="form-control"
                             {...register('body', {

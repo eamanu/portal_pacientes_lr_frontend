@@ -40,9 +40,13 @@ export default function Notificaciones() {
     )
 
     useEffect(() => {
-        getMessages(4, false) //hardcode
+        initMessages()
     }, [])
 
+    const initMessages = () => {
+        setLoading(true)
+        getMessages(idPerson, false) //hardcode
+    }
 
 
     return (<>
@@ -58,6 +62,7 @@ export default function Notificaciones() {
                     from='Portal del paciente | La Rioja' 
                     mensaje={m.message.body} {...i}
                     isRead={m.read_datetime}
+                    action={initMessages}
                      />
                 }
                 )

@@ -34,7 +34,7 @@ export const expiredSession = {
 };
 
 export const loginError = {
-  text: "Error al ingresar nombre de usuario o contraseña.",
+  text: "Error. Nombre de usuario o contraseña incorrectos.",
   icon: "error",
   showConfirmButton: false,
   timer: 2000,
