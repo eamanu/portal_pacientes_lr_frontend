@@ -64,6 +64,17 @@ export const success = (text) => {
   return content;
 };
 
+export const warning = (text) => {
+  let content = {
+    text: text,
+    icon: "warning",
+    showConfirmButton: false,
+    timer: 2000,
+  };
+  return content;
+};
+
+
 export const toastPatient = (text) => {
   let content = {
     position: "bottom-end",

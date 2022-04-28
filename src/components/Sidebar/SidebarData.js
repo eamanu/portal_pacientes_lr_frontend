@@ -232,13 +232,22 @@ export const SidebarData = {
     {
       id: 15,
       title: "Mensajería",
-      path: "/admin/mensajeria",
+      path: "/admin/mensajeria/mensajes-enviados",
       icon: <MdIcon.MdOutlineMessage className="menu-icon" />,
       acordeon: false,
       a: false,
       cName: "sidebar-text",
       aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
-      options: false,
+      options: [
+        {
+          title: "Mensajes Enviados",
+          path: "/admin/mensajeria/mensajes-enviados"
+        },
+        {
+          title: "Borradores",
+          path: "/admin/mensajeria/borradores"
+        } 
+      ],
     }
   ],
 };

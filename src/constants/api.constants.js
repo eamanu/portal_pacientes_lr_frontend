@@ -78,9 +78,40 @@ export const API_ENDPOINTS_INSTITUCIONES = `${baseUrl}/institutions/all`;
 export const API_ENDPOINTS_PARAMETRIC = `${baseUrl}/parametric`;
 
 // messages---------------------------------------
-export const API_ENDPOINTS_GETMESSAGES = `${baseUrl}/getmessages`;
 
-export const API_ENDPOINTS_SETMESSAGESREAD = `${baseUrl}/setmessagesread`;
+export const API_ENDPOINTS_GETALLMESSAGES = `${baseUrl}/get-all-messages`;
+
+export const API_ENDPOINTS_GETMESSAGESBYPERSON = (query) =>{
+  let url = `${baseUrl}/get-messages-by-person?${query}`;
+  return url;
+}
+
+export const API_ENDPOINTS_CREATEMESSAGE = (query) => {
+  let url = `${baseUrl}/createmessage?${query}`;
+  return url;
+}
+
+export const API_ENDPOINTS_SETMESSAGEREAD = (query) =>{
+  let url = `${baseUrl}/setmessageread?${query}`;
+  return url;
+}
+
+export const API_ENDPOINTS_GETMESSAGE = (query) =>{
+  let url = `${baseUrl}/getmessage?${query}`;
+  return url;
+}
+
+export const API_ENDPOINTS_SENDMESSAGE = (query) =>{
+  let url = `${baseUrl}/sendmessage?${query}`;
+  return url;
+}
+
+export const API_ENDPOINTS_UPDATEMESSAGE = `${baseUrl}/updatemessage`;
+
+export const API_ENDPOINTS_DELETEMESSAGE = (query) =>{
+  let url = `${baseUrl}/deletemessage?${query}`;
+  return url;
+}
 
 // sumar ---------------------------------------
 export const API_ENDPOINTS_SUMAR = (idn) =>{
