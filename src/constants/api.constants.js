@@ -86,8 +86,8 @@ export const API_ENDPOINTS_GETMESSAGESBYPERSON = (query) =>{
   return url;
 }
 
-export const API_ENDPOINTS_CREATEMESSAGE = (header, body, is_formatted) => {
-  let url = `${baseUrl}/createmessage?header=${header}&body=${body}&is_formatted=${is_formatted}`;
+export const API_ENDPOINTS_CREATEMESSAGE = (query) => {
+  let url = `${baseUrl}/createmessage?${query}`;
   return url;
 }
 
@@ -97,7 +97,7 @@ export const API_ENDPOINTS_SETMESSAGEREAD = (query) =>{
 }
 
 export const API_ENDPOINTS_GETMESSAGE = (query) =>{
-  let url = `${baseUrl}/getmessages?${query}`;
+  let url = `${baseUrl}/getmessage?${query}`;
   return url;
 }
 
