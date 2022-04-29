@@ -1,8 +1,9 @@
 @import "Vars.scss";
 
 .active {
-  background-color: $accent;
-  color: $text-light !important;
+  // background-color: $accent;
+  color: $text-primary !important;
+  font-weight: bold !important;
   animation: fade 0.2s;
   a {
     color: $text-light !important;
@@ -175,7 +176,16 @@
   border-bottom: 1px solid $secondary;
   z-index: 1;
   .user-header__name {
-    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    // padding-left: 0;
+    @media only screen and (min-width: $tablet) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    }
     @media only screen and (min-width: $desktop) {
       padding-left: 15rem;
     }
@@ -206,7 +216,7 @@
   }
 }
 .dropdown-item:active {
-  background-color: $primary-dark;
+  background-color: $success;
   color: $text-light;
 }
 .user-container {

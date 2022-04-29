@@ -7,7 +7,7 @@
   height: calc(100vh - 3rem);
   border-right: 1px solid $secondary;
   background-color: $third;
-  color: $text-primary;
+  color: $text-secondary;
   font-size: 0.8rem;
   transition: transform 0.2s;
   z-index: 3;
@@ -37,17 +37,18 @@
       a {
         display: flex;
         align-items: center;
-        color: $text-primary;
+        color: $text-secondary;
         font-weight: lighter;
         text-decoration: none;
-        padding: 1rem 0 1rem 1rem;
+        padding: 1rem 0 1rem 0.8rem;
         .menu-icon {
           margin-right: 0.5rem;
           font-size: 1rem;
         }
       }
       a:hover {
-        opacity: 0.8;
+        // opacity: 0.8;
+        background-color: #5a626827;
       }
       @keyframes fade {
         0%{

@@ -16,10 +16,10 @@ export const Paciente = (props) => {
     return (
         <Row className={`patient in`}>
             <Col xs={12} md={8} className='patient-name'>
-                <h6 className='mb-0'>{`${patientNombre} ${patientApellido}`} nombre nombre nombre</h6>
+                <h6 className='mb-0'>{`${patientNombre} ${patientApellido}`}</h6>
             </Col>
             <Col xs={12} md={4} className='patient-actions'>
-                <div className={`status-container ${patientId === p.patient.identification_number ? 'bg-success' : 'bg-secondary'}`} onClick={() => { handlePatient(patientId) }}>
+                <div className={`status-container ${patientId === p.patient.identification_number ? 'bg-primary' : 'bg-secondary'}`} onClick={() => { handlePatient(patientId) }}>
                     <p className="mb-0 text-ligth">{patientId === p.patient.identification_number ? 'Perfil activo' : 'Activar perfil'}</p>
                 </div>
                 <div className="my-tooltip">

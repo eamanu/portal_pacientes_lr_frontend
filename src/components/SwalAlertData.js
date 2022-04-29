@@ -4,7 +4,7 @@ export const successRegister = {
   icon: "success",
   showCancelButton: false,
   confirmButtonText: "Continuar",
-  confirmButtonColor: "#198754",
+  confirmButtonColor: "#007bff",
 };
 
 export const errorActivePatient = {
@@ -13,7 +13,7 @@ export const errorActivePatient = {
   icon: "error",
   showCancelButton: false,
   confirmButtonText: "Aceptar",
-  confirmButtonColor: "#198754",
+  confirmButtonColor: "#007bff",
 };
 
 export const logOut = {
@@ -22,7 +22,7 @@ export const logOut = {
   showCancelButton: true,
   cancelButtonText: "Cancelar",
   confirmButtonText: "Confirmar",
-  confirmButtonColor: "#198754",
+  confirmButtonColor: "#007bff",
 };
 
 export const expiredSession = {
@@ -30,7 +30,7 @@ export const expiredSession = {
   icon: "warning",
   showCancelButton: false,
   confirmButtonText: "Aceptar",
-  confirmButtonColor: "#198754",
+  confirmButtonColor: "#007bff",
 };
 
 export const loginError = {
@@ -57,7 +57,7 @@ export const confirm = (text) => {
     showCancelButton: true,
     cancelButtonText: "Cancelar",
     confirmButtonText: "Confirmar",
-    confirmButtonColor: "#198754",
+    confirmButtonColor: "#007bff",
   };
   return content;
 };

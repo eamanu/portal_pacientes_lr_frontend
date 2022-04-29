@@ -165,7 +165,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
                         </Container>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="success" onClick={() => handleValidate(patient.id)}>
+                        <Button variant="primary" onClick={() => handleValidate(patient.id)}>
                             Validar solicitud
                         </Button>
                         <Button variant="outline-danger" onClick={() => handleReject(patient.id)}>

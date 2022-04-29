@@ -236,7 +236,7 @@ function Profile({ show, handleClose, type }) {
                                 </>
                             }
                             <div className='d-flex justify-content-end'>
-                                <Button variant='success' className="me-2" type="submit">Guardar cambios</Button>
+                                <Button variant='primary' className="me-2" type="submit">Guardar cambios</Button>
                             </div>
                         </Form>
                     </Container>
