@@ -3,6 +3,7 @@ import {
   API_ENDPOINTS_CREATEPERSON,
   API_ENDPOINTS_CREATEPERSONANDUSER,
   API_ENDPOINTS_UPLOADIDENTIFICATIONIMAGES,
+  API_ENDPOINTS_DOWNLOADIDENTIFICATIONIMAGES,
   API_HEADER,
   UPLOAD_HEADER,
 } from "../constants/api.constants";
@@ -33,12 +34,10 @@ export async function registerPersonService(body) {
 }
 
 export async function uploadIdentificationImagesService(id, body) {
-  console.log("body", body);
   try {
     const searchParams = new URLSearchParams({ person_id: id });
     let query = searchParams.toString();
     const data = body; //note - is a formData
-    console.log("file", data);
     const promise = await post(
       API_ENDPOINTS_UPLOADIDENTIFICATIONIMAGES(query),
       UPLOAD_HEADER(),
@@ -46,6 +45,24 @@ export async function uploadIdentificationImagesService(id, body) {
     );
     return promise;
   } catch (err) {
-    console.log("Error al crear persona: ", err);
+    console.log("Error al enviar imágenes: ", err);
+  }
+}
+
+
+export async function  downloadIdentificationImagesService(id, is_front) {
+  try {
+    const searchParams = new URLSearchParams({ 
+      person_id: id,
+      is_front: is_front
+    });
+    let query = searchParams.toString();
+    const promise = await post(
+      API_ENDPOINTS_DOWNLOADIDENTIFICATIONIMAGES(query),
+      API_HEADER(),
+    );
+    return promise;
+  } catch (err) {
+    console.log("Error al cargar imágenes: ", err);
   }
 }

@@ -6,12 +6,13 @@ import ImgRotate from '../../../components/ImgRotate';
 import { confirm, error, success } from '../../../components/SwalAlertData';
 import identificationsTypeServices from '../../../services/parametricServices';
 import { getPersonByIdentificationNumber, setAdminStatusToPerson } from '../../../services/personServices';
+import { downloadIdentificationImagesService } from '../../../services/registerServices';
 
 export default function EnablePatient({ show, handleClose, idn }) {
 
     const [loading, setLoading] = useState(true);
     const [patient, setPatient] = useState(null);
-    const [idnType, setIdnType] = useState(null);
+    const [idnType, setIdnType] = useState(1); //hardcode
 
     const getPatient = useCallback(
         (idn) => {
@@ -52,19 +53,40 @@ export default function EnablePatient({ show, handleClose, idn }) {
         },
         [],
     )
+    const getImage = useCallback(
+      (id, is_front) => {
+        downloadIdentificationImagesService(id, is_front)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+      },
+      [],
+    )
+    
 
     const validate = useCallback(
         (id) => {
             setAdminStatusToPerson(id, 2) //note  1: pending , 2: validated , 3: refused
                 .then((res) => {
-                    console.log('res', res)
-                    // hardcode falta respuesta
-                    Swal.fire(success('El paciente ha sido validado'))
-                    Swal.fire(error('Hubo un error al validar paciente'))
+                    if (res.ok) {
+                        return res.text().then(text => {
+                            let readeble = JSON.parse(text)
+                            if (readeble.status) {
+                                Swal.fire(success('El paciente ha sido validado'))
+                                handleClose()
+                            } else {
+                                Swal.fire(error('Hubo un error al validar paciente'))
+                                throw new Error(text)
+                            }
+                        })
+                    }
                 })
                 .catch((err) => {
                     console.log('error', err)
-                    Swal.fire(error(err));
+                    Swal.fire(error('Hubo un error al validar paciente' ));
                     handleClose()
                 })
         },
@@ -74,17 +96,25 @@ export default function EnablePatient({ show, handleClose, idn }) {
     const reject = useCallback(
         (id) => {
             setAdminStatusToPerson(id, 3) //note  1: pending , 2: validated , 3: refused
-                .then((res) => {
-                    console.log('res', res)
-                    // hardcode falta respuesta
-                    // hardcode falta Swal
-                    handleClose()
-                })
-                .catch((err) => {
-                    console.log('error', err)
-                    Swal.fire(error(err));
-                    handleClose()
-                })
+            .then((res) => {
+                if (res.ok) {
+                    return res.text().then(text => {
+                        let readeble = JSON.parse(text)
+                        if (readeble.status) {
+                            Swal.fire(success('La solicitud ha sido rechazada'))
+                            handleClose()
+                        } else {
+                            Swal.fire(error('Hubo un error al rechazar la solicitud'))
+                            throw new Error(text)
+                        }
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log('error', err)
+                Swal.fire(error('Hubo un error al rechazar la solicitud'));
+                handleClose()
+            })
         },
         [],
     )
@@ -92,7 +122,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
     const handleValidate = (id) => {
         Swal.fire(confirm('¿Validar solicitud?')).then((result) => {
             if (result.isConfirmed) {
-                validate(id)
+                validate(6) //hardcode id
             }
         })
     }
@@ -100,7 +130,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
     const handleReject = (id) => {
         Swal.fire(confirm('¿Rechazar solicitud?')).then((result) => {
             if (result.isConfirmed) {
-                reject(id)
+                reject(6) //hardcode id
             }
         })
     }
@@ -108,13 +138,50 @@ export default function EnablePatient({ show, handleClose, idn }) {
 
     useEffect(() => {
         if (show) {
-            getPatient('violedni')
+            // getPatient(idn) //hardcode
+            const fake = {
+                id: 0,
+                surname: "string",
+                name: "string",
+                identification_number: "string",
+                birthdate: "2022-05-02T22:57:51.562Z",
+                id_gender: 0,
+                id_department: 0,
+                id_locality: 0,
+                address_street: "string",
+                address_number: "string",
+                id_usual_institution: 0,
+                is_diabetic: true,
+                is_hypertensive: true,
+                is_chronic_respiratory_disease: true,
+                is_chronic_kidney_disease: true,
+                identification_number_master: "string",
+                id_identification_type: 0,
+                id_identification_type_master: 0,
+                is_deleted: true,
+                id_patient: 0,
+                id_admin_status: 0,
+                phone_number: "string",
+                department: "string",
+                locality: "string",
+                email: "string",
+                identification_front_image: "string",
+                identification_back_image: "string",
+                identification_front_image_file_type: "string",
+                identification_back_image_file_type: "string",
+                id_person_status: 0
+            }
+            setPatient(fake)
+            setLoading(false)
+
         }
     }, [show, idn, getPatient])
 
     useEffect(() => {
         if (show && patient) {
-            getDNIVariants(patient.id_identification_type)
+            // getDNIVariants(patient.id_identification_type)
+            getImage(30, true) //hardcode
+            getImage(30, false)//hardcode
         }
     }, [show, patient, getDNIVariants])
 

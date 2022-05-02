@@ -68,6 +68,10 @@ export const API_ENDPOINTS_UPLOADIDENTIFICATIONIMAGES = (query) => {
   return url;
 };
 
+export const API_ENDPOINTS_DOWNLOADIDENTIFICATIONIMAGES = (query) => {
+  let url = `${baseUrl}/downloadidentificationimage?${query}`;
+  return url;
+};
 //admin
 export const API_ENDPOINT_SETADMINSTATUSTOPERSON = (query) => {
   let url = `${baseUrl}/setadminstatustoperson?${query}`;
