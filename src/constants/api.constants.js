@@ -1,7 +1,9 @@
 import { environment } from "../environments/environments.demo";
 
 const baseUrl = environment.baseURL;
-const tokenId = localStorage.getItem('tokenUser').split('"')[1]
+const tokenId = localStorage.getItem('tokenUser') 
+? localStorage.getItem('tokenUser').split('"')[1] 
+: null
 
 export let LOGIN_HEADER = () => {
   let header = {
