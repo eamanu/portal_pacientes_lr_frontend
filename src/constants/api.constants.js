@@ -1,6 +1,7 @@
 import { environment } from "../environments/environments.demo";
 
 const baseUrl = environment.baseURL;
+const tokenId = localStorage.getItem('tokenUser').split('"')[1]
 
 export let LOGIN_HEADER = () => {
   let header = {
@@ -25,9 +26,9 @@ export let UPLOAD_HEADER = () => {
   return header;
 };
 
-export let AUTH_HEADER = (tokenId) => {
+export let AUTH_HEADER = () => {
   let header = {
-    accept: "application/json",
+    "Content-Type": "application/json",
     // Authorization: `Bearer ${tokenId}`,
   };
   return header;

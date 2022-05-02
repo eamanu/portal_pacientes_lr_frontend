@@ -1,4 +1,4 @@
-import { API_ENDPOINTS_INSTITUCIONES, API_HEADER, AUTH_HEADER } from "../constants/api.constants";
+import { API_ENDPOINTS_INSTITUCIONES, API_HEADER } from "../constants/api.constants";
 import { get } from "./httpServices";
 
 export default async function institutionsServices() {
