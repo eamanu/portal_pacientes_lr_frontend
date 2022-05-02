@@ -17,17 +17,15 @@ export default function EnablePatient({ show, handleClose, idn }) {
         (idn) => {
             getPersonByIdentificationNumber(idn)
                 .then((res) => {
-                    console.log('res', res)
+                    // console.log('res', res)
                     if (res.id) {
                         setPatient(res)
                     } else {
-                        setLoading(false)
                         Swal.fire(error('Error al cargar datos de paciente'));
                         handleClose()
                     }
                 })
                 .catch((err) => {
-                    setLoading(false)
                     console.log('error', err)
                     Swal.fire(error(err));
                     handleClose()
@@ -110,7 +108,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
 
     useEffect(() => {
         if (show) {
-            getPatient(idn)
+            getPatient('violedni')
         }
     }, [show, idn, getPatient])
 

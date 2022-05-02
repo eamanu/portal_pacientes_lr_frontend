@@ -4,7 +4,7 @@ import { get, put } from './httpServices';
 export async function getPersonByIdentificationNumber(idn) { 
     try {
       const searchParams = new URLSearchParams({
-        person_identification_number: "dnipersontest1" //hardcode
+        person_identification_number: idn 
       });
       let query = searchParams.toString();
       const promise = await get(API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER(query), API_HEADER());
@@ -38,3 +38,4 @@ export async function getPersonByIdentificationNumber(idn) {
       console.log("Error", err);
     }
   }
+

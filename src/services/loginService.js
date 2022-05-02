@@ -1,7 +1,7 @@
 import {  API_ENDPOINTS_LOGINADMIN, LOGIN_HEADER } from "../constants/api.constants";
 import { post } from "./httpServices";
 
-export default async function loginService() { //hardcode
+export default async function loginService(email, password) { //hardcode
   try {
     const searchParams = new URLSearchParams({
       username: "admin",
