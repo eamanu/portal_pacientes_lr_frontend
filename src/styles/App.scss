@@ -160,7 +160,8 @@
   top: 3rem;
   height: calc(100vh - 3rem);
   width: 100%;
-  background-color: $third;
+  background-color: $background-main;
+
 }
 .user-header {
   position: fixed;
@@ -226,7 +227,7 @@
   height: auto;
   min-height: calc(100% - 3rem);
   width: 100%;
-  background-color: $third;
+  background-color:$background-main;
   color: $text-primary;
 
   .dropdown-menu[data-bs-popper] {
@@ -236,11 +237,16 @@
 .patient-container {
   position: relative;
   width: 100%;
-  height: 80vh;
+  height: auto;
+  min-height: 80vh;
+  margin-top: 2rem;
+  border-radius: 5px;
+  background-color: $third;
+  box-shadow: $shadow-four;
   // z-index: 1031;
   @media only screen and (min-width: $desktop) {
     width: calc(100% - 21rem);
-    transform: translateX(15rem);
+    transform: translateX(18rem);
   }
 }
 // Forms

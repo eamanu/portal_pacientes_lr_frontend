@@ -5,10 +5,11 @@ import DataNotFound from '../../../../components/DataNotFound';
 import anthropometricDataServices from '../../../../services/hceServices/anthropometricDataServices';
 import Swal from 'sweetalert2';
 import { error } from '../../../../components/SwalAlertData';
+import { Card } from 'react-bootstrap';
 
 
 function DatosAntropometricos() {
-   
+
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
 
@@ -19,18 +20,15 @@ function DatosAntropometricos() {
         (institution, id_patient) => {
             anthropometricDataServices(institution, id_patient)
                 .then((res) => {
-                    if (res.length > 0) {
-                        setData(res);
-                        console.log(res);
-                        setLoading(false);
-                        return data;
+                    if (res) {
+                      iterateObject(res)
                     } else {
                         setNotFound(true);
                         setLoading(false);
                     }
                 })
-                .catch((err) => { 
-                    console.log(err) 
+                .catch((err) => {
+                    console.log(err)
                     Swal.fire(error('Hubo un error al solicitar datos'))
                     setLoading(false);
                 })
@@ -38,9 +36,34 @@ function DatosAntropometricos() {
         [data],
     )
 
+    const iterateObject = (info) => {
+        let patientData = []
+        Object.entries(info).forEach(([key, value], i, obj) => {
+            if (typeof value === 'string' || typeof value === 'number') {
+                patientData.push(`${key}: ${value}`)
+            }
+            if (typeof value === 'object') {
+                Object.entries(value).forEach(([k, v]) => {
+                    patientData.push(`${k}: ${v}`)
+                })
+            }
+            if (Object.is(obj.length - 1, i)) {
+                setNewData(patientData)
+            }
+        })
+
+    }
+
+    const setNewData = (enteredInfo) => {
+        data.push(enteredInfo);
+        setLoading(false);
+        // console.log(data)
+    }
+
     useEffect(() => {
         setLoading(true);
-        getData(p.patientInstitution, p.idPatient); //hardcode
+        // console.log(p.patientInstitution)
+        getData(p.patientInstitution, p.idPatient);
     }, [p.patientInstitution]);
 
     return (
@@ -49,8 +72,25 @@ function DatosAntropometricos() {
                 <Loader isActive={loading}></Loader>
                 :
                 <>
-                    {data.length > 0 && <div>{data}</div>}
-                    {notFound && <DataNotFound text="datos antropométricos" />}
+                    {data.map((d, i) => {
+                        return (
+                            <Card className="mb-3 shadow-sm">
+                                <Card.Header>
+                                    <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span>
+                                </Card.Header>
+                                <Card.Body>
+                                    <blockquote className="blockquote mb-0">
+                                        {d.map((itemData) => {
+                                            return (<p>{itemData}</p>)
+                                        })
+                                        }
+                                    </blockquote>
+                                </Card.Body>
+                            </Card>
+                        )
+                    })
+                    }
+                    {notFound && <DataNotFound text="alergias" />}
                 </>
             }
         </div>
