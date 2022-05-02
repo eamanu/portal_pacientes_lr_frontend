@@ -20,7 +20,8 @@ function DatosAntropometricos() {
         (institution, id_patient) => {
             anthropometricDataServices(institution, id_patient)
                 .then((res) => {
-                    if (res) {
+                    if (res.status) {
+                        // console.log('res', res)
                       iterateObject(res)
                     } else {
                         setNotFound(true);
