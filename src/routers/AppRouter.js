@@ -39,7 +39,9 @@ export default function AppRouter() {
                 <PublicRoute exact path='/login-admin' component={Login}/>
                 <PublicRoute exact path='/register' component={Register}/>
                 <PublicRoute exact path='/verificacion' component={AvisoVerificacion}/>
+                <PublicRoute exact path='/verificacion/*' component={AvisoVerificacion}/>
                 <PublicRoute exact path='/recuperar-contraseña' component={RecuperarContraseña}/>
+                <PublicRoute exact path='/recuperar-contraseña/*' component={RecuperarContraseña}/>
                 <PrivateRoute path={path} component={ component } />
                 <Route exact path='/'><Redirect to={path}/></Route>  
                 <Route path='/404' component={NotFound}/>   

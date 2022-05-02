@@ -37,6 +37,21 @@ export let AUTH_HEADER = (tokenId) => {
 export const API_ENDPOINTS_LOGINADMIN = `${baseUrl}/login-admin`;
 
 export const API_ENDPOINTS_LOGINPERSON = `${baseUrl}/login`;
+// validate
+export const API_ENDPOINTS_VALIDATEEMAIL = (token) => {
+  let url = `${baseUrl}/validate-email/${token}`;
+  return url
+}
+
+export const API_ENDPOINTS_RECOVERPASSWORD = (query) => {
+  let url = `${baseUrl}/recover-password?${query}`;
+  return url
+}
+
+export const API_ENDPOINTS_CHANGEPASSWORD = (query) => {
+  let url = `${baseUrl}/change-password?${query}`;
+  return url
+}
 
 // PERSON
 export const API_ENDPOINTS_CREATEPERSONANDUSER = `${baseUrl}/createpersonanduser`;
