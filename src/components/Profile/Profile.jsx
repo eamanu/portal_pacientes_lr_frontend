@@ -61,11 +61,12 @@ function Profile({ show, handleClose, type }) {
         delete body.photo_dni_back //note - is necesary, but not now
         delete body.username
         delete body.password
-        body.is_diabetic = body.is_diabetic == 'true' ? true : false
-        body.is_hypertensive = body.is_hypertensive == 'true' ? true : false
-        body.is_chronic_kidney_disease = body.is_chronic_kidney_disease == 'true' ? true : false
-        body.is_chronic_respiratory_disease = body.is_chronic_respiratory_disease == 'true' ? true : false
-        body.birthdate = "5/5/2020" //hardcode
+        body.is_diabetic = body.is_diabetic.toString() == 'true' ? true : false
+        body.is_hypertensive = body.is_hypertensive.toString() == 'true' ? true : false
+        body.is_chronic_kidney_disease = body.is_chronic_kidney_disease.toString() == 'true' ? true : false
+        body.is_chronic_respiratory_disease = body.is_chronic_respiratory_disease.toString() == 'true' ? true : false
+        let setDate = values.birthdate.split('-')
+        body.birthdate =  `${setDate[2]}/${setDate[1]}/${setDate[0]}`
         Swal.fire(confirm(`¿Desea actualizar los datos de ${type === 'user' ? 'usuario' : 'paciente'}`)).then((result) => {
             if (result.isConfirmed) {
                 sendUpdatePersonForm(body)
@@ -79,17 +80,25 @@ function Profile({ show, handleClose, type }) {
                 .then((res) => {
                     console.log(res)
                     if (res.ok) {
-                        Swal.fire(success('El usuario ha sido actualizado con éxito'))
-                        setLoading(false)
-                    } else {
-                        Swal.fire(error('Error al actualizar datos de usuario'))
-                        setLoading(false)
+                        return res.text().then(text => {
+                            let readeble = JSON.parse(text)
+                            if (readeble.status) {
+                                Swal.fire(success('El usuario ha sido actualizado con éxito'))
+                                setLoading(false)
+                                handleClose()
+                            } else {
+                                Swal.fire(error('Error al actualizar datos de usuario'))
+                                setLoading(false)
+                                throw new Error(text)
+                            }
+                        })
                     }
                 })
                 .catch((err) => {
                     console.log('error', err)
                     Swal.fire(error('Error al actualizar datos de usuario'))
                     setLoading(false)
+                    handleClose()
                 })
         },
         [],

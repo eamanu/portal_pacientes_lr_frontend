@@ -316,7 +316,7 @@ export const LabelsFormData = {
   },
   is_chronic_kidney_disease: {
     form_name: "is_chronic_kidney_disease",
-    label: "Enfermedad respiratoria",
+    label: "Enfermedad renal",
     inputType: "radio",
     type: "radio",
     variants: false,

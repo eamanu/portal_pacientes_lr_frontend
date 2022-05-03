@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react"
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom/cjs/react-router-dom.min"
-import PrivateRoute from "./PrivateRoute"
-import PublicRoute from "./PublicRoute"
-import Header from "../components/Header"
-import Footer from "../components/Footer"
-import LoginPerson from "../pages/LoginPerson"
-import Login from "../admin-pages/Login"
-import Register from "../pages/Register"
-import UserRouter from "./UserRouter"
-import NotFound from "../pages/NotFound/NotFound"
-import AvisoVerificacion from "../pages/AvisoVerificacion"
-import RecuperarContraseña from "../pages/RecuperarContraseña"
-import AdminRouter from "./AdminRouter"
-import useAuth from "../hooks/useAuth"
-import Loader from "../components/Loader"
-
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import LoginPerson from "../pages/LoginPerson";
+import Login from "../admin-pages/Login";
+import Register from "../pages/Register";
+import UserRouter from "./UserRouter";
+import NotFound from "../pages/NotFound/NotFound";
+import AvisoVerificacion from "../pages/AvisoVerificacion";
+import RecuperarContraseña from "../pages/RecuperarContraseña";
+import AdminRouter from "./AdminRouter";
+import useAuth from "../hooks/useAuth";
+import Loader from "../components/Loader";
 
 export default function AppRouter() {
     const [loading, setLoading] = useState(true);
@@ -47,8 +46,8 @@ export default function AppRouter() {
                 <Route path='/404' component={NotFound}/>   
                 <Route path='*'><Redirect to='/404'/></Route>    
             </Switch>
-            </div>
             <Footer />
+            </div>
         </Router>  
         }
         </>
