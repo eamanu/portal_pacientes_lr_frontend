@@ -7,8 +7,8 @@ import * as MdIcon from 'react-icons/md';
 const Main = () => {
 
     const links = [
-        { id: 1, path: "/usuario/grupo-familiar", namePath: "Grupo Familiar", icon: <MdIcon.MdFamilyRestroom className="main__icon" /> },
-        { id: 2, path: "/usuario/historia-clinica", namePath: "Historia Clínica", icon: <MdIcon.MdFolderShared className="main__icon" /> },
+        { id: 1, path: "/usuario/grupo-familiar", namePath: "Grupo Familiar", icon: <MdIcon.MdOutlineGroup className="main__icon" /> },
+        { id: 2, path: "/usuario/historia-clinica/alergias", namePath: "Historia Clínica", icon: <MdIcon.MdOutlineFolderShared className="main__icon" /> },
         // { id: 3, path: "/usuario/calendario-vacunacion", namePath: "Calendario de Vacunación", icon: <MdIcon.MdEditCalendar className="main__icon" /> },
         { id: 4, path: "/usuario/programa-sumar", namePath: "Programa Sumar", icon: <MdIcon.MdAddCircleOutline className="main__icon" /> }
     ]
@@ -24,7 +24,7 @@ const Main = () => {
             <Row className="d-flex justify-content-center p-3 in">
                 {links.map((link) =>
                     <Col key={link.id} xs={12} md={5} className='main__card'>
-                        <Link className="btn btn-outline-danger" to={link.path}>
+                        <Link className="btn-outline-danger" to={link.path}>
                             {link.icon}
                             <h5>{link.namePath}</h5>
                         </Link>
