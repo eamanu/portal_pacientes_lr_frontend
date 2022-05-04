@@ -8,6 +8,7 @@ export default function Turnos() {
 
     return (
         <Container className='p-3'>
+             <h5 className='section-title'>Turnos</h5>
             <Row>
                 <Col className='switch-container'>
                 {routes.map((route) => {
