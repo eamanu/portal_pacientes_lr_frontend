@@ -36,7 +36,7 @@ export const CreateMessage = (props) => {
                 .then((res) => {
                     if (res) {
                         setValuesCreate(res)
-                        setValueUseFor(res)
+                        setValueUseForm(res)
                         // setLoading(false)
                     } else {
                         Swal.fire(error('Error al cargar mensaje'))
@@ -47,7 +47,7 @@ export const CreateMessage = (props) => {
         },
         [],
     )
-    const setValueUseFor = (msg) => {
+    const setValueUseForm = (msg) => {
         Object.entries(msg).forEach(([key, value]) => {
             setValue(`${key}`, value)
         })
