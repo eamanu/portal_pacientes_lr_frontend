@@ -91,7 +91,7 @@ function DatosAntropometricos() {
                         )
                     })
                     }
-                    {notFound && <DataNotFound text="alergias" />}
+                    {notFound && <DataNotFound text="datos antropométricos" />}
                 </>
             }
         </div>

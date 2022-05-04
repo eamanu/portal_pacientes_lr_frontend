@@ -33,7 +33,7 @@ function Sidebar({ isActive, action }) {
     return (
         <>
             <div className={`sidebar ${isActive} `} >
-                <ul>
+                <ul className='mb-5'>
                     {SidebarData.inicio.map((item, index) => {
                         return (
                             <li
@@ -173,7 +173,6 @@ function Sidebar({ isActive, action }) {
                         })
                         }</>}
                 </ul>
-                <p className='footer-text bg-ligth'>v0.1.0 - 2022</p>
             </div>
         </>
     )

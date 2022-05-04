@@ -91,7 +91,7 @@ function DatosCronicos() {
                         )
                     })
                     }
-                    {notFound && <DataNotFound text="alergias" />}
+                    {notFound && <DataNotFound text="datos crónicos" />}
                 </>
             }
         </div>

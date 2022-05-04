@@ -91,7 +91,7 @@ function Inmunizacion() {
                         )
                     })
                     }
-                    {notFound && <DataNotFound text="alergias" />}
+                    {notFound && <DataNotFound text="inmunización" />}
                 </>
             }
         </div>

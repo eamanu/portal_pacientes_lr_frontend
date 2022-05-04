@@ -91,7 +91,7 @@ function Hospitalizacion() {
                         )
                     })
                     }
-                    {notFound && <DataNotFound text="alergias" />}
+                    {notFound && <DataNotFound text="hospitalización" />}
                 </>
             }
         </div>

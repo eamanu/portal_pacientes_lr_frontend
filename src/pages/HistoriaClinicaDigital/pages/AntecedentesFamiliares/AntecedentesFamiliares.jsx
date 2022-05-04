@@ -92,7 +92,7 @@ function AntecedentesFamiliares() {
                         )
                     })
                     }
-                    {notFound && <DataNotFound text="alergias" />}
+                    {notFound && <DataNotFound text="antecedentes familiares" />}
                 </>
             }
         </div>

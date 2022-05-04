@@ -91,7 +91,7 @@ function ProblemasActivos() {
                         )
                     })
                     }
-                    {notFound && <DataNotFound text="alergias" />}
+                    {notFound && <DataNotFound text="problemas activos" />}
                 </>
             }
         </div>
