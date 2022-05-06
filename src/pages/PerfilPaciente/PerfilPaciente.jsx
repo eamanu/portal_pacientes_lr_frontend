@@ -34,7 +34,6 @@ export default function PerfilPaciente() {
                             Editar
                         </span>
                     </div>
-                    {show && <Profile type={'patient'} show={show} handleClose={handleClose} />}
                 </div>
             </div>
             <DatosPaciente></DatosPaciente>
