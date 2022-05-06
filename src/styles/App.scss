@@ -158,7 +158,6 @@
   z-index: 1000;
   @media only screen and (min-width: $desktop) {
     position: fixed;
-
   }
   p {
     font-size: 0.8rem;
@@ -190,7 +189,6 @@
   width: 100%;
   min-height: calc(100vh - 3rem);
   background-color: $background-main;
-
 }
 .user-header {
   position: fixed;
@@ -318,7 +316,7 @@
     justify-content: flex-end;
   }
 }
-.circle-step{
+.circle-step {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -330,11 +328,11 @@
   margin-right: 1rem;
   border: 3px solid #ff5f7f;
 }
-.title-step{
+.title-step {
   color: $primary;
   margin: 0;
 }
-.step-inactive{
+.step-inactive {
   opacity: 0.5;
   transform: scale(0.9);
 }
@@ -703,12 +701,14 @@
     height: 330px;
   }
   .admin-patient__img {
-    width: 100%;
-    height: auto;
+    max-width: 210px;
+    max-height: 210px;
+    @media only screen and (min-width: $tablet) {
+      max-width: 330px;
+      max-height: 330px;
+    }
   }
 }
 .rotate-img {
   transform: rotate(90deg);
-  width: auto !important;
-  height: 100% !important;
 }
