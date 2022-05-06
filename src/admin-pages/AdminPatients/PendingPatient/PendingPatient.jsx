@@ -26,7 +26,7 @@ export default function PendingPatient({ name, status, idn }) {
                     </div>
                 </Col>
             </Row>
-            <EnablePatient show={show} handleClose={handleClose} indPatient={idn} />
+            <EnablePatient show={show} handleClose={handleClose} idn={idn} />
         </>
     )
 }

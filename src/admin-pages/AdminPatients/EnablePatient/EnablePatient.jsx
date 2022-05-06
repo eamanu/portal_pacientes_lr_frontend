@@ -12,13 +12,15 @@ export default function EnablePatient({ show, handleClose, idn }) {
 
     const [loading, setLoading] = useState(true);
     const [patient, setPatient] = useState(null);
-    const [idnType, setIdnType] = useState(1); //hardcode
+    const [idnType, setIdnType] = useState(1); 
+    const [birthdate, setBirthdate ] = useState(null);
+    const [ imgFront, setImgFront ] = useState("")
+    const [ imgBack, setImgBack ] = useState("")
 
     const getPatient = useCallback(
         (idn) => {
             getPersonByIdentificationNumber(idn)
                 .then((res) => {
-                    // console.log('res', res)
                     if (res.id) {
                         setPatient(res)
                     } else {
@@ -35,14 +37,22 @@ export default function EnablePatient({ show, handleClose, idn }) {
         [idn],
     )
 
+    const getBirthdate = (birthdate) => {
+        let date = birthdate.split('-')
+        let y = date[0]
+        let m = date[1]
+        let d = date[2].split('T')[0]
+        setBirthdate(`${d} / ${m} / ${y}`)
+    }
+
     const getDNIVariants = useCallback(
         (idType) => {
             identificationsTypeServices()
                 .then((res) => {
+                    console.log(res)
                     if (res?.length > 0) {
                         const type = res.find(t => t.id === idType)
                         setIdnType(type)
-                        setLoading(false)
                     }
                 })
                 .catch((err) => {
@@ -54,18 +64,50 @@ export default function EnablePatient({ show, handleClose, idn }) {
         [],
     )
     const getImage = useCallback(
-      (id, is_front) => {
-        downloadIdentificationImagesService(id, is_front)
-        .then((res) => {
-            console.log(res)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-      },
-      [],
+        (id, is_front) => {
+            downloadIdentificationImagesService(id, is_front)
+                .then((res) => {
+                    if (res.ok) {
+                        return res.text().then(text => {
+                            let readeble = JSON.parse(text)
+                            if (readeble.status) {
+                                if(is_front) {
+                                    setImgFront(readeble.value)
+                                    getImage(patient.id, false)
+                                } else {
+                                    setImgBack(readeble.value)
+                                    setLoading(false)
+                                }
+                            } else {
+                                throw new Error(text)
+                            }
+                        })
+                    } else {
+                        console.log('error', res)
+                        throw new Error(res)
+                    }
+                })
+                .catch((err) => {
+                    console.log('error', err)
+                    setLoading(false)
+                })
+        },
+        [],
     )
-    
+
+    useEffect(() => {
+        if (show) {
+            getPatient('user8dni') //hardcode
+        }
+    }, [show, idn, getPatient])
+
+    useEffect(() => {
+        if (show && patient) {
+            getDNIVariants(patient.id_identification_type)
+            getBirthdate(patient.birthdate); 
+            getImage(patient.id, true);
+        }
+    }, [show, patient, getDNIVariants])
 
     const validate = useCallback(
         (id) => {
@@ -86,7 +128,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
                 })
                 .catch((err) => {
                     console.log('error', err)
-                    Swal.fire(error('Hubo un error al validar paciente' ));
+                    Swal.fire(error('Hubo un error al validar paciente'));
                     handleClose()
                 })
         },
@@ -96,25 +138,25 @@ export default function EnablePatient({ show, handleClose, idn }) {
     const reject = useCallback(
         (id) => {
             setAdminStatusToPerson(id, 3) //note  1: pending , 2: validated , 3: refused
-            .then((res) => {
-                if (res.ok) {
-                    return res.text().then(text => {
-                        let readeble = JSON.parse(text)
-                        if (readeble.status) {
-                            Swal.fire(success('La solicitud ha sido rechazada'))
-                            handleClose()
-                        } else {
-                            Swal.fire(error('Hubo un error al rechazar la solicitud'))
-                            throw new Error(text)
-                        }
-                    })
-                }
-            })
-            .catch((err) => {
-                console.log('error', err)
-                Swal.fire(error('Hubo un error al rechazar la solicitud'));
-                handleClose()
-            })
+                .then((res) => {
+                    if (res.ok) {
+                        return res.text().then(text => {
+                            let readeble = JSON.parse(text)
+                            if (readeble.status) {
+                                Swal.fire(success('La solicitud ha sido rechazada'))
+                                handleClose()
+                            } else {
+                                Swal.fire(error('Hubo un error al rechazar la solicitud'))
+                                throw new Error(text)
+                            }
+                        })
+                    }
+                })
+                .catch((err) => {
+                    console.log('error', err)
+                    Swal.fire(error('Hubo un error al rechazar la solicitud'));
+                    handleClose()
+                })
         },
         [],
     )
@@ -134,56 +176,6 @@ export default function EnablePatient({ show, handleClose, idn }) {
             }
         })
     }
-
-
-    useEffect(() => {
-        if (show) {
-            // getPatient(idn) //hardcode
-            const fake = {
-                id: 0,
-                surname: "string",
-                name: "string",
-                identification_number: "string",
-                birthdate: "2022-05-02T22:57:51.562Z",
-                id_gender: 0,
-                id_department: 0,
-                id_locality: 0,
-                address_street: "string",
-                address_number: "string",
-                id_usual_institution: 0,
-                is_diabetic: true,
-                is_hypertensive: true,
-                is_chronic_respiratory_disease: true,
-                is_chronic_kidney_disease: true,
-                identification_number_master: "string",
-                id_identification_type: 0,
-                id_identification_type_master: 0,
-                is_deleted: true,
-                id_patient: 0,
-                id_admin_status: 0,
-                phone_number: "string",
-                department: "string",
-                locality: "string",
-                email: "string",
-                identification_front_image: "string",
-                identification_back_image: "string",
-                identification_front_image_file_type: "string",
-                identification_back_image_file_type: "string",
-                id_person_status: 0
-            }
-            setPatient(fake)
-            setLoading(false)
-
-        }
-    }, [show, idn, getPatient])
-
-    useEffect(() => {
-        if (show && patient) {
-            // getDNIVariants(patient.id_identification_type)
-            getImage(30, true) //hardcode
-            getImage(30, false)//hardcode
-        }
-    }, [show, patient, getDNIVariants])
 
     return (
         < Modal
@@ -211,7 +203,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
                                         <li>Apellido: <strong>{patient.surname}</strong></li>
                                         <li>Tipo de documento: <strong>{idnType.description}</strong></li>
                                         <li>Número de documento: <strong>{patient.identification_number}</strong></li>
-                                        <li>Fecha de nacimiento: <strong>{patient.birthdate}</strong></li>
+                                        <li>Fecha de nacimiento: <strong>{birthdate}</strong></li>
                                         <li>Domicilio: <strong>{patient.address_street} {patient.address_number} , {patient.department} , {patient.locality} </strong></li>
                                         <li>Email: <strong>{patient.email}</strong></li>
                                         <li>Teléfono: <strong>{patient.phone_number}</strong></li>
@@ -223,8 +215,8 @@ export default function EnablePatient({ show, handleClose, idn }) {
                                 </Col>
                                 <Col xs={12} lg={6}>
                                     <h5>Imagen de documento </h5>
-                                    <ImgRotate img={''}></ImgRotate>
-                                    <ImgRotate img={''}></ImgRotate>
+                                    <ImgRotate img={imgFront}></ImgRotate>
+                                    <ImgRotate img={imgBack}></ImgRotate>
                                 </Col>
                             </Row>
                         </Container>
