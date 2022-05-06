@@ -23,7 +23,7 @@ export const ModalMensaje = (props) => {
                 <p>{mensaje}</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={handleClose}>Cerrar</Button>
+                <Button variant="outline-secondary" onClick={handleClose}>Cerrar</Button>
             </Modal.Footer>
         </Modal>
 };

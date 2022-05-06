@@ -15,7 +15,7 @@ const AdminMain = () => {
 
     return (
         <Container className="main pt-5">
-            <Row>
+            <Row className="d-flex justify-content-center">
                 <Col xs={12} lg={6}>
                     <img className='main__banner' src={logoFondoBlanco} alt="logo fondo rojo - portal del paciente la rioja" />
                 </Col>
@@ -23,7 +23,7 @@ const AdminMain = () => {
             <Row className="d-flex justify-content-center p-3 in">
                 {links.map((link) =>
                     <Col key={link.id} xs={12} md={5} className='main__card'>
-                        <Link className="btn btn-outline-danger" to={link.path}>
+                        <Link className="btn-outline-danger" to={link.path}>
                             {link.icon}
                             <h5>{link.namePath}</h5>
                         </Link>

@@ -233,8 +233,8 @@ function AplicationModal({ show, handleClose, }) {
                                     </Form.Group>
                                 </Col>
                                 <div className='d-flex justify-content-end'>
+                                    <Button variant='outline-secondary' className="me-2" onClick={() => handleClose()}>Cancelar</Button>
                                     <Button variant='primary' className="me-2" type="submit">Enviar solicitud</Button>
-                                    <Button variant='outline-secondary' onClick={() => handleClose()}>Cancelar</Button>
                                 </div>
                             </Row>
                         </Form>

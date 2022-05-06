@@ -210,15 +210,15 @@ export const CreateMessage = (props) => {
                         {errors.body && <ErrorMessage><p>{errors.body.message}</p></ErrorMessage>}
                     </Form.Group>
                     <div className="d-flex w-100 justify-content-end">
-                        <Button variant="outline-primary" type="submit" disabled={newMessageId ? true : false} className={`me-2 ${action === 'create' ? 'd-block' : 'd-none'}`}>Crear Mensaje </Button>
-                        <Button variant="outline-primary" type="submit" disabled={newMessageId ? false : true} className={`me-2 ${action === 'edit' ? 'd-block' : 'd-none'}`}>Guardar cambios </Button>
+                        <Button variant="primary" type="submit" disabled={newMessageId ? true : false} className={`me-2 ${action === 'create' ? 'd-block' : 'd-none'}`}>Crear Mensaje </Button>
+                        <Button variant="primary" type="submit" disabled={newMessageId ? false : true} className={`me-2 ${action === 'edit' ? 'd-block' : 'd-none'}`}>Guardar cambios </Button>
                     </div>
                 </Form>
             </Container>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="primary" onClick={() => handleSend()} disabled={newMessageId && idCategoryReceiver ? false : true}>Enviar <MdIcon.MdSend /></Button>
             <Button variant="outline-secondary" onClick={handleClose}>Cancelar</Button>
+            <Button variant="primary" onClick={() => handleSend()} disabled={newMessageId && idCategoryReceiver ? false : true}>Enviar <MdIcon.MdSend /></Button>
         </Modal.Footer>
     </Modal>
 };
