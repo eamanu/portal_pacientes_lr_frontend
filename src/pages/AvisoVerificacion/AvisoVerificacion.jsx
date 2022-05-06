@@ -32,31 +32,27 @@ function AvisoVerificacion() {
                 })
                 .catch((err) => {
                     console.log(err.message)
-                    setIsValidated(false)    
+                    setIsValidated(false)
                 })
         },
         [],
     )
 
     useEffect(() => {
-        validate(token) 
+        validate(token)
     }, [token])
 
 
     // Background
-    const number = Math.floor(Math.random() * (6 - 0)) + 1;
+    const number = Math.floor(Math.random() * (5 - 0)) + 1;
 
     return (
-        <div className={`bg-container bg${number} h-100 w-100 d-flex align-items-center justify-content-center position-relative`}>
-            <div className="circle"></div>
-            <Container className='h-100 d-flex align-items-center justify-content-center z-index-1 mb-5 mb-sm-0'>
-                <Row className='w-100 h-75 d-flex align-items-center justify-content-center'>
-                    <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
-                        <div className='w-100 h-100 pic'></div>
-                    </Col>
+        <div className={`bg-container bg${number}`}>
+            <Container className='z-index-1 cont'>
+                <Row className='w-100'>
                     {token ?
                         <>
-                            <Col xs={8} sm={7} lg={5}>
+                            <Col >
                                 <h2>Validación de correo electrónico</h2>
                                 {isValidated ?
                                     <div className="w-100 d-flex flex-column flex-sm-row align-items-center">
@@ -73,14 +69,22 @@ function AvisoVerificacion() {
                             </Col>
                         </>
                         :
-                        <Col xs={8} sm={7} lg={5}>
-                            {auth.newUser ? <>
-                                <p className='mb-5'>Hemos enviado un correo a la casilla <b>{auth.newUser.email}</b>. Haz click en el link que figura en el correo para confirmar tu usuario.</p>
+                        <Col >
+                            {auth.newUser ? 
+                            <>
+                            <div className="w-100 d-flex flex-column flex-sm-row align-items-center mb-5">
+                                <MdIcon.MdOutlineCheckCircleOutline className="text-success me-3" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineCheckCircleOutline>
+                                <p className='mb-0'>Hemos enviado un correo a la casilla <b>{auth.newUser.email}</b>. Haz click en el link que figura en el correo para confirmar tu usuario.</p>
+                            </div> 
                                 <p>Si no encuentras el correo en tu bandeja de entrada, <strong>no olvides verificar en la carpeta de spam.</strong></p>
                                 <Link to="/login">¿Ya tenés una cuenta? ¡Iniciá sesión!</Link>
-                            </> :
+                            </>
+                            :
                                 <>
-                                    <h2 className='mb-5'>Hubo un error en la registración.</h2>
+                                    <div className="w-100 d-flex flex-column flex-sm-row align-items-center mb-5">
+                                        <MdIcon.MdOutlineErrorOutline className="text-danger me-3" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineErrorOutline>
+                                        <h2 className='mb-0'>Hubo un error en la registración.</h2>
+                                    </div>
                                     <Link to="/register">Haz click aquí para intentarlo nuevamente</Link>
                                     <br></br>
                                     <Link to="/login">¿Ya tienes una cuenta? ¡Iniciá sesión!</Link>

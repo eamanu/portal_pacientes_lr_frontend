@@ -80,19 +80,15 @@ export default function RecuperarContraseña() {
 
     // Background
     useEffect(() => {
-        setNumber(Math.floor(Math.random() * (6 - 0)) + 1);
+        setNumber(Math.floor(Math.random() * (5 - 0)) + 1);
     }, [])
 
 
     return (
-        <div className={`bg-container bg${number} h-100 w-100 d-flex align-items-center justify-content-center position-relative`}>
-            <div className="circle"></div>
-            <Container className='h-100 d-flex align-items-center justify-content-center z-index-1 mb-5 mb-sm-0'>
-                <Row className='w-100 h-75 d-flex align-items-center justify-content-center'>
-                    <Col xs={12} sm={5} lg={4} className='h-100 d-none d-sm-flex'>
-                        <div className='w-100 h-100 pic'></div>
-                    </Col>
-                    <Col xs={8} sm={7} lg={5}>
+        <div className={`bg-container bg${number} `}>
+            <Container className='z-index-1 cont'>
+                    <Row className='w-100'>
+                    <Col>
                         <h2>Recuperar contraseña</h2>
                         {step === 1 && <>
                             <p>Ingresá tu correo electrónico.</p>
