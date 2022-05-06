@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
     return (
-        <Container fluid className="d-flex h-100 w-100 align-items-center justify-content-end">
+        <Container fluid className="d-flex align-items-center justify-content-end" style={{height:'80vh'}}>
             <Row >
                 <Col>
                     <h1 className="text-danger">Error 404... Página no encontrada</h1>
