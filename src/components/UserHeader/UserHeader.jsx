@@ -30,8 +30,6 @@ function UserHeader() {
             getMessagesByPerson(person_id, only_unread)
                 .then((res) => {
                     if (res) {
-                        console.log('res', res)
-                        console.log(res)
                         setMessages(res);
                         return messages
                     }

@@ -27,7 +27,7 @@ function GrupoFamiliar() {
     useEffect(() => {
         p.getPatient(dniPatient)
         setLoading(false)
-    }, [p, dniPatient]);
+    }, [dniPatient]);
 
     return (
         <Container className='p-3'>

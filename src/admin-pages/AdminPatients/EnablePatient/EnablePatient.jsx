@@ -7,12 +7,14 @@ import { confirm, error, success } from '../../../components/SwalAlertData';
 import identificationsTypeServices from '../../../services/parametricServices';
 import { getPersonByIdentificationNumber, setAdminStatusToPerson } from '../../../services/personServices';
 import { downloadIdentificationImagesService } from '../../../services/registerServices';
+import { variantsGender } from '../../../components/ComponentsData';
 
 export default function EnablePatient({ show, handleClose, idn }) {
 
     const [loading, setLoading] = useState(true);
     const [patient, setPatient] = useState(null);
     const [idnType, setIdnType] = useState(1); 
+    const [genderType, setGenderType] = useState(null); 
     const [birthdate, setBirthdate ] = useState(null);
     const [ imgFront, setImgFront ] = useState("")
     const [ imgBack, setImgBack ] = useState("")
@@ -49,7 +51,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
         (idType) => {
             identificationsTypeServices()
                 .then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     if (res?.length > 0) {
                         const type = res.find(t => t.id === idType)
                         setIdnType(type)
@@ -63,6 +65,10 @@ export default function EnablePatient({ show, handleClose, idn }) {
         },
         [],
     )
+    const getGender = (id_gender) => {
+        let gender = variantsGender.find(g => g.id === id_gender)
+        setGenderType(gender)
+    }
     const getImage = useCallback(
         (id, is_front) => {
             downloadIdentificationImagesService(id, is_front)
@@ -105,6 +111,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
         if (show && patient) {
             getDNIVariants(patient.id_identification_type)
             getBirthdate(patient.birthdate); 
+            getGender(patient.id_gender);
             getImage(patient.id, true);
         }
     }, [show, patient, getDNIVariants])
@@ -204,6 +211,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
                                         <li>Tipo de documento: <strong>{idnType.description}</strong></li>
                                         <li>Número de documento: <strong>{patient.identification_number}</strong></li>
                                         <li>Fecha de nacimiento: <strong>{birthdate}</strong></li>
+                                        <li>Sexo: <strong>{genderType.name}</strong></li>
                                         <li>Domicilio: <strong>{patient.address_street} {patient.address_number} , {patient.department} , {patient.locality} </strong></li>
                                         <li>Email: <strong>{patient.email}</strong></li>
                                         <li>Teléfono: <strong>{patient.phone_number}</strong></li>

@@ -7,15 +7,21 @@ import institutionsServices from '../../../../services/institutionsServices';
 function DatosPaciente() {
 
     const p = usePatient();
-    const birthdate = p.patient.birthdate
+    const birthdateY = p.patient.birthdate.split('-')[0]
+    const birthdateM = p.patient.birthdate.split('-')[1]
+    const birthdateD = p.patient.birthdate.split('-')[2].split('T')[0]
+    const birthdate = birthdateD + '/' + birthdateM + '/' + birthdateY
     function calculateAge(birthdate) {
-        var birthday_arr = birthdate.split("-");
-        var birthday_date = new Date(birthday_arr[0], birthday_arr[1] - 1, birthday_arr[2]);
-        var ageDifMs = Date.now() - birthday_date.getTime();
-        var ageDate = new Date(ageDifMs);
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
+        let today = new Date();
+        let b = new Date(birthdate);
+        let age = today.getFullYear() - b.getFullYear();
+        let m = today.getMonth() - b.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < b.getDate())) {
+            age--;
+        }
+        return age;
     }
-    const age = calculateAge(birthdate);
+    const age = calculateAge(p.patient.birthdate);
     const gender = variantsGender.find(v => v.id === p.patient.id_gender).name
     const [institution, setInstitution] = useState([]);
     const getInstitutions = useCallback(
@@ -26,7 +32,7 @@ function DatosPaciente() {
                 })
                 .then((res) => {
                     let find = res.find(i => i.id === p.patient.id_usual_institution) || 1
-                    console.log(find.name)
+                    // console.log(find.name)
                     setInstitution(find.name)
                 })
                 .catch((err) => { console.log(err) })
