@@ -23,6 +23,7 @@ export const logOut = {
   cancelButtonText: "Cancelar",
   confirmButtonText: "Confirmar",
   confirmButtonColor: "#007bff",
+  reverseButtons: true,
 };
 
 export const expiredSession = {
@@ -58,6 +59,7 @@ export const confirm = (text) => {
     cancelButtonText: "Cancelar",
     confirmButtonText: "Confirmar",
     confirmButtonColor: "#007bff",
+    reverseButtons: true,
   };
   return content;
 };
@@ -83,12 +85,11 @@ export const warning = (text) => {
   return content;
 };
 
-
 export const toastPatient = (text) => {
   let content = {
     position: "bottom-end",
     icon: "success",
     title: `Perfil de paciente ${text}`,
-  }
+  };
   return content;
 };
