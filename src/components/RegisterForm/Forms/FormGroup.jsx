@@ -80,7 +80,7 @@ const FormGroup = React.forwardRef((props, ref) => {
 
 
   return (
-    <Form.Group>
+    <Form.Group className="mb-2">
       <Form.Label className="mb-0">{label}</Form.Label>
       {inputType === 'input' &&
         <Form.Control
@@ -125,7 +125,7 @@ const FormGroup = React.forwardRef((props, ref) => {
             className="form-check-input"
             disabled={disabled ? disabled : false}
             value={true}
-            checked={value ? true : false}
+            checked={value.toString() === 'true' ? true : false}
             onChange={onChange}
           /> <label className="form-label me-3">
             Sí
@@ -136,7 +136,7 @@ const FormGroup = React.forwardRef((props, ref) => {
             disabled={disabled ? disabled : false}
             className="form-check-input"
             value={false}
-            checked={!value ? true : false}
+            checked={value.toString() === 'true' ? false : true}
             onChange={onChange}
           /> <label className="form-label">
             No

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button, Container } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 import { error, successRegister } from "../SwalAlertData";
 import { registerPersonAndUserService, registerPersonService, uploadIdentificationImagesService } from "../../services/registerServices";
+import * as MdIcon from "react-icons/md";
 
 export default function RegisterForm(formType) {
 
@@ -20,9 +21,9 @@ export default function RegisterForm(formType) {
     const user = auth.user ? auth.user : null
     const history = useHistory();
     // steps
-    const [step, setStep] = useState(1)
-    const next = () => { setStep(step + 1) }
-    const back = () => { setStep(step - 1) }
+    const [step, setStep] = useState(0)
+    const next = (i) => { setStep(i + 1) }
+    const back = (i) => { setStep(i - 1) }
     // useForm
     const { register, handleSubmit, getValues, setValue, formState: { errors } } = useForm();
     const type = formType.formType //Tipe of form "user" or "patient"
@@ -95,7 +96,7 @@ export default function RegisterForm(formType) {
         }
     }, [newValue, values[newValue]])
 
-    const onSubmit = () => {
+    const buildBody = () => {
         setLoading(true)
         let body = values
         delete body.confirmEmail
@@ -142,16 +143,31 @@ export default function RegisterForm(formType) {
         uploadIdentificationImages(newPersonId, images);
     }
 
+    const onSubmit = (length, i) => {
+        console.log(length, i)
+        if (length === i + 1) { //last step 
+            console.log('imagenes')
+            onSubmitImages()
+        } else if (length - 1 === i + 1) {  //penultimate step 
+            console.log('registra ')
+            buildBody()
+        } else {
+            console.log('siguiente paso')
+            next(i)
+        }
+    }
+
     const sendRegisterNewUserForm = useCallback((body) => {
         registerPersonAndUserService(body)
             .then((res) => {
+                console.log(res)
                 if (res.ok) {
                     return res.text().then(text => {
                         let readeble = JSON.parse(text)
                         if (readeble.status) {
                             auth.newRegisterUser(body)
                             setNewPersonId(readeble.value)
-                            setStep(5)
+                            setStep(4)
                             setLoading(false)
                         } else {
                             Swal.fire(error('Hubo un error al confirmar datos'))
@@ -181,7 +197,7 @@ export default function RegisterForm(formType) {
                         let readeble = JSON.parse(text)
                         if (readeble.status) {
                             setNewPersonId(readeble.value)
-                            setStep(3)
+                            setStep(2)
                             setLoading(false)
                         } else {
                             Swal.fire(error('Hubo un error al confirmar datos'))
@@ -232,63 +248,9 @@ export default function RegisterForm(formType) {
         [],
     );
 
-
-    const personalDataForm =
-        <Row className={`${step === 1 ? "in" : "out"} d-flex`}>
-            {step === 1 &&
-                <>
-                    <Col xs={12}>
-                        <FormGroup inputType={f.name.inputType} label={f.name.label} name={f.name.form_name} value={values.name}
-                            {...register(`${f.name.form_name}`, f.name.register)}
-                            onChange={handleChange}
-                        />
-                        {errors[f.name.form_name] && <ErrorMessage><p>{errors[f.name.form_name].message}</p></ErrorMessage>}
-                    </Col>
-                    <Col xs={12}>
-                        <FormGroup inputType={f.surname.inputType} label={f.surname.label} name={f.surname.form_name} value={values.surname}
-                            {...register(`${f.surname.form_name}`, f.surname.register)}
-                            onChange={handleChange}
-                        />
-                        {errors[f.surname.form_name] && <ErrorMessage><p>{errors[f.surname.form_name].message}</p></ErrorMessage>}
-                    </Col>
-                    <Col xs={12} sm={6}>
-                        <FormGroup inputType={f.id_identification_type.inputType} label={f.id_identification_type.label} name={f.id_identification_type.form_name} selectValue={values.id_identification_type}
-                            variants={f.id_identification_type.variants}
-                            handleChange={(e) => handleChange(e)}
-                            {...register(`${f.id_identification_type.form_name}`, f.id_identification_type.register)}
-                        />
-                        {errors[f.id_identification_type.form_name] && <ErrorMessage><p>{errors[f.id_identification_type.form_name].message}</p></ErrorMessage>}
-                    </Col>
-                    <Col xs={12} sm={6}>
-                        <FormGroup inputType={f.identification_number.inputType} label={f.identification_number.label} name={f.identification_number.form_name} value={values.identification_number}
-                            {...register(`${f.identification_number.form_name}`, f.identification_number.register)}
-                            onChange={handleChange}
-                        />
-                        {errors[f.identification_number.form_name] && <ErrorMessage><p>{errors[f.identification_number.form_name].message}</p></ErrorMessage>}
-                    </Col>
-                    <Col xs={12} sm={6}>
-                        <FormGroup inputType={f.birthdate.inputType} label={f.birthdate.label} name={f.birthdate.form_name}
-                            maxDate={type === "user" ? f.birthdate.maxDate : new Date()}
-                            {...register(`${f.birthdate.form_name}`, f.birthdate.register)}
-                            handleChange={(e) => handleChange(e)}
-                        />
-                        {errors[f.birthdate.form_name] && <ErrorMessage><p>{errors[f.birthdate.form_name].message}</p></ErrorMessage>}
-                    </Col>
-                    <Col xs={12} sm={6}>
-                        <FormGroup inputType={f.id_gender.inputType} label={f.id_gender.label} name={f.id_gender.form_name} selectValue={values.id_gender}
-                            variants={f.id_gender.variants}
-                            handleChange={(e) => handleChange(e)}
-                            {...register(`${f.id_gender.form_name}`, f.id_gender.register)}
-                        />
-                        {errors[f.id_gender.form_name] && <ErrorMessage><p>{errors[f.id_gender.form_name].message}</p></ErrorMessage>}
-                    </Col>
-                </>
-            }
-        </Row>
-
     const loginDataForm =
-        <Row className={step === 2 ? "in" : "out"}>
-            {step === 2 && type === 'user' &&
+        <Row className={step === 0 ? "in" : "out"}>
+            {step === 0 && type === 'user' &&
                 <> <Col xs={12} >
                     <FormGroup inputType={f.email.inputType} label={f.email.label} name={f.email.form_name} value={values.email}
                         {...register(`${f.email.form_name}`, f.email.register)}
@@ -307,7 +269,7 @@ export default function RegisterForm(formType) {
                         />
                         {errors[f.confirmEmail.form_name] && <ErrorMessage><p>{errors[f.confirmEmail.form_name].message}</p></ErrorMessage>}
                     </Col>
-                    <Col xs={12} sm={6} >
+                    <Col xs={12} sm={7} >
                         <div className="my-tooltip">
                             <FormGroup inputType={f.password.inputType} label={f.password.label} name={f.password.form_name} value={values.password} type={f.password.type}
                                 {...register(`${f.password.form_name}`, f.password.register)}
@@ -319,7 +281,7 @@ export default function RegisterForm(formType) {
                         </div>
                         {errors[f.password.form_name] && <ErrorMessage><p>{errors[f.password.form_name].message}</p></ErrorMessage>}
                     </Col>
-                    <Col xs={12} sm={6} >
+                    <Col xs={12} sm={7} >
                         <FormGroup inputType={f.confirmPassword.inputType} label={f.confirmPassword.label} name={f.confirmPassword.form_name} value={values.confirmPassword} type={f.confirmPassword.type}
                             {...register(`${f.confirmPassword.form_name}`, {
                                 validate: (value) => value === getValues("password") || 'Las direcciones de correo no coinciden'
@@ -332,11 +294,64 @@ export default function RegisterForm(formType) {
             }
         </Row>
 
-    const geographicalDataForm =
-        <Row className={step === 3 ? "in" : "out"}>
-            {step === 3 && type === 'user' &&
+    const personalDataForm =
+        <Row className={step === 1 || step === 0 ? "in" : "out"}>
+            {(step === 1 && type === 'user') || (step === 0 && type === 'patient') ?
                 <>
                     <Col xs={12}>
+                        <FormGroup inputType={f.name.inputType} label={f.name.label} name={f.name.form_name} value={values.name}
+                            {...register(`${f.name.form_name}`, f.name.register)}
+                            onChange={handleChange}
+                        />
+                        {errors[f.name.form_name] && <ErrorMessage><p>{errors[f.name.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12}>
+                        <FormGroup inputType={f.surname.inputType} label={f.surname.label} name={f.surname.form_name} value={values.surname}
+                            {...register(`${f.surname.form_name}`, f.surname.register)}
+                            onChange={handleChange}
+                        />
+                        {errors[f.surname.form_name] && <ErrorMessage><p>{errors[f.surname.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={7}>
+                        <FormGroup inputType={f.id_identification_type.inputType} label={f.id_identification_type.label} name={f.id_identification_type.form_name} selectValue={values.id_identification_type}
+                            variants={f.id_identification_type.variants}
+                            handleChange={(e) => handleChange(e)}
+                            {...register(`${f.id_identification_type.form_name}`, f.id_identification_type.register)}
+                        />
+                        {errors[f.id_identification_type.form_name] && <ErrorMessage><p>{errors[f.id_identification_type.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={7}>
+                        <FormGroup inputType={f.identification_number.inputType} label={f.identification_number.label} name={f.identification_number.form_name} value={values.identification_number}
+                            {...register(`${f.identification_number.form_name}`, f.identification_number.register)}
+                            onChange={handleChange}
+                        />
+                        {errors[f.identification_number.form_name] && <ErrorMessage><p>{errors[f.identification_number.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={7}>
+                        <FormGroup inputType={f.birthdate.inputType} label={f.birthdate.label} name={f.birthdate.form_name}
+                            maxDate={type === "user" ? f.birthdate.maxDate : new Date()}
+                            {...register(`${f.birthdate.form_name}`, f.birthdate.register)}
+                            handleChange={(e) => handleChange(e)}
+                        />
+                        {errors[f.birthdate.form_name] && <ErrorMessage><p>{errors[f.birthdate.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                    <Col xs={12} sm={7}>
+                        <FormGroup inputType={f.id_gender.inputType} label={f.id_gender.label} name={f.id_gender.form_name} selectValue={values.id_gender}
+                            variants={f.id_gender.variants}
+                            handleChange={(e) => handleChange(e)}
+                            {...register(`${f.id_gender.form_name}`, f.id_gender.register)}
+                        />
+                        {errors[f.id_gender.form_name] && <ErrorMessage><p>{errors[f.id_gender.form_name].message}</p></ErrorMessage>}
+                    </Col>
+                </> : <></>
+            }
+        </Row>
+
+    const geographicalDataForm =
+        <Row className={step === 2 ? "in" : "out"}>
+            {step === 2 && type === 'user' &&
+                <>
+                    <Col xs={12} sm={7}>
                         <Form.Group>
                             <Form.Label className="mb-0">Domicilio</Form.Label>
                             <div>
@@ -357,7 +372,7 @@ export default function RegisterForm(formType) {
                         </Form.Group>
                     </Col>
                     {search ?
-                        <Col xs={12}>
+                        <Col xs={12} sm={7}>
                             <Form.Group className="mb-3" >
                                 <SearchAddress
                                     nameForm="postal_address"
@@ -391,14 +406,14 @@ export default function RegisterForm(formType) {
                                 />
                                 {errors[f.address_number.form_name] && <ErrorMessage><p>{errors[f.address_number.form_name].message}</p></ErrorMessage>}
                             </Col>
-                            <Col xs={12} sm={6}>
+                            <Col xs={12} sm={7}>
                                 <FormGroup inputType={f.locality.inputType} label={f.locality.label} name={f.locality.form_name} value={values.locality}
                                     {...register(`${f.locality.form_name}`, f.locality.register)}
                                     onChange={handleChange}
                                 />
                                 {errors[f.locality.form_name] && <ErrorMessage><p>{errors[f.locality.form_name].message}</p></ErrorMessage>}
                             </Col>
-                            <Col xs={12} sm={6}>
+                            <Col xs={12} sm={7}>
                                 <FormGroup inputType={f.department.inputType} label={f.department.label} name={f.department.form_name} value={values.department}
                                     {...register(`${f.department.form_name}`, f.department.register)}
                                     onChange={handleChange}
@@ -419,8 +434,8 @@ export default function RegisterForm(formType) {
         </Row>
 
     const conditionDataForm =
-        <Row className={step === 4 || step === 2 ? "in" : "out"}>
-            {(step === 4 && type === 'user') || (step === 2 && type === 'patient') ?
+        <Row className={step === 3 || step === 1 ? "in" : "out"}>
+            {(step === 3 && type === 'user') || (step === 1 && type === 'patient') ?
                 <>
                     <Col xs={12} >
                         <FormGroup inputType={f.id_usual_institution.inputType} label={f.id_usual_institution.label} name={f.id_usual_institution.form_name} selectValue={values.id_usual_institution}
@@ -449,8 +464,8 @@ export default function RegisterForm(formType) {
             }
         </Row>
 
-    const photoDataForm = <Row className={step === 5 || step === 3 ? "in" : "out"}>
-        {(step === 5 && type === 'user') || (step === 3 && type === 'patient') ?
+    const photoDataForm = <Row className={step === 4 || step === 2 ? "in" : "out"}>
+        {(step === 4 && type === 'user') || (step === 2 && type === 'patient') ?
             <>
                 <p>Para finalizar, ingresá foto de tu documento de identidad</p>
                 <Col xs={12}>
@@ -469,125 +484,54 @@ export default function RegisterForm(formType) {
         }
     </Row>
 
+    const stepsForm = type === 'user'
+        ? [
+            { title: "Datos de usuario", component: loginDataForm },
+            { title: "Datos personales", component: personalDataForm },
+            { title: "Domicilio", component: geographicalDataForm },
+            { title: "Salud", component: conditionDataForm },
+            { title: "Documento de identidad", component: photoDataForm }
+        ]
+        : [
+            { title: "Datos personales", component: personalDataForm },
+            { title: "Salud", component: conditionDataForm },
+            { title: "Documento de identidad", component: photoDataForm }
+        ]
+
     return (
-        <>
-            {/* First */}
-            {step === 1 &&
-                <>
-                    <Form className="form-group form_register " onSubmit={handleSubmit(() => { next() })}>
-                        {personalDataForm}
-                        <div className="d-flex w-100 justify-content-between align-items-center">
-                            <p className="text-danger d-inline m-0">{type === "user" ? '1 de 5...' : '1 de 3...'}</p>
-                            <div>
-                                <Button variant="danger" type="submit">Siguiente</Button>
-                            </div>
-                        </div>
-                    </Form>
-                </>
-            }
-
-            {/* Second */}
-            {step === 2 &&
-                <>
-                    {type === "user" ?
-                        <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
-                            {loginDataForm}
-                            <div className="d-flex w-100 justify-content-between align-items-center">
-                                <p className="text-danger d-inline m-0">2 de 5...</p>
-                                <div>
-                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
-                                    <Button variant="danger" type="submit">Siguiente</Button>
-                                </div>
-                            </div>
-                        </Form>
-                        :
-                        <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
-                            {conditionDataForm}
-                            <div className="d-flex w-100 justify-content-between align-items-center">
-                                <p className="text-danger d-inline m-0">2 de 3...</p>
-                                <div>
-                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
-                                    <Button variant="danger" type="submit">Siguiente</Button>
-                                </div>
-                            </div>
-                        </Form>
-                    }
-                </>
-            }
-
-            {/* Third */}
-            {step === 3 &&
-                <>
-                    {type === "user" ?
-                        <Form className="form-group form_register" onSubmit={handleSubmit(() => { next() })}>
-                            {geographicalDataForm}
-                            <div className="d-flex w-100 justify-content-between align-items-center">
-                                <p className="text-danger d-inline m-0">3 de 5...</p>
-                                <div>
-                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
-                                    <Button variant="danger" type="submit">Siguiente</Button>
-                                </div>
-                            </div>
-                        </Form>
-                        :
-                        <>
-                            {loading
-                                ? <Loader isActive={loading} />
-                                : <Form className="form-group form_register" onSubmit={handleSubmit(onSubmitImages)}>
-                                    {photoDataForm}
-                                    <div className="d-flex w-100 justify-content-between align-items-center">
-                                        <p className="text-danger d-inline m-0">3 de 3...</p>
-                                        <div>
-                                            {/* <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button> */}
-                                            <Button variant="danger" type="submit">Registrar</Button>
+        < Row>
+            {loading
+                ? <Loader isActive={loading} />
+                : <Col xs={12} md={6} className='order-2 order-md-1'>
+                    {stepsForm.map((s, i) => {
+                        return (
+                            <div key={i}>
+                                {step === i &&
+                                    <Form className="form-group form_register" onSubmit={handleSubmit(() => onSubmit(stepsForm.length, i))}>
+                                        {s.component}
+                                        <div className="d-flex w-100 justify-content-end align-items-center">
+                                            <Button variant="danger" type="submit">{stepsForm.length + 1 > i ? 'Siguiente' : 'Registrar'}</Button>
                                         </div>
-                                    </div>
-                                </Form>
-                            }
-                        </>
-
-                    }
-                </>
-            }
-            {/* Four */}
-            {
-                step === 4 &&
-                <>
-                    {loading
-                        ? <Loader isActive={loading} />
-                        : <Form className="form-group form_register" onSubmit={handleSubmit(onSubmit)}>
-                            {conditionDataForm}
-                            <div className="d-flex w-100 justify-content-between align-items-center">
-                                <p className="text-danger d-inline m-0">4 de 5...</p>
-                                <div>
-                                    <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button>
-                                    <Button variant="danger" type="submit">Confirmar</Button>
-                                </div>
+                                    </Form>
+                                }
                             </div>
-                        </Form>
+                        )
+                    })
                     }
-                </>
+                </Col>
             }
-            {/* Five */}
-            {
-                step === 5 &&
-                <>
-                    {loading
-                        ? <Loader isActive={loading} />
-                        : <Form className="form-group form_register" onSubmit={handleSubmit(onSubmitImages)}>
-                            {photoDataForm}
-                            <div className="d-flex w-100 justify-content-between align-items-center">
-                                <p className="text-danger d-inline m-0">5 de 5...</p>
-                                <div>
-                                    {/* <button className="btn text-danger" type="button" onClick={handleSubmit(() => { back() })}>Anterior</button> */}
-                                    <Button variant="danger" type="submit">Registrarse</Button>
-                                </div>
+            <Col xs={12} md={4} className='order-1 order-md-2 offset-md-1'>
+                <div className="d-flex flex-row flex-md-column py-3">
+                    {stepsForm.map((s, i) => {
+                        return (
+                            <div key={i} className={`${step < i ? 'step-inactive' : ''} d-flex align-items-center mb-3`}>
+                                <div className={`circle-step  ${step > i ? 'bg-primary border-0' : ''}`}>{step > i ? <MdIcon.MdCheck className="text-ligth" /> : <span>{i + 1}</span>}</div>
+                                <h5 className={`d-none d-md-block title-step ${step > i ? 'text-primary' : ''}`}>{s.title}</h5>
                             </div>
-                        </Form>
-                    }
-                </>
-
-            }
-        </>
+                        )
+                    })}
+                </div>
+            </Col>
+        </Row>
     )
 }
