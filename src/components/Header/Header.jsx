@@ -21,7 +21,7 @@ function Header() {
     const [sidebar, setSidebar] = useState(false);
     const navbarDropdownTitle = 
             <span className='navbar_dropdown-title'>
-                <p className='m-0 d-none d-lg-inline-block'>{auth.typeUser === 1 ? "Usuario administrador" : auth.user?.name + ' ' + auth.user?.surname}</p>
+                <p className='m-0 d-none d-lg-inline-block text-capitalize'>{auth.typeUser === 1 ? "Usuario administrador" : auth.user?.name + ' ' + auth.user?.surname}</p>
                 <BsIcon.BsPersonCircle className='user-icon'></BsIcon.BsPersonCircle>
             </span>
     

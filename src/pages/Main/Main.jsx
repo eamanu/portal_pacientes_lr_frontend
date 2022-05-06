@@ -16,7 +16,7 @@ const Main = () => {
 
     return (
         <Container className="main pt-5">
-            <Row>
+            <Row className="d-flex justify-content-center">
                 <Col xs={12} lg={6}>
                     <img className='main__banner' src={logoFondoBlanco} alt="logo fondo rojo - portal del paciente la rioja" />
                 </Col>

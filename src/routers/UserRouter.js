@@ -17,7 +17,7 @@ import AgregarPaciente from '../pages/GrupoFamiliar/AgregarPaciente';
 export default function UserRouter() {
 
     return (
-        <div className='user-container'>
+        <div className='user-container top-user-header'>
         <PatientProvider>
         <UserHeader/>
         <div className='patient-container'>
