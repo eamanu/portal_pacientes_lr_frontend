@@ -18,6 +18,7 @@ function Profile({ show, handleClose, type }) {
     const auth = useAuth();
     const p = usePatient();
     const data = type === 'user' ? auth.user : p.patient
+    //button
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const [values, setValues] = useState(data)
     const [newValue, setNewValue] = useState("") //Get and set values form to required
@@ -47,8 +48,9 @@ function Profile({ show, handleClose, type }) {
         }
     }
     useEffect(() => {
+        // console.log('newvalue', newValue,values[newValue] )
         setValue(`${newValue}`, values[newValue]);
-    }, [newValue])
+    }, [newValue, values])
 
     const onSubmit = () => {
         setLoading(true)
@@ -66,7 +68,7 @@ function Profile({ show, handleClose, type }) {
         body.is_chronic_kidney_disease = body.is_chronic_kidney_disease.toString() == 'true' ? true : false
         body.is_chronic_respiratory_disease = body.is_chronic_respiratory_disease.toString() == 'true' ? true : false
         let setDate = values.birthdate.split('-')
-        body.birthdate =  `${setDate[2]}/${setDate[1]}/${setDate[0]}`
+        body.birthdate = `${setDate[2]}/${setDate[1]}/${setDate[0]}`
         Swal.fire(confirm(`¿Desea actualizar los datos de ${type === 'user' ? 'usuario' : 'paciente'}`)).then((result) => {
             if (result.isConfirmed) {
                 sendUpdatePersonForm(body)
@@ -245,14 +247,14 @@ function Profile({ show, handleClose, type }) {
                                 </>
                             }
                             <div className='d-flex justify-content-end'>
-                                <Button variant='primary' className="me-2" type="submit">Guardar cambios</Button>
+                                <Button variant='outline-secondary' className="me-2" onClick={() => handleClose()}>Cancelar</Button>
+                                <Button variant='primary' type="submit" >Guardar cambios</Button>
                             </div>
                         </Form>
                     </Container>
                 }
             </Modal.Body>
             <Modal.Footer>
-                <Button variant='outline-secondary' onClick={() => handleClose()}>Cancelar</Button>
             </Modal.Footer>
         </Modal>
     )
