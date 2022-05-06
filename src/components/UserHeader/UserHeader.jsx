@@ -14,7 +14,7 @@ function UserHeader() {
     const thisLocation = location.pathname
     // Person
     const p = usePatient();
-    const idPerson = 4 //hardcode - should be p.patient.id 
+    const idPerson = p.patient.id 
     const [dniPatient, setDniPatient] = useState(p.patient.identification_number);
     function handleChange() {
         p.getPatient(dniPatient)
@@ -29,7 +29,8 @@ function UserHeader() {
         (person_id, only_unread) => {
             getMessagesByPerson(person_id, only_unread)
                 .then((res) => {
-                    if (res.length) {
+                    if (res) {
+                        console.log('res', res)
                         console.log(res)
                         setMessages(res);
                         return messages
@@ -44,8 +45,8 @@ function UserHeader() {
     )
 
     useEffect(() => {
-        getMessages(idPerson, true) //hardcode
-    }, [])
+        getMessages(idPerson, true) 
+    }, [idPerson])
 
     return (
         <>

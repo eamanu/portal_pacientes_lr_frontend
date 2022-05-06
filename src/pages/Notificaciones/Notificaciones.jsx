@@ -15,7 +15,7 @@ export default function Notificaciones() {
     var tokenUser = useAuth().tokenUser;
     //Person
     const p = usePatient();
-    const idPerson = 4 //hardcode - should be p.patient.id 
+    const idPerson = p.patient.id 
 
     const [messages, setMessages] = useState();
 
@@ -28,6 +28,8 @@ export default function Notificaciones() {
                         setMessages(res);
                         setLoading(false)
                         return messages
+                    } else {
+                        setLoading(false)
                     }
                 })
                 .catch((err) => { 
@@ -45,7 +47,7 @@ export default function Notificaciones() {
 
     const initMessages = () => {
         setLoading(true)
-        getMessages(idPerson, false) //hardcode
+        getMessages(idPerson, false) 
     }
 
 

@@ -75,7 +75,7 @@ const AuthProvider = ({ children }) => {
         }
       })
       .then((data) => {
-        // console.log(data)
+        console.log(data)
         // console.log("token", data.access_token);
         // console.log('data user', data.data);
         setUser(data.data);

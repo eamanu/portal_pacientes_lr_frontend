@@ -9,7 +9,7 @@ export const Mensaje = (props) => {
 
     //Person
     const p = usePatient();
-    const idPerson = 4 //hardcode - should be p.patient.id 
+    const idPerson = p.patient.id 
     //Message
     const { asunto, from, mensaje, isRead, idMessage, action} = props
     // Modal
@@ -26,8 +26,7 @@ export const Mensaje = (props) => {
         handleShow();
         setOpen(true);
         if(!isRead){
-            console.log(isRead)
-            read(idPerson, idMessage) //hardcode
+            read(idPerson, idMessage) 
         }
     }
 

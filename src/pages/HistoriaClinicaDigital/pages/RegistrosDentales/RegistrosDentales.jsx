@@ -39,7 +39,7 @@ function RegistrosDentales() {
 
     useEffect(() => {
         setLoading(true);
-        getData(p.patientInstitution, p.idPatient); //hardcode
+        getData(p.patientInstitution, p.idPatient); 
     }, [p.patientInstitution]);
 
     return (
