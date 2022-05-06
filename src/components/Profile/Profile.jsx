@@ -68,7 +68,7 @@ function Profile({ show, handleClose, type }) {
         body.is_chronic_kidney_disease = body.is_chronic_kidney_disease.toString() == 'true' ? true : false
         body.is_chronic_respiratory_disease = body.is_chronic_respiratory_disease.toString() == 'true' ? true : false
         let setDate = values.birthdate.split('-')
-        body.birthdate = `${setDate[2]}/${setDate[1]}/${setDate[0]}`
+        body.birthdate = `${setDate[2].split('T')[0]}/${setDate[1]}/${setDate[0]}`
         Swal.fire(confirm(`¿Desea actualizar los datos de ${type === 'user' ? 'usuario' : 'paciente'}`)).then((result) => {
             if (result.isConfirmed) {
                 sendUpdatePersonForm(body)
