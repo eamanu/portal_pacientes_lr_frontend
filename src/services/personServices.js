@@ -1,4 +1,5 @@
 import {
+  API_ENDPOINTS_GETPERSONBYID,
   API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER,
   API_ENDPOINTS_UPDATEPEROSN,
   API_ENDPOINT_SETADMINSTATUSTOPERSON,
@@ -14,6 +15,22 @@ export async function getPersonByIdentificationNumber(idn) {
     let query = searchParams.toString();
     const promise = await get(
       API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER(query),
+      AUTH_HEADER()
+    );
+    return promise;
+  } catch (err) {
+    console.log("Error ", err);
+  }
+}
+
+export async function getPersonById(id) {
+  try {
+    const searchParams = new URLSearchParams({
+      person_id: id,
+    });
+    let query = searchParams.toString();
+    const promise = await get(
+      API_ENDPOINTS_GETPERSONBYID(query),
       AUTH_HEADER()
     );
     return promise;

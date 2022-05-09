@@ -3,9 +3,9 @@ import { Row, Col } from "react-bootstrap";
 import EnablePatient from "../EnablePatient/EnablePatient";
 // import DataNotFound from "../../components/DataNotFound";
 
-export default function PendingPatient({ name, status, idn }) {
+export default function PendingPatient({ name, status, id }) {
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false);  //hardcode
     const refStatus = {
         1: "Pendiente",
         2: "Validado",
@@ -18,7 +18,7 @@ export default function PendingPatient({ name, status, idn }) {
         <>
             <Row className="admin-patients__patient" onClick={handleShow} >
                 <Col xs={12} md={9}>
-                    <p>{name} <span className="fw-lighter ms-1">DNI {idn}</span></p>
+                    <p>{name} <span className="fw-lighter ms-1">ID #{id}</span></p>
                 </Col>
                 <Col xs={12} md={3}>
                     <div className={`status-container bg-${status}`}>
@@ -26,7 +26,7 @@ export default function PendingPatient({ name, status, idn }) {
                     </div>
                 </Col>
             </Row>
-            <EnablePatient show={show} handleClose={handleClose} idn={idn} />
+            <EnablePatient show={show} handleClose={handleClose} id={id} />
         </>
     )
 }

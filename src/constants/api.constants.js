@@ -78,15 +78,22 @@ export const API_ENDPOINT_SETADMINSTATUSTOPERSON = (query) => {
   return url;
 };
 
-export const API_ENDPOINT_GETPERSONS = `${baseUrl}/admin/persons`;
-export const API_ENDPOINT_GETPERSONSACCEPTED = `${baseUrl}/admin/persons-accepted`;
-export const API_ENDPOINT_PERSONACCEPTED = `${baseUrl}/admin/accepted`;
-export const API_ENDPOINT_PERSONNOTACCEPT = `${baseUrl}/admin/notaccept`;
+export const API_ENDPOINT_GETPERSONS = `${baseUrl}/persons`;
+
+export const API_ENDPOINT_GETPERSONSACCEPTED = `${baseUrl}/persons_accepted`;
+
+export const API_ENDPOINT_PERSONACCEPTED = `${baseUrl}/accepted`;
+export const API_ENDPOINT_PERSONNOTACCEPT = `${baseUrl}/notaccept`;
 
 // get patients/users data ---------------------------------------
 
 export const API_ENDPOINTS_GETPERSONBYIDENTIFICATIONNUMBER = (query) => {
   let url = `${baseUrl}/getpersonbyidentificationnumber?${query}`;
+  return url;
+};
+
+export const API_ENDPOINTS_GETPERSONBYID = (query) => {
+  let url = `${baseUrl}/getpersonbyid?${query}`;
   return url;
 };
 

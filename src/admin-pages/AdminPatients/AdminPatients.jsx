@@ -4,25 +4,29 @@ import DataNotFound from "../../components/DataNotFound";
 import Loader from "../../components/Loader";
 import { useCallback, useEffect, useState } from "react";
 import { getPersons } from "../../services/adminServices";
+import Swal from "sweetalert2";
+import { error } from "../../components/SwalAlertData";
 
 export default function AdminPatients() {
 
-    const [loading, setLoading] = useState(false); //hardcode
-    // const [ patientsPending, setPatientsPending ] = useState([])
-    //hardcode
-    const patientsPending = [ 
-        {name: "paciente 1", surname: "paciente1", identification_number: "1234567", status: 1},
-        {name: "paciente 1", surname: "paciente1", identification_number: "1234567", status: 2},
-        {name: "paciente 1", surname: "paciente1", identification_number: "1234567", status: 3},
-        {name: "paciente 1", surname: "paciente1", identification_number: "1234567", status: 1},
-        {name: "paciente 1", surname: "paciente1", identification_number: "1234567", status: 1},
-    ]
+    const [loading, setLoading] = useState(true); 
+    const [patientsPending, setPendingPatients]  = useState([]);
 
     const getData = useCallback(
         () => {
             getPersons()
                 .then((res) => {
-                    console.log(res)
+                    if(res){
+                        setPendingPatients(res)
+                        setLoading(false)
+                    } else {
+                        throw new Error(res)
+                    }
+                })
+                .catch((err) => {
+                    console.log('error', err)
+                    Swal.fire(error('Hubo un error al cargar pacientes pendientes'));
+                    setLoading(false)
                 })
         },
         [],
@@ -43,7 +47,8 @@ export default function AdminPatients() {
                     <h5>Pacientes pendientes <span className="fw-light text-danger">({patientsPending.length})</span></h5>
                     {patientsPending.length > 0 ? patientsPending.map((p, i) => {
                         return (
-                            <PendingPatient key={p.identification_number + i} name={p.name + " " + p.surname} status={p.status} idn={p.identification_number}></PendingPatient>
+                            // <PendingPatient key={i} name={p.name + " " + p.surname} status={p.status} idn={p.identification_number} id></PendingPatient>
+                            <PendingPatient key={i} name={p.name + " " + p.surname} status={1} id={p.id}></PendingPatient>
                         )
                     })
                         :

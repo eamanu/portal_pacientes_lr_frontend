@@ -5,11 +5,11 @@ import Swal from 'sweetalert2';
 import ImgRotate from '../../../components/ImgRotate';
 import { confirm, error, success } from '../../../components/SwalAlertData';
 import identificationsTypeServices from '../../../services/parametricServices';
-import { getPersonByIdentificationNumber, setAdminStatusToPerson } from '../../../services/personServices';
+import { getPersonById, setAdminStatusToPerson } from '../../../services/personServices';
 import { downloadIdentificationImagesService } from '../../../services/registerServices';
 import { variantsGender } from '../../../components/ComponentsData';
 
-export default function EnablePatient({ show, handleClose, idn }) {
+export default function EnablePatient({ show, handleClose, id }) {
 
     const [loading, setLoading] = useState(true);
     const [patient, setPatient] = useState(null);
@@ -20,8 +20,8 @@ export default function EnablePatient({ show, handleClose, idn }) {
     const [ imgBack, setImgBack ] = useState("")
 
     const getPatient = useCallback(
-        (idn) => {
-            getPersonByIdentificationNumber(idn)
+        (id) => {
+            getPersonById(id)
                 .then((res) => {
                     if (res.id) {
                         setPatient(res)
@@ -36,7 +36,7 @@ export default function EnablePatient({ show, handleClose, idn }) {
                     handleClose()
                 })
         },
-        [idn],
+        [id],
     )
 
     const getBirthdate = (birthdate) => {
@@ -103,9 +103,9 @@ export default function EnablePatient({ show, handleClose, idn }) {
 
     useEffect(() => {
         if (show) {
-            getPatient('user8dni') //hardcode
+            getPatient(id)
         }
-    }, [show, idn, getPatient])
+    }, [show, id, getPatient])
 
     useEffect(() => {
         if (show && patient) {
