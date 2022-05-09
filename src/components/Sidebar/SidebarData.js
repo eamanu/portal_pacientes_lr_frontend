@@ -232,7 +232,7 @@ export const SidebarData = {
     {
       id: 15,
       title: "Mensajería",
-      path: "/admin/mensajeria/mensajes-enviados",
+      path: "/admin/mensajeria/mensajes-activos",
       icon: <MdIcon.MdOutlineMessage className="menu-icon" />,
       acordeon: false,
       a: false,
@@ -240,8 +240,8 @@ export const SidebarData = {
       aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
       options: [
         {
-          title: "Mensajes Enviados",
-          path: "/admin/mensajeria/mensajes-enviados"
+          title: "Mensajes Activos",
+          path: "/admin/mensajeria/mensajes-activos"
         },
         {
           title: "Borradores",
