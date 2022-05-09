@@ -20,7 +20,8 @@ function AvisoVerificacion() {
 
     const validate = useCallback(
         (token) => {
-            validateEmailServices(token)
+           if(token)
+           { validateEmailServices(token)
                 .then((res) => {
                     if (res.status) {
                         console.log(res.status)
@@ -33,7 +34,7 @@ function AvisoVerificacion() {
                 .catch((err) => {
                     console.log(err.message)
                     setIsValidated(false)
-                })
+                })}
         },
         [],
     )
@@ -54,12 +55,14 @@ function AvisoVerificacion() {
                         <>
                             <Col >
                                 <h2>Validación de correo electrónico</h2>
-                                {isValidated ?
+                                {isValidated ? 
+                                <>
                                     <div className="w-100 d-flex flex-column flex-sm-row align-items-center">
                                         <MdIcon.MdOutlineCheckCircleOutline className="text-success" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineCheckCircleOutline>
                                         <p className="m-0 ms-2">El email ha sido verificado con éxico.</p>
-                                        <p className="m-0 ms-2">Tu solicicitud está pendiente de alta. Una vez que sea aprobada por el Ministerio de Salud, podrás ingresar en el Portal.</p>
                                     </div>
+                                    <p className="m-0 ms-2">Tu solicicitud está pendiente de alta. Una vez que sea aprobada por el Ministerio de Salud, podrás ingresar en el Portal.</p>
+                                </>
                                     :
                                     <div className="w-100 d-flex flex-column flex-sm-row align-items-center">
                                         <MdIcon.MdOutlineErrorOutline className="text-danger" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineErrorOutline>
@@ -70,16 +73,16 @@ function AvisoVerificacion() {
                         </>
                         :
                         <Col >
-                            {auth.newUser ? 
-                            <>
-                            <div className="w-100 d-flex flex-column flex-sm-row align-items-center mb-5">
-                                <MdIcon.MdOutlineCheckCircleOutline className="text-success me-3" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineCheckCircleOutline>
-                                <p className='mb-0'>Hemos enviado un correo a la casilla <b>{auth.newUser.email}</b>. Haz click en el link que figura en el correo para confirmar tu usuario.</p>
-                            </div> 
-                                <p>Si no encuentras el correo en tu bandeja de entrada, <strong>no olvides verificar en la carpeta de spam.</strong></p>
-                                <Link to="/login">¿Ya tenés una cuenta? ¡Iniciá sesión!</Link>
-                            </>
-                            :
+                            {auth.newUser ?
+                                <>
+                                    <div className="w-100 d-flex flex-column flex-sm-row align-items-center mb-5">
+                                        <MdIcon.MdOutlineCheckCircleOutline className="text-success me-3" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineCheckCircleOutline>
+                                        <p className='mb-0'>Hemos enviado un correo a la casilla <b>{auth.newUser.email}</b>. Haz click en el link que figura en el correo para confirmar tu usuario.</p>
+                                    </div>
+                                    <p>Si no encuentras el correo en tu bandeja de entrada, <strong>no olvides verificar en la carpeta de spam.</strong></p>
+                                    <Link to="/login">¿Ya tenés una cuenta? ¡Iniciá sesión!</Link>
+                                </>
+                                :
                                 <>
                                     <div className="w-100 d-flex flex-column flex-sm-row align-items-center mb-5">
                                         <MdIcon.MdOutlineErrorOutline className="text-danger me-3" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineErrorOutline>
