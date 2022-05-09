@@ -11,7 +11,7 @@ import useAuth from '../../hooks/useAuth';
 function LoginPerson() {
 
     const [email, setEmail] = useState(JSON.parse(localStorage.getItem("loginDataEmail")) || "");
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState(JSON.parse(localStorage.getItem("loginDataPassword")) || "");
     const [saveData, setSaveData] = useState(false);
     const auth = useAuth();
     const history = useHistory();
@@ -28,6 +28,7 @@ function LoginPerson() {
         auth.loginPerson(email, password);
         if (saveData) {
             localStorage.setItem("loginDataEmail", JSON.stringify(email));
+            localStorage.setItem("loginDataPassword", JSON.stringify(password));
         }
     }
 

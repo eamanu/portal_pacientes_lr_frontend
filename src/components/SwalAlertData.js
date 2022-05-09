@@ -34,13 +34,6 @@ export const expiredSession = {
   confirmButtonColor: "#007bff",
 };
 
-export const loginError = {
-  text: "Error. Nombre de usuario o contraseña incorrectos.",
-  icon: "error",
-  showConfirmButton: false,
-  timer: 2000,
-};
-
 export const error = (error) => {
   let content = {
     text: error,
