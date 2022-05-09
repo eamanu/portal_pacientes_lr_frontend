@@ -40,6 +40,7 @@ export let AUTH_HEADER = () => {
 export const API_ENDPOINTS_LOGINADMIN = `${baseUrl}/login-admin`;
 
 export const API_ENDPOINTS_LOGINPERSON = `${baseUrl}/login`;
+
 // validate
 export const API_ENDPOINTS_VALIDATEEMAIL = (token) => {
   let url = `${baseUrl}/validate-email/${token}`;
@@ -83,6 +84,7 @@ export const API_ENDPOINT_GETPERSONS = `${baseUrl}/persons`;
 export const API_ENDPOINT_GETPERSONSACCEPTED = `${baseUrl}/persons_accepted`;
 
 export const API_ENDPOINT_PERSONACCEPTED = `${baseUrl}/accepted`;
+
 export const API_ENDPOINT_PERSONNOTACCEPT = `${baseUrl}/notaccept`;
 
 // get patients/users data ---------------------------------------
