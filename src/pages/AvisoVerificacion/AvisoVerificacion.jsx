@@ -5,11 +5,12 @@ import * as MdIcon from "react-icons/md";
 import useAuth from '../../hooks/useAuth';
 import validateEmailServices from '../../services/validateEmailServices';
 import { useLocation } from 'react-router-dom';
+import Loader from '../../components/Loader';
 
 function AvisoVerificacion() {
 
-    // const history = useHistory();
     // get token
+    const [loading, setLoading] = useState(false)
     const location = useLocation();
     const pathname = location.pathname
     const key = pathname.split('/verificacion/')
@@ -20,12 +21,12 @@ function AvisoVerificacion() {
 
     const validate = useCallback(
         (token) => {
-           if(token)
-           { validateEmailServices(token)
+            validateEmailServices(token)
                 .then((res) => {
                     if (res.status) {
                         console.log(res.status)
                         setIsValidated(true)
+                        setLoading(false)
                     } else {
                         setIsValidated(false)
                         throw new Error(res.message)
@@ -34,13 +35,17 @@ function AvisoVerificacion() {
                 .catch((err) => {
                     console.log(err.message)
                     setIsValidated(false)
-                })}
+                    setLoading(false)
+                })
         },
         [],
     )
 
     useEffect(() => {
-        validate(token)
+        if (token) {
+            setLoading(true)
+            validate(token)
+        }
     }, [token])
 
 
@@ -53,23 +58,26 @@ function AvisoVerificacion() {
                 <Row className='w-100'>
                     {token ?
                         <>
-                            <Col >
-                                <h2>Validación de correo electrónico</h2>
-                                {isValidated ? 
-                                <>
-                                    <div className="w-100 d-flex flex-column flex-sm-row align-items-center">
-                                        <MdIcon.MdOutlineCheckCircleOutline className="text-success" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineCheckCircleOutline>
-                                        <p className="m-0 ms-2">El email ha sido verificado con éxico.</p>
-                                    </div>
-                                    <p className="m-0 ms-2">Tu solicicitud está pendiente de alta. Una vez que sea aprobada por el Ministerio de Salud, podrás ingresar en el Portal.</p>
-                                </>
-                                    :
-                                    <div className="w-100 d-flex flex-column flex-sm-row align-items-center">
-                                        <MdIcon.MdOutlineErrorOutline className="text-danger" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineErrorOutline>
-                                        <p className="m-0 ms-2">Error en la validación de email.</p>
-                                    </div>
-                                }
-                            </Col>
+                            {loading
+                                ? <Loader isActive={loading} />
+                                : <Col >
+                                    <h2>Validación de correo electrónico</h2>
+                                    {isValidated ?
+                                        <>
+                                            <div className="w-100 d-flex flex-column flex-sm-row align-items-center">
+                                                <MdIcon.MdOutlineCheckCircleOutline className="text-success" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineCheckCircleOutline>
+                                                <p className="m-0 ms-2">El email ha sido verificado con éxito.</p>
+                                            </div>
+                                            <p className="m-0 ms-2">Tu solicicitud está pendiente de alta. Una vez que sea aprobada por el Ministerio de Salud, podrás ingresar en el Portal.</p>
+                                        </>
+                                        :
+                                        <div className="w-100 d-flex flex-column flex-sm-row align-items-center">
+                                            <MdIcon.MdOutlineErrorOutline className="text-danger" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineErrorOutline>
+                                            <p className="m-0 ms-2">Error en la validación de email.</p>
+                                        </div>
+                                    }
+                                </Col>
+                            }
                         </>
                         :
                         <Col >
