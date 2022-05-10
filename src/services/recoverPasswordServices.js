@@ -1,4 +1,4 @@
-import { API_ENDPOINTS_CHANGEPASSWORD, API_ENDPOINTS_RECOVERPASSWORD, API_HEADER } from "../constants/api.constants";
+import { API_ENDPOINT_CHANGEPASSWORD, API_ENDPOINT_RECOVERPASSWORD, API_HEADER } from "../constants/api.constants";
 import { get } from "./httpServices";
 
 export async function recoverPasswordServices(email) {
@@ -7,7 +7,7 @@ export async function recoverPasswordServices(email) {
       email: email
     });
     let query = searchParams.toString();
-    const promise = await get(API_ENDPOINTS_RECOVERPASSWORD(query), API_HEADER())
+    const promise = await get(API_ENDPOINT_RECOVERPASSWORD(query), API_HEADER())
    return promise
   }
   catch (err) {
@@ -22,7 +22,7 @@ export async function changePassword(token, password) {
       password: password
     });
     let query = searchParams.toString();
-    const promise = await get(API_ENDPOINTS_CHANGEPASSWORD(query), API_HEADER())
+    const promise = await get(API_ENDPOINT_CHANGEPASSWORD(query), API_HEADER())
    return promise
   }
   catch (err) {

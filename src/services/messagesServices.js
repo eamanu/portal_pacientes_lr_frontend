@@ -1,19 +1,19 @@
 import {
-  API_ENDPOINTS_CREATEMESSAGE,
-  API_ENDPOINTS_DELETEMESSAGE,
-  API_ENDPOINTS_GETALLMESSAGES,
-  API_ENDPOINTS_GETMESSAGE,
-  API_ENDPOINTS_GETMESSAGESBYPERSON,
-  API_ENDPOINTS_SENDMESSAGE,
-  API_ENDPOINTS_SETMESSAGEREAD,
-  API_ENDPOINTS_UPDATEMESSAGE,
+  API_ENDPOINT_CREATEMESSAGE,
+  API_ENDPOINT_DELETEMESSAGE,
+  API_ENDPOINT_GETALLMESSAGES,
+  API_ENDPOINT_GETMESSAGE,
+  API_ENDPOINT_GETMESSAGESBYPERSON,
+  API_ENDPOINT_SENDMESSAGE,
+  API_ENDPOINT_SETMESSAGEREAD,
+  API_ENDPOINT_UPDATEMESSAGE,
   AUTH_HEADER,
 } from "../constants/api.constants";
 import { get, post, put } from "./httpServices";
 
 export async function getAllMessages() {
   try {
-    const promise = await get(API_ENDPOINTS_GETALLMESSAGES, AUTH_HEADER());
+    const promise = await get(API_ENDPOINT_GETALLMESSAGES, AUTH_HEADER());
     return promise;
   } catch (err) {
     console.log("Error al cargar los mensajes: ", err);
@@ -28,7 +28,7 @@ export async function getMessagesByPerson(person_id, only_unread) {
     });
     let query = searchParams.toString();
     const promise = await get(
-      API_ENDPOINTS_GETMESSAGESBYPERSON(query),
+      API_ENDPOINT_GETMESSAGESBYPERSON(query),
       AUTH_HEADER()
     );
     return promise;
@@ -43,7 +43,7 @@ export async function getMessage(message_id) {
       message_id: message_id,
     });
     let query = searchParams.toString();
-    const promise = await get(API_ENDPOINTS_GETMESSAGE(query), AUTH_HEADER());
+    const promise = await get(API_ENDPOINT_GETMESSAGE(query), AUTH_HEADER());
     return promise;
   } catch (err) {
     console.log("Error al traer Mensajes: ", err);
@@ -59,7 +59,7 @@ export async function createMessage(header, body, is_formatted) {
     });
     let query = searchParams.toString();
     const promise = await post(
-      API_ENDPOINTS_CREATEMESSAGE(query),
+      API_ENDPOINT_CREATEMESSAGE(query),
       AUTH_HEADER()
     );
     return promise;
@@ -80,7 +80,7 @@ export async function sendMessage(
       is_for_all_categories: is_for_all_categories,
     });
     let query = searchParams.toString();
-    const promise = await post(API_ENDPOINTS_SENDMESSAGE(query), AUTH_HEADER());
+    const promise = await post(API_ENDPOINT_SENDMESSAGE(query), AUTH_HEADER());
     return promise;
   } catch (err) {
     console.log("Error al enviar mensaje: ", err);
@@ -95,7 +95,7 @@ export async function setMessageRead(person_id, message_id) {
     });
     let query = searchParams.toString();
     const promise = await post(
-      API_ENDPOINTS_SETMESSAGEREAD(query),
+      API_ENDPOINT_SETMESSAGEREAD(query),
       AUTH_HEADER()
     );
     return promise;
@@ -107,7 +107,7 @@ export async function setMessageRead(person_id, message_id) {
 export async function updateMessage(body) {
   try {
     const data = JSON.stringify(body);
-    const promise = await put(API_ENDPOINTS_UPDATEMESSAGE, AUTH_HEADER(), data);
+    const promise = await put(API_ENDPOINT_UPDATEMESSAGE, AUTH_HEADER(), data);
     return promise;
   } catch (err) {
     console.log("Error al marcar mensaje como leido: ", err);
@@ -121,7 +121,7 @@ export async function deleteMessage(message_id) {
     });
     let query = searchParams.toString();
     const promise = await put(
-      API_ENDPOINTS_DELETEMESSAGE(query),
+      API_ENDPOINT_DELETEMESSAGE(query),
       AUTH_HEADER(),
     );
     return promise;

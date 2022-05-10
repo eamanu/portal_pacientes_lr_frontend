@@ -1,6 +1,6 @@
 import {
-  API_ENDPOINTS_PATIENTBASICDATA,
-  API_ENDPOINTS_PATIENTCOMPLETEDATA,
+  API_ENDPOINT_PATIENTBASICDATA,
+  API_ENDPOINT_PATIENTCOMPLETEDATA,
   AUTH_HEADER,
 } from "../constants/api.constants";
 import { get } from "./httpServices";
@@ -10,7 +10,7 @@ export default async function patientBasicDataServices(body) {
     const searchParams = new URLSearchParams(body);
     let query = searchParams.toString();
     const promise = await get(
-      API_ENDPOINTS_PATIENTBASICDATA(query),
+      API_ENDPOINT_PATIENTBASICDATA(query),
       AUTH_HEADER()
     );
     return promise;
@@ -23,7 +23,7 @@ export async function patientCompleteDataServices(body) {
     const searchParams = new URLSearchParams(body);
     let query = searchParams.toString();
     const promise = await get(
-      API_ENDPOINTS_PATIENTCOMPLETEDATA(query),
+      API_ENDPOINT_PATIENTCOMPLETEDATA(query),
       AUTH_HEADER()
     );
     return promise;

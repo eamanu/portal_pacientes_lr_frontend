@@ -1,5 +1,5 @@
 import {
-  API_ENDPOINTS_LOGINPERSON,
+  API_ENDPOINT_LOGINPERSON,
   LOGIN_HEADER,
 } from "../constants/api.constants";
 import { post } from "./httpServices";
@@ -16,7 +16,7 @@ export async function loginPersonService(username, password) {
       password: password,
     });
     let data = searchParams.toString();
-    const promise = await post(API_ENDPOINTS_LOGINPERSON, LOGIN_HEADER(), data);
+    const promise = await post(API_ENDPOINT_LOGINPERSON, LOGIN_HEADER(), data);
     return promise;
   } catch (err) {
     console.log("Error al iniciar sesión: ", err);
