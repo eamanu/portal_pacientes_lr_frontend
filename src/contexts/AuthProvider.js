@@ -153,11 +153,19 @@ const AuthProvider = ({ children }) => {
     let email = localStorage.getItem("loginDataEmail");
     let password = localStorage.getItem("loginDataPassword");
     localStorage.clear();
-    localStorage.setItem("loginDataEmail", JSON.stringify(email));
-    localStorage.setItem("loginDataPassword", JSON.stringify(password));
+    saveLoginData(email, password)
     setTokenUser(null);
     setUser(null);
   };
+
+  const saveLoginData = (e, p) => {
+    if(e) {
+      localStorage.setItem("loginDataEmail", e);
+    }
+    if(p){
+      localStorage.setItem("loginDataPassword", p);
+    }
+  }
 
   const newRegisterUser = (values) => {
     setNewUser(values);
