@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import ImgRotate from '../../../components/ImgRotate';
 import { confirm, error, success } from '../../../components/SwalAlertData';
 import identificationsTypeServices from '../../../services/parametricServices';
-import { getPersonById, setAdminStatusToPerson } from '../../../services/personServices';
+import { getAdminStatus, getPersonById, setAdminStatusToPerson } from '../../../services/personServices';
 import { downloadIdentificationImagesService } from '../../../services/registerServices';
 import { variantsGender } from '../../../components/ComponentsData';
 
@@ -13,11 +13,12 @@ export default function EnablePatient({ show, handleClose, id }) {
 
     const [loading, setLoading] = useState(true);
     const [patient, setPatient] = useState(null);
-    const [idnType, setIdnType] = useState(1); 
-    const [genderType, setGenderType] = useState(null); 
-    const [birthdate, setBirthdate ] = useState(null);
-    const [ imgFront, setImgFront ] = useState("")
-    const [ imgBack, setImgBack ] = useState("")
+    const [idnType, setIdnType] = useState(1);
+    const [genderType, setGenderType] = useState(null);
+    const [birthdate, setBirthdate] = useState(null);
+    const [adminStatus, setAdminStatus ] = useState([]);
+    const [imgFront, setImgFront] = useState("")
+    const [imgBack, setImgBack] = useState("")
 
     const getPatient = useCallback(
         (id) => {
@@ -38,7 +39,6 @@ export default function EnablePatient({ show, handleClose, id }) {
         },
         [id],
     )
-
     const getBirthdate = (birthdate) => {
         let date = birthdate.split('-')
         let y = date[0]
@@ -46,7 +46,6 @@ export default function EnablePatient({ show, handleClose, id }) {
         let d = date[2].split('T')[0]
         setBirthdate(`${d} / ${m} / ${y}`)
     }
-
     const getDNIVariants = useCallback(
         (idType) => {
             identificationsTypeServices()
@@ -77,7 +76,7 @@ export default function EnablePatient({ show, handleClose, id }) {
                         return res.text().then(text => {
                             let readeble = JSON.parse(text)
                             if (readeble.status) {
-                                if(is_front) {
+                                if (is_front) {
                                     setImgFront(readeble.value)
                                     getImage(id, false)
                                 } else {
@@ -100,7 +99,20 @@ export default function EnablePatient({ show, handleClose, id }) {
         },
         [],
     )
+    const getAdminStatusToSetPerson = useCallback(
+        () => {
+            getAdminStatus()
+            .then((res) => {
+                setAdminStatus(res)
+            })
+            .catch((err) => {
+                console.log('Error', err)
+                Swal.fire(error('Error al obtenter estados'))
+                handleClose()
+            })
 
+        }, []
+    )
     useEffect(() => {
         if (show) {
             getPatient(id)
@@ -109,25 +121,26 @@ export default function EnablePatient({ show, handleClose, id }) {
 
     useEffect(() => {
         if (show && patient) {
+            getAdminStatusToSetPerson();
             getDNIVariants(patient.id_identification_type)
-            getBirthdate(patient.birthdate); 
+            getBirthdate(patient.birthdate);
             getGender(patient.id_gender);
             getImage(patient.id, true);
         }
     }, [show, patient, getDNIVariants])
 
-    const validate = useCallback(
-        (id) => {
-            setAdminStatusToPerson(id, 2) //note  1: pending , 2: validated , 3: refused
+    const changeAdminStatusToPerson = useCallback(
+        (id, status) => {
+            setAdminStatusToPerson(id, status.id) //note  1: pending , 2: validated , 3: refused api_endpoint /getadminstatus
                 .then((res) => {
                     if (res.ok) {
                         return res.text().then(text => {
                             let readeble = JSON.parse(text)
                             if (readeble.status) {
-                                Swal.fire(success('El paciente ha sido validado'))
+                                Swal.fire(success(`Estado ${status.name}`))
                                 handleClose()
                             } else {
-                                Swal.fire(error('Hubo un error al validar paciente'))
+                                Swal.fire(error('Hubo un error al intentar cambiar el estado'))
                                 throw new Error(text)
                             }
                         })
@@ -135,33 +148,7 @@ export default function EnablePatient({ show, handleClose, id }) {
                 })
                 .catch((err) => {
                     console.log('error', err)
-                    Swal.fire(error('Hubo un error al validar paciente'));
-                    handleClose()
-                })
-        },
-        [],
-    )
-
-    const reject = useCallback(
-        (id) => {
-            setAdminStatusToPerson(id, 3) //note  1: pending , 2: validated , 3: refused
-                .then((res) => {
-                    if (res.ok) {
-                        return res.text().then(text => {
-                            let readeble = JSON.parse(text)
-                            if (readeble.status) {
-                                Swal.fire(success('La solicitud ha sido rechazada'))
-                                handleClose()
-                            } else {
-                                Swal.fire(error('Hubo un error al rechazar la solicitud'))
-                                throw new Error(text)
-                            }
-                        })
-                    }
-                })
-                .catch((err) => {
-                    console.log('error', err)
-                    Swal.fire(error('Hubo un error al rechazar la solicitud'));
+                    Swal.fire(error('Hubo un error al intentar cambiar el estado'));
                     handleClose()
                 })
         },
@@ -171,7 +158,8 @@ export default function EnablePatient({ show, handleClose, id }) {
     const handleValidate = (id) => {
         Swal.fire(confirm('¿Validar solicitud?')).then((result) => {
             if (result.isConfirmed) {
-                validate(6) //hardcode id
+                let status = adminStatus.find(s => s.name === "VALIDADO")
+                changeAdminStatusToPerson(id, status) 
             }
         })
     }
@@ -179,7 +167,8 @@ export default function EnablePatient({ show, handleClose, id }) {
     const handleReject = (id) => {
         Swal.fire(confirm('¿Rechazar solicitud?')).then((result) => {
             if (result.isConfirmed) {
-                reject(6) //hardcode id
+                let status = adminStatus.find(s => s.name === "RECHAZADO")
+                changeAdminStatusToPerson(id, status)
             }
         })
     }

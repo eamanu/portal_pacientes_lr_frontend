@@ -1,2 +1,2 @@
-import PendingPatient from "./PendingPatient";
-export default PendingPatient;
+import PendingPatient from './PendingPatient'
+export default PendingPatient
