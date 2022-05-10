@@ -8,7 +8,7 @@ import * as FaIcon from 'react-icons/fa';
 const AdminMain = () => {
 
     const links = [
-        { id: 1, path: "/admin/alta-de-pacientes", namePath: "Alta de pacientes", icon: <FaIcon.FaUserCheck className="main__icon" /> },
+        { id: 1, path: "/admin/alta-de-pacientes/pacientes-pendientes", namePath: "Alta de pacientes", icon: <FaIcon.FaUserCheck className="main__icon" /> },
         { id: 2, path: "/admin/mensajeria/mensajes-activos", namePath: "Mensajería", icon: <MdIcon.MdOutlineMessage className="main__icon" /> },
     ]
 
