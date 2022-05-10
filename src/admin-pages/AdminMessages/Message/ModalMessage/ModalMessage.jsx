@@ -15,7 +15,6 @@ export const ModalMessage = (props) => {
             getMessage(id)
                 .then((res) => {
                     if(res){
-                        console.log(res)
                         setMessage(res)
                         setLoading(false)
                     } else {

@@ -691,8 +691,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 210px;
-  height: 210px;
+  width: 250px;
+  height: 250px;
   overflow: hidden;
   border: 1px solid $secondary-light;
   border-radius: 5px;
@@ -701,8 +701,8 @@
     height: 330px;
   }
   .admin-patient__img {
-    max-width: 210px;
-    max-height: 210px;
+    max-width: 250px;
+    max-height: 250px;
     @media only screen and (min-width: $tablet) {
       max-width: 330px;
       max-height: 330px;

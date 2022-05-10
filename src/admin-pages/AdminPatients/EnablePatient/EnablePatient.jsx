@@ -79,7 +79,7 @@ export default function EnablePatient({ show, handleClose, id }) {
                             if (readeble.status) {
                                 if(is_front) {
                                     setImgFront(readeble.value)
-                                    getImage(patient.id, false)
+                                    getImage(id, false)
                                 } else {
                                     setImgBack(readeble.value)
                                     setLoading(false)

@@ -40,7 +40,7 @@ export default function AdminPatients() {
     return (
         <Container className='p-3'>
             <h5 className='section-title'>Alta de pacientes</h5>
-            <p className='admin-patients_text'>Para dar el alta a un paciente, haz click en el nombre y corrobora que los datos ingresados de Nombre, Apellido, DNI y Fecha de nacimiento, coincide con la información que figura en la imagen del documento.</p>
+            <p className='admin-patients_text'>Para dar el alta a un paciente, haz click en el nombre y corrobora que los datos ingresados de Nombre, Apellido, DNI y Fecha de nacimiento, coinciden con la información que figura en la imagen del documento.</p>
             {loading ?
                 <Loader isActive={loading}></Loader>
                 : <Container>
