@@ -207,7 +207,7 @@ export const SidebarData = {
     // },
     {
       id: 13,
-      title: "Instituución",
+      title: "Datos institucionales",
       path: "/usuario/instituciones/datos-institucionales",
       icon: <MdIcon.MdAccountBalance className="menu-icon" />,
       acordeon: false,
