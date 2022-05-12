@@ -372,7 +372,7 @@ export default function RegisterForm(formType) {
                         </Form.Group>
                     </Col>
                     {search ?
-                        <Col xs={12} sm={7}>
+                        <Col xs={12} sm={7} className='w-100'>
                             <Form.Group className="mb-3" >
                                 <SearchAddress
                                     nameForm="postal_address"
