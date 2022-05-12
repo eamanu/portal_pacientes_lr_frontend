@@ -64,7 +64,6 @@ export default function PendingPatients() {
     }
 
     useEffect(() => {
-        setLoading(true)
         getData()
         reloadTime()
     }, [reload])
