@@ -3,11 +3,12 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Navbar, Container, NavDropdown } from 'react-bootstrap';
 import logo from '../../assets/statics/logo-ligth.png'
 import useAuth from '../../hooks/useAuth';
-import PerfilUsuario from '../../pages/PerfilUsuario';
 import * as MdIcon from 'react-icons/md';
 import * as BsIcon from 'react-icons/bs';
 import Sidebar from '../Sidebar';
-import usePatient from '../../hooks/usePatient';
+import Profile from '../Profile/Profile';
+import Swal from 'sweetalert2';
+import { logOut } from '../SwalAlertData';
 
 function Header() {
     const auth = useAuth();
@@ -18,15 +19,20 @@ function Header() {
     const location = useLocation()
     const mql = window.matchMedia("(min-width: 992px)")
     const [sidebar, setSidebar] = useState(false);
-    const navbarDropdownTitle =
+    const navbarDropdownTitle = 
             <span className='navbar_dropdown-title'>
-                <p className='m-0 d-none d-lg-inline-block'>{auth.user?.nombre + ' ' + auth.user?.apellido}</p>
+                <p className='m-0 d-none d-lg-inline-block text-capitalize'>{auth.typeUser === 1 ? "Usuario administrador" : auth.user?.name + ' ' + auth.user?.surname}</p>
                 <BsIcon.BsPersonCircle className='user-icon'></BsIcon.BsPersonCircle>
             </span>
+    
 
     const handleClick = e => {
         e.preventDefault();
-        auth.logout()
+        Swal.fire(logOut).then((result) => {
+            if (result.isConfirmed) {
+                auth.logout()
+            }
+          });
     }
 
     // Media query sidebar
@@ -55,7 +61,10 @@ function Header() {
                             <MdIcon.MdClose className={`menu-icon ${sidebar ? 'd-block in' : 'd-none'}`} />
                         </button>
                     </div>}
-                    <Link to='/usuario' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start' : 'justify-content-start'}`} ><img className="logo" src={logo} alt="logo portal del paciente - La Rioja" /></Link>
+                    <Link to='/' className={`d-flex ${auth.isLogged() ? 'w-100 justify-content-center justify-content-lg-start' : 'justify-content-start'}`} >
+                        <img className="logo" src={logo} alt="logo portal del paciente - La Rioja" />
+                     {location.pathname === "/login-admin" || auth.typeUser === 1 ? <p className="mb-0 ms-2 admin-header-text d-none d-sm-block"> / administrador </p> : <></>}
+                     </Link>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
                             {auth.isLogged() &&
@@ -80,7 +89,7 @@ function Header() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <PerfilUsuario show={show} handleClose={handleClose} />
+            {show && <Profile type={'user'} show={show} handleClose={handleClose} />}
             <div className={`container-block ${sidebar ? 'show' : 'close'}`} onClick={showSidebar}></div>
             {auth.isLogged() && <Sidebar isActive={sidebar ? 'show' : 'close'} action={showSidebar} ></Sidebar>}
         </>

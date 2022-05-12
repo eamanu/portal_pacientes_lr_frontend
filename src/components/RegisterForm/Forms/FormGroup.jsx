@@ -1,7 +1,9 @@
-import React from 'react'
-import { Col, Form } from 'react-bootstrap'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Form } from 'react-bootstrap'
+import institutionsServices from '../../../services/institutionsServices';
+import identificationsTypeServices from '../../../services/parametricServices';
+import { variantsGender } from '../../ComponentsData';
 import DatePickerComponent from '../../DatePickerComponent';
-import { ErrorMessage } from '../../ErrorMessage/ErrorMessage';
 import SelectType from '../../SelectType';
 
 const FormGroup = React.forwardRef((props, ref) => {
@@ -12,7 +14,7 @@ const FormGroup = React.forwardRef((props, ref) => {
     name,
     type,
     value,
-    className,
+    disabled,
     onChange,
     onBlur,
     variants,
@@ -20,8 +22,65 @@ const FormGroup = React.forwardRef((props, ref) => {
     handleChange,
     maxDate } = props
 
+  const vaGender = variantsGender
+  const [options, setOptions] = useState([]);
+
+  const getInstitutionsVariants = useCallback(
+    () => {
+      institutionsServices()
+        .then((res) => {
+          const inst = res
+          return inst;
+        })
+        .then((res) => {
+          if (res?.length > 0) {
+            setOptions(res);
+            return options
+          }
+        })
+        .catch((err) => { console.log(err) })
+    },
+    [],
+  )
+
+  const getDNIVariants = useCallback(
+    () => {
+      identificationsTypeServices()
+        .then((res) => {
+          const types = res
+          return types;
+        })
+        .then((res) => {
+          if (res?.length > 0) {
+            setOptions(res);
+            return options
+          }
+        })
+        .catch((err) => { console.log(err) })
+    },
+    [],
+  )
+
+  const getGenderVariants = () => {
+    setOptions(vaGender);
+    return options
+  }
+
+  useEffect(() => {
+    if (variants === "variantsInstitutions") {
+      getInstitutionsVariants();
+    }
+    if (variants === "variantsDNI") {
+      getDNIVariants();
+    }
+    if (variants === "variantsGender") {
+      getGenderVariants();
+    }
+  }, [variants])
+
+
   return (
-    <Form.Group>
+    <Form.Group className="mb-2">
       <Form.Label className="mb-0">{label}</Form.Label>
       {inputType === 'input' &&
         <Form.Control
@@ -29,6 +88,7 @@ const FormGroup = React.forwardRef((props, ref) => {
           value={value}
           type={type ? type : 'text'}
           className="form-control"
+          disabled={disabled ? disabled : false}
           onChange={onChange}
           onBlur={onBlur}
           onPaste={(e) => {
@@ -40,8 +100,9 @@ const FormGroup = React.forwardRef((props, ref) => {
       {inputType === 'select' &&
         <SelectType
           name={name}
-          variants={variants}
+          variants={options}
           selectValue={selectValue}
+          disabled={disabled ? disabled : false}
           handleChange={handleChange}
         />
       }
@@ -49,6 +110,7 @@ const FormGroup = React.forwardRef((props, ref) => {
         <DatePickerComponent
           name={name}
           selectValue={selectValue}
+          disabled={disabled ? disabled : false}
           handleChange={handleChange}
           maxDate={maxDate}
         />
@@ -61,7 +123,9 @@ const FormGroup = React.forwardRef((props, ref) => {
             type={type}
             name={name}
             className="form-check-input"
+            disabled={disabled ? disabled : false}
             value={true}
+            checked={value.toString() === 'true' ? true : false}
             onChange={onChange}
           /> <label className="form-label me-3">
             Sí
@@ -69,8 +133,10 @@ const FormGroup = React.forwardRef((props, ref) => {
           <input
             type={type}
             name={name}
+            disabled={disabled ? disabled : false}
             className="form-check-input"
             value={false}
+            checked={value.toString() === 'true' ? false : true}
             onChange={onChange}
           /> <label className="form-label">
             No
@@ -80,11 +146,17 @@ const FormGroup = React.forwardRef((props, ref) => {
       {
         inputType === 'file' &&
         <>
-          <input className="form-control border mb-3" type="file" id="formFile"  accept=".png,.jpg"/>
+          <input
+            className="form-control border mb-3"
+            type="file"
+            name={name}
+            disabled={disabled ? disabled : false}
+            onChange={onChange}
+            onBlur={onBlur}
+            accept="image/png, image/jpeg, .image/jpg" />
           <br />
         </>
       }
-
 
     </Form.Group>
   )

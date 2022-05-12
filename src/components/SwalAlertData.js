@@ -1,10 +1,19 @@
 export const successRegister = {
   title: "Registro realizado",
-  html: "El paciente será verificado antes de ser agregado como miembro al grupo familiar. ",
+  html: "Inicie sesión nuevamente para cargar nuevos datos. ",
   icon: "success",
   showCancelButton: false,
   confirmButtonText: "Continuar",
-  confirmButtonColor: "#Dc3545",
+  confirmButtonColor: "#007bff",
+};
+
+export const errorActivePatient = {
+  title: "Error al activar paciente",
+  html: "Intente iniciar sesión nuevamente. ",
+  icon: "error",
+  showCancelButton: false,
+  confirmButtonText: "Aceptar",
+  confirmButtonColor: "#007bff",
 };
 
 export const logOut = {
@@ -13,7 +22,8 @@ export const logOut = {
   showCancelButton: true,
   cancelButtonText: "Cancelar",
   confirmButtonText: "Confirmar",
-  confirmButtonColor: "#Dc3545",
+  confirmButtonColor: "#007bff",
+  reverseButtons: true,
 };
 
 export const expiredSession = {
@@ -21,12 +31,58 @@ export const expiredSession = {
   icon: "warning",
   showCancelButton: false,
   confirmButtonText: "Aceptar",
-  confirmButtonColor: "#Dc3545",
-}
+  confirmButtonColor: "#007bff",
+};
 
-export const loginError =  {
-  text: "Error al ingresar nombre de usuario o contraseña.",
-  icon: "error",
-  showConfirmButton: false,
-  timer: 2000,
-}
+export const error = (error) => {
+  let content = {
+    text: error,
+    icon: "error",
+    showConfirmButton: false,
+    timer: 2000,
+  };
+  return content;
+};
+
+export const confirm = (text) => {
+  let content = {
+    title: text,
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Confirmar",
+    confirmButtonColor: "#007bff",
+    reverseButtons: true,
+  };
+  return content;
+};
+
+export const success = (text) => {
+  let content = {
+    title: text,
+    icon: "success",
+    showCancelButton: false,
+    showConfirmButton: false,
+    timer: 2000,
+  };
+  return content;
+};
+
+export const warning = (text) => {
+  let content = {
+    text: text,
+    icon: "warning",
+    showConfirmButton: false,
+    timer: 2000,
+  };
+  return content;
+};
+
+export const toastPatient = (text) => {
+  let content = {
+    position: "bottom-end",
+    icon: "success",
+    title: `Perfil de paciente ${text}`,
+  };
+  return content;
+};

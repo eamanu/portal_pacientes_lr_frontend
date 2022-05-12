@@ -7,7 +7,7 @@ import '../../styles/SearchAddress.scss'
 
 const SearchAddress = React.forwardRef((props, ref) => {
 
-    const { nameForm, className, handleChange, selectValue, onBlur, getAddress } = props
+    const { nameForm, className, selectValue, onBlur, getAddress } = props
     const [searchText, setSearchText] = useState(selectValue ? selectValue : "")
     const [listItemsSearch, setListItemsSearch] = useState([]);
     const [isLoading, setIsLoading] = useState(false);

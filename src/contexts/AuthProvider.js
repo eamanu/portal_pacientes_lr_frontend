@@ -1,8 +1,11 @@
 import { useState, useCallback, useEffect, createContext } from "react";
-import { loginServiceFetch } from "../services/loginService";
 import loginService from "../services/loginService";
 import Swal from "sweetalert2";
-import { logOut, expiredSession, loginError } from "../components/SwalAlertData";
+import {
+  expiredSession,
+  error
+} from "../components/SwalAlertData";
+import { loginPersonService } from "../services/loginPersonService";
 
 export const AuthContext = createContext();
 
@@ -10,77 +13,111 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   ); //hardcode
-  const [newUser, setNewUser] = useState(false);
   const [tokenUser, setTokenUser] = useState(
     JSON.parse(localStorage.getItem("tokenUser")) || null
   );
+  const [typeUser, setTypeUser] = useState(
+    JSON.parse(localStorage.getItem("typeUser")) || null
+  ); //note: 1 = admin / 2 = person
   const curtime = new Date().getTime();
+  const [newUser, setNewUser] = useState(false);
 
   useEffect(() => {
-    {try {
+    try {
       delete user.password;
+      localStorage.setItem("typeUser", JSON.stringify(typeUser));
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("tokenUser", JSON.stringify(tokenUser));
-      if(tokenUser){
-        if(!localStorage.getItem('curtime')){
-          localStorage.setItem('curtime', curtime)
+      if (tokenUser) {
+        if (!localStorage.getItem("curtime")) {
+          localStorage.setItem("curtime", curtime);
         }
       } else {
-        localStorage.removeItem('curtime')
+        localStorage.removeItem("curtime");
       }
     } catch (error) {
       localStorage.removeItem("user");
       localStorage.removeItem("tokenUser");
-    }}
-  }, [user, tokenUser]);
+      localStorage.removeItem("typeUser");
+    }
+  }, [user, tokenUser, typeUser]);
 
-  const login = useCallback(
-    (em, p) => {
-      loginService(em, p)
-        .then((response) => {
-          const getUser = response.users.find((user) => {
-            if (user.email === em && user.password == p) {
-              return user.email === em;
-            }
-          });
-          return getUser;
-        })
-        .then((response) => {
-          if (response) {
-            // console.log(response);
-            setUser(response);
-            return user;
-          } else {
-            Swal.fire(loginError);
+  const loginAdmin = useCallback(
+    (u, p) => {
+      loginService(u, p)
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }else {
+            return res.text().then(text => {
+              let readeble = JSON.parse(text)
+              throw new Error(readeble.detail) 
+          })
           }
         })
-        .catch((err) => console.log(err));
+        .then((data) => {
+          setTypeUser(1); //hardcode
+          setUser(data);
+          setTokenUser(data.access_token);
+          return tokenUser;
+        })
+        .catch((err) => {
+          console.log("error: ", err);
+          switch (err.message) {
+            case 'Mail not validated.':
+              Swal.fire(error('Email no validado'));
+              break;
+              case 'Incorrect username or password...':
+              Swal.fire(error('Email o password incorrecto'));
+              break;
+            default:
+              Swal.fire(error('Ha ocurrido un error'));
+          }
+        });
     },
-    [user]
+    [tokenUser]
   );
 
-  const loginFetch = useCallback(() => {
-    loginServiceFetch()
-      .then((res) => {
-        if (res) {
-          return res.json();
-        }
-      })
-      .then((data) => {
-        console.log("token", data.access_token);
-        // console.log('data', data);
-        setTokenUser(data.access_token);
-        return tokenUser;
-      })
-      .catch((err) => console.log("error", err));
-  }, [tokenUser]);
-
-  const register = useCallback((objet) => {
-    console.log(objet);
-    setNewUser(objet);
-  }, []);
+  const loginPerson = useCallback(
+    (u, p) => {
+      loginPersonService(u, p)
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            return res.text().then(text => {
+              let readeble = JSON.parse(text)
+              throw new Error(readeble.detail) 
+          })
+          }
+        })
+        .then((data) => {
+          setUser(data.data);
+          setTokenUser(data.access_token);
+          setTypeUser(2); //hardcode
+          return tokenUser;
+        })
+        .catch((err) => {
+          switch (err.message) {
+            case 'Mail not validated.':
+              Swal.fire(error('Email no validado'));
+              break;
+              case 'Incorrect username or password...':
+              Swal.fire(error('Email o password incorrecto'));
+              break;
+              case 'Wait for approval.':
+              Swal.fire(error('El usuario aún o ha sido habilitado para ingresar'));
+              break;
+            default:
+              Swal.fire(error('Ha ocurrido un error'));
+          }
+        });
+    },
+    [tokenUser]
+  );
 
   function getLocalStorage(key) {
+    //note - debería suceder al hacer el login??
     let exp = 60 * 60 * 24 * 1000; //hardcode - milisegundo en un día
     // let exp = 10000;
     if (localStorage.getItem(key)) {
@@ -88,7 +125,7 @@ const AuthProvider = ({ children }) => {
       let data = JSON.parse(vals);
       let isTimed = new Date().getTime() - data > exp;
       if (isTimed) {
-        console.log("El almacenamiento ha expirado");
+        console.log("Error: El almacenamiento ha expirado");
         setTokenUser(null);
         logout(isTimed);
         return null;
@@ -101,7 +138,7 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     getLocalStorage("curtime");
   }, []);
 
@@ -113,27 +150,38 @@ const AuthProvider = ({ children }) => {
         }
       });
     } else {
-      Swal.fire(logOut).then((result) => {
-        if (result.isConfirmed) {
-          deleteDataSession();
-        }
-      });
+      deleteDataSession();
     }
   };
 
   const deleteDataSession = () => {
-    localStorage.removeItem("tokenUser");
-    localStorage.removeItem("curtime");
-    localStorage.removeItem("user");
+    let email = localStorage.getItem("loginDataEmail");
+    let password = localStorage.getItem("loginDataPassword");
+    localStorage.clear();
+    saveLoginData(email, password)
     setTokenUser(null);
     setUser(null);
+  };
+
+  const saveLoginData = (e, p) => {
+    if(e) {
+      localStorage.setItem("loginDataEmail", e);
+    }
+    if(p){
+      localStorage.setItem("loginDataPassword", p);
+    }
+  }
+
+  const newRegisterUser = (values) => {
+    setNewUser(values);
   };
 
   const contextValue = {
     user,
     tokenUser,
-    login,
-    loginFetch,
+    typeUser,
+    loginPerson,
+    loginAdmin,
     logout,
     isLogged() {
       getLocalStorage("curtime");
@@ -144,7 +192,7 @@ const AuthProvider = ({ children }) => {
       }
     },
     newUser,
-    register,
+    newRegisterUser,
   };
 
   return (

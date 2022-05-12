@@ -1,11 +1,10 @@
 import React from 'react';
+import DataNotFound from '../../../../components/DataNotFound';
 
 function MisTurnos() {
     return (
         <div className='in'>
-            <p>
-                No hay datos disponibles MisTurnos
-            </p>
+               <DataNotFound text="mis turnos" />
         </div>
     )
 }

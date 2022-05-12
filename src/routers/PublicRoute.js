@@ -12,7 +12,7 @@ export default function PublicRoute({ component: Component, ...res }) {
       {!auth.isLogged() ?  (
         <Component />
       ) : (
-        <Redirect to="/usuario" />
+        <Redirect to="/" />
       )}
    
     </Route>

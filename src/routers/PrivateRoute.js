@@ -6,15 +6,16 @@ import {
 import useAuth from "../hooks/useAuth";
 
 export default function PrivateRoute({ component: Component, ...res }) {
-  const auth = useAuth();
   const location = useLocation();
+  const auth = useAuth();
+  const path = auth.typeUser === 1 ? '/login-admin' : '/login'
 
   return (
     <Route {...res}>
       {auth.isLogged() ?  (
         <Component />
       ) : (
-        <Redirect to={{ pathname: "/login", state: {from: location}}} />
+        <Redirect to={{ pathname: path, state: {from: location}}} />
       )}
    
     </Route>

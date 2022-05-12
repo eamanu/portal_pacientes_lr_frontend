@@ -2,14 +2,37 @@ import { useCallback, useEffect, useState } from "react";
 import { createContext } from "react";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
-import patientBasicDataServices, { patientCompleteDataServices } from "../services/patientService";
+import patientBasicDataServices from "../services/patientService";
+import {
+  errorActivePatient,
+  toastPatient,
+} from "../components/SwalAlertData";
+import { getPersonByIdentificationNumber } from "../services/personServices";
 
 export const PatientContext = createContext();
 
 const PatientProvider = ({ children }) => {
   const auth = useAuth();
-  const allPatients = auth.user.grupo_familiar.pacientes; //hardcode
-  const [patient, setPatient] = useState(allPatients[0]); //hardcode
+  const [allPatients, setAllPatients] = useState([auth.user]);
+  const [patient, setPatient] = useState(
+    JSON.parse(localStorage.getItem("patient")) || allPatients[0]
+  );
+  const [patientInstitution, setPatientInstitution] = useState(
+    patient.id_usual_institution
+  );
+  const [idPatient, setIdPatient] = useState(
+    JSON.parse(localStorage.getItem("idPatient")) || null
+  );
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("patient", JSON.stringify(patient));
+      localStorage.setItem("idPatient", JSON.stringify(idPatient));
+    } catch (error) {
+      localStorage.removeItem("idPatient");
+      localStorage.removeItem("patient");
+    }
+  }, [patient, idPatient]);
 
   const Toast = Swal.mixin({
     toast: true,
@@ -22,56 +45,76 @@ const PatientProvider = ({ children }) => {
     },
   });
 
-  const getPatient = useCallback(
-    (n) => {
-      const promise = allPatients.find((patient) => patient.id === n);
-      setPatient(promise);
-      Toast.fire({
-        position: "bottom-end",
-        icon: "success",
-        title: `Paciente activo: ${promise.nombre} ${promise.apellido}`,
-      });
-      return patient;
-    },
-    [patient, allPatients, Toast]
-  );
+  useEffect(() => {
+    if (auth.user.family_group.length > 0) {
+      auth.user.family_group.map((p) => allPatients.push(p));
+    }
+  }, [allPatients]);
 
-  const getPatientBasicData = useCallback((tokenId, data) => {
-    patientBasicDataServices(tokenId, data)
+  const getPatient = useCallback((identification_number) => {
+    getPersonByIdentificationNumber(identification_number )
       .then((res) => {
-        return res;
-      })
-      .then((res) => {
-        console.log(res);
+        if (res.id) {
+          let p = res;
+          if (p) {
+            let body = {
+              gender_id: p.id_gender,
+              identification_number: p.identification_number,
+              type_id: p.id_identification_type,
+              // gender_id: 2, //hardcode
+               // identification_number: 36436060, //hardcode
+              // type_id: 1, //hardcode
+            };
+            getPatientBasicData(p, body);
+            Toast.fire(toastPatient(`${p.name} ${p.surname}`));
+            return patient;
+          }
+        } else {
+          throw new Error('No se encontró información del paciente')
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.log("error", err);
+        Swal.fire(errorActivePatient).then((result) => {
+          if (result.isConfirmed) {
+            auth.logout();
+          }
+        });
       });
   }, []);
 
-  const getPatientCompleteData = useCallback((tokenId, data) => {
-    patientCompleteDataServices(tokenId, data)
+  const getPatientBasicData = useCallback((p, data) => {
+    patientBasicDataServices(data)
       .then((res) => {
-        return res;
-      })
-      .then((res) => {
-        console.log(res);
+        if (p) {
+          setPatientInstitution(p.id_usual_institution);
+          setPatient(p);
+          if (res.detail) {
+            throw new Error("Error al obtener datos de paciente en HSI");
+          } else {
+            if(res.id){
+              setIdPatient(res.id);
+            }
+          }
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.log('error', err);
       });
   }, []);
 
-  // useEffect(() => {
-  //   getPatientBasicData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
-  //   getPatientCompleteData('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0OTMwODA3NH0.IuBJ4-K9fF9fuCEtOCX90BDlAO2i0wXt71qgTZoRKSc', {gender_id: 1 , id_number: 1234567, id_type: 1}) //hardcode
-  // }, [])
-  
+  const changeInstitution = (e) => {
+    let id_institution = parseInt(e.target.value);
+    setPatientInstitution(id_institution);
+  };
 
   const contextValue = {
     patient,
     allPatients,
     getPatient,
+    patientInstitution,
+    changeInstitution,
+    idPatient,
   };
 
   return (

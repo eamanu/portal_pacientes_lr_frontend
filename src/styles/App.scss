@@ -1,8 +1,9 @@
 @import "Vars.scss";
 
 .active {
-  background-color: $accent;
-  color: $text-light !important;
+  // background-color: $accent;
+  color: $text-primary !important;
+  font-weight: bold !important;
   animation: fade 0.2s;
   a {
     color: $text-light !important;
@@ -15,79 +16,88 @@
 .btn:focus,
 .btn-close:focus {
   outline: 0;
-  box-shadow: $shadow-primary;
+  box-shadow: none;
+}
+.btn-check:active + .btn,
+.btn:active,
+.btn-close:active {
+  outline: 0;
+  background-color: rgba(0, 0, 0, 0.116);
 }
 .z-index-1 {
   z-index: 1;
 }
 // background LOGIN /REGISTER
 .bg-container {
-  overflow-x: hidden;
-  overflow-y: scroll;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   z-index: 0;
-  @media only screen and (min-width: $small) {
-    overflow: hidden;
+  height: auto;
+  min-height: calc(100vh - 3rem);
+  width: 100%;
+  position: relative;
+  display: block;
+  @media only screen and (min-width: $desktop) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 .bg1 {
-  @media only screen and (min-width: $small) {
+  @media only screen and (min-width: $desktop) {
     background-image: url(../assets/images/background-pplr-1.jpeg);
   }
 }
 .bg2 {
-  @media only screen and (min-width: $small) {
+  @media only screen and (min-width: $desktop) {
     background-image: url(../assets/images/background-pplr-2.jpeg);
   }
 }
 .bg3 {
-  @media only screen and (min-width: $small) {
+  @media only screen and (min-width: $desktop) {
     background-image: url(../assets/images/background-pplr-3.jpeg);
   }
 }
 .bg4 {
-  @media only screen and (min-width: $small) {
+  @media only screen and (min-width: $desktop) {
     background-image: url(../assets/images/background-pplr-4.jpeg);
   }
 }
 .bg5 {
-  @media only screen and (min-width: $small) {
+  @media only screen and (min-width: $desktop) {
     background-image: url(../assets/images/background-pplr-5.jpeg);
   }
 }
-.bg6 {
-  @media only screen and (min-width: $small) {
-    background-image: url(../assets/images/background-pplr-6.jpeg);
-  }
-}
-.circle {
-  position: absolute;
-  width: 150vh;
-  height: 150vh;
+.cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  width: auto;
+  height: auto;
   background-color: $third;
-  z-index: 0;
-  transform: translateY(-25%);
-  @media only screen and (min-width: $small) {
-    width: 155vh;
-    height: 155vh;
-    border-radius: 50% 0 50% 50%;
-    transform: translate(30%, 0%);
-    box-shadow: $shadow-primary;
+  box-shadow: $shadow-primary;
+  min-height: 30rem;
+  border-radius: 5px;
+  @media only screen and (min-width: $desktop) {
+    min-width: 30rem;
   }
 }
+
 .bg-third {
   background-color: $third;
 }
 // Loader
 .loader_container {
-  position: fixed;
-  // display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
   background-color: #ffffffab;
   z-index: 2;
 }
@@ -139,18 +149,46 @@
   }
 }
 // footer
-.footer-text {
-  font-size: 0.8rem;
-  margin: 0;
-  padding: 0 0 1rem 1.5rem;
+
+.main-footer {
+  padding: 0.5rem 0;
+  bottom: 0;
+  position: relative;
+  width: 100%;
+  z-index: 1000;
+  @media only screen and (min-width: $desktop) {
+    position: fixed;
+  }
+  p {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+}
+.footer-private {
+  background-color: $third;
+  color: $text-secondary;
+  box-shadow: $shadow-four;
+}
+.footer-public {
+  background-color: $third;
+  color: $text-secondary;
+  box-shadow: $shadow-four;
+  @media only screen and (min-width: $desktop) {
+    background-color: #ffffff00;
+    color: $text-light;
+    box-shadow: none;
+  }
 }
 // Main container
 .main-container {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   top: 3rem;
-  height: calc(100vh - 3rem);
   width: 100%;
-  background-color: $third;
+  min-height: calc(100vh - 3rem);
+  background-color: $background-main;
 }
 .user-header {
   position: fixed;
@@ -166,7 +204,16 @@
   border-bottom: 1px solid $secondary;
   z-index: 1;
   .user-header__name {
-    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    // padding-left: 0;
+    @media only screen and (min-width: $tablet) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
     @media only screen and (min-width: $desktop) {
       padding-left: 15rem;
     }
@@ -197,31 +244,40 @@
   }
 }
 .dropdown-item:active {
-  background-color: $primary-dark;
+  background-color: $success;
   color: $text-light;
 }
 .user-container {
   position: relative;
-  top: 3rem;
   display: block;
   height: auto;
   min-height: calc(100% - 3rem);
+  padding: 2rem 0 3rem 0;
   width: 100%;
-  background-color: $third;
+  background-color: $background-main;
   color: $text-primary;
 
   .dropdown-menu[data-bs-popper] {
     left: -70%;
   }
 }
-.patient-container {
+.top-user-header {
+  top: 3rem;
+}
+.patient-container,
+.admin-container {
   position: relative;
   width: 100%;
-  height: 80vh;
+  height: auto;
+  min-height: 60vh;
+  margin: 1rem 0 2rem 0;
+  border-radius: 5px;
+  background-color: $third;
+  box-shadow: $shadow-four;
   // z-index: 1031;
   @media only screen and (min-width: $desktop) {
     width: calc(100% - 21rem);
-    transform: translateX(15rem);
+    transform: translateX(18rem);
   }
 }
 // Forms
@@ -242,9 +298,9 @@
 }
 .form-label {
   color: $text-secondary;
-  font-size: 0.8rem;
+  font-size: 1rem;
   a {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 }
 // Register
@@ -253,6 +309,32 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  .col-12,
+  .col-6 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}
+.circle-step {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  border-radius: 50%;
+  background-color: $primary;
+  color: $text-light;
+  margin-right: 1rem;
+  border: 3px solid #ff5f7f;
+}
+.title-step {
+  color: $primary;
+  margin: 0;
+}
+.step-inactive {
+  opacity: 0.5;
+  transform: scale(0.9);
 }
 // Iconos y botones
 .btn-icon,
@@ -349,12 +431,14 @@
   .main__card {
     position: relative;
     height: 7rem;
-    max-width: 300px;
+    max-width: 270px;
     min-width: 270px;
     margin: 1rem;
     padding: 0;
     background-color: $third;
     transition: 0.2s;
+    box-shadow: $shadow-four;
+    border-radius: 20px;
     a {
       position: absolute;
       display: flex;
@@ -363,6 +447,7 @@
       height: 100%;
       padding: 1rem;
       border-radius: 20px;
+      font-weight: lighter;
       .main__icon {
         font-size: 4rem;
       }
@@ -409,27 +494,30 @@
 }
 // Perfil del Paciente
 .perfil-paciente {
+  .datos-paciente__title {
+    font-size: 0.8rem;
+    color: $text-third;
+    text-transform: uppercase;
+  }
   .datos-paciente__label {
-    display: inline-block;
-    width: fit-content;
+    // display: inline-block;
+    // width: fit-content;
     margin: 0;
     margin-right: 1rem;
-    text-transform: uppercase;
+    font-weight: lighter;
+    text-transform: capitalize;
   }
 }
 // Grupo familiar
 .patient {
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  margin-bottom: 1rem;
-  padding: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 5px;
   background-color: $third;
-  box-shadow: $shadow-primary;
+  box-shadow: $shadow-four;
   transition: 0.2s;
 
   @media only screen and (min-width: $tablet) {
-    flex-direction: row;
     justify-content: space-between;
     height: 5.5rem;
   }
@@ -438,10 +526,9 @@
     align-items: center;
   }
   .patient-name {
-    width: 100%;
-    height: 100%;
+    // width: 100%;
+    // height: 100%;
     margin: 0 0 1rem 0;
-    cursor: pointer;
     @media only screen and (min-width: $tablet) {
       margin: 0;
     }
@@ -467,9 +554,9 @@
 // Historial Clinica
 .historia-clinica {
   .switch-container__hc {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
     margin: 0.5rem;
     height: auto;
     min-height: 200px;
@@ -478,7 +565,8 @@
   }
 }
 // Notificaciones y mensajes
-.mensaje_container {
+.mensaje_container,
+.message_container {
   transition: 0.5s;
   cursor: pointer;
   p {
@@ -493,7 +581,8 @@
       padding: auto;
     }
   }
-  .mensaje_text {
+  .mensaje_text,
+  .message_text {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -501,7 +590,8 @@
   .asunto {
     color: $text-primary;
   }
-  .mensaje {
+  .mensaje,
+  .receiver {
     color: $text-secondary;
     font-size: 0.8rem;
   }
@@ -527,3 +617,142 @@
 .my-tooltip:hover .tiptext {
   visibility: visible;
 }
+// section-content
+.section-contennt {
+  padding-top: 1rem;
+}
+// admin
+.admin-header-text {
+  color: $text-light !important;
+}
+
+//adminPatients
+.admin-patients_text {
+  font-size: 0.8rem;
+  font-style: italic;
+}
+.admin-patients__patient,
+.admin-message__message {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: $third;
+  box-shadow: $shadow-four;
+  cursor: pointer;
+  transition: 0.2s;
+  p {
+    margin-bottom: 0;
+  }
+  .bg-1 {
+    background-color: $accent;
+  }
+  .bg-2 {
+    background-color: $success;
+  }
+  .bg-3 {
+    background-color: $primary;
+  }
+}
+.status-container {
+  display: flex;
+  justify-content: center;
+  min-width: 7rem;
+  padding: 0.2rem;
+  border-radius: 1rem;
+  color: $text-light;
+  cursor: pointer;
+  transition: 0.2s;
+  p {
+    display: flex;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}
+.status-container:hover {
+  transform: scale(1.1);
+}
+.admin-patient__modal {
+  .modal-content {
+    min-height: 80vh;
+  }
+}
+.admin-patient__list {
+  list-style: none;
+  border-right: 1px solid $secondary-light;
+  padding-left: 0;
+  font-weight: lighter;
+  li {
+    margin-bottom: 0.5rem;
+  }
+  strong {
+    text-transform: uppercase;
+  }
+}
+.admin-patient__img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+  border: 1px solid $secondary-light;
+  border-radius: 5px;
+  @media only screen and (min-width: $tablet) {
+    width: 330px;
+    height: 330px;
+  }
+  .admin-patient__img {
+    max-width: 250px;
+    max-height: 250px;
+    @media only screen and (min-width: $tablet) {
+      max-width: 330px;
+      max-height: 330px;
+    }
+  }
+}
+.rotate-img {
+  transform: rotate(90deg);
+}
+// datos institucionales
+.main-telefonos{   
+  color: rgb(0, 0, 0);
+  position: relative;
+  bottom: 0;
+  width: 100%;
+
+  .container{
+    box-shadow: 0 0.1rem 0.4rem rgb(0, 0, 0,0.3);
+    border-radius: 00.25rem;
+  }
+  section article{
+    background-color:#8b8a8a;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+  
+  }
+  
+  .encabezado{
+    font-size: 6rem;
+    color: rgb(244, 246, 248);
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    background-color: $primary;
+    padding: 0.25rem 1rem;
+    box-shadow: 0 0.1rem 0.4rem rgb(0, 0, 0,0.3);
+  
+  }
+  
+  .list-unstyled{
+    transition: all 0.3s ease;
+    font-size: 4rem;
+    background-color: rgb(247, 242, 238);
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    padding: 0.50rem 1rem;
+    box-shadow: 0 0.1rem 0.4rem rgb(0, 0, 0, 0.3);
+    cursor: pointer;
+  
+  }
+}
+

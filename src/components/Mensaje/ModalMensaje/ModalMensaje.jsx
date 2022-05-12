@@ -3,11 +3,11 @@ import { Button, Modal } from 'react-bootstrap';
 
 export const ModalMensaje = (props) => {
 
-    const { asunto, from, mensaje,  show, handleShow } = props
+    const { asunto, from, mensaje,  show, handleClose } = props
 
     return <Modal
             show={show}
-            onHide={handleShow}
+            onHide={handleClose}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -23,7 +23,7 @@ export const ModalMensaje = (props) => {
                 <p>{mensaje}</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={handleShow}>Cerrar</Button>
+                <Button variant="outline-secondary" onClick={handleClose}>Cerrar</Button>
             </Modal.Footer>
         </Modal>
 };
