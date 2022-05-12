@@ -15,7 +15,7 @@ export default function PendingPatient({ name, status_id, status_name, id }) {
         <>
             <Row className="admin-patients__patient" onClick={handleShow} >
                 <Col xs={12} md={9}>
-                    <p>{name} <span className="fw-lighter ms-1">ID #{id}</span></p>
+                    <p>{name}</p>
                 </Col>
                     <Col xs={12} md={3}>
                         <div className={`status-container bg-${status_id}`}>
