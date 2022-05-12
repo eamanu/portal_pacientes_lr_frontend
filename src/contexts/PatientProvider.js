@@ -62,7 +62,7 @@ const PatientProvider = ({ children }) => {
               identification_number: p.identification_number,
               type_id: p.id_identification_type,
               // gender_id: 2, //hardcode
-              // identification_number: 36436060, //hardcode
+               // identification_number: 36436060, //hardcode
               // type_id: 1, //hardcode
             };
             getPatientBasicData(p, body);
@@ -92,17 +92,14 @@ const PatientProvider = ({ children }) => {
           if (res.detail) {
             throw new Error("Error al obtener datos de paciente en HSI");
           } else {
-            setIdPatient(res.id);
+            if(res.id){
+              setIdPatient(res.id);
+            }
           }
         }
       })
       .catch((err) => {
         console.log('error', err);
-        // Swal.fire(errorActivePatient).then((result) => {
-        //   if (result.isConfirmed) {
-        //     auth.logout();
-        //   }
-        // });
       });
   }, []);
 
