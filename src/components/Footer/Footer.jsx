@@ -5,7 +5,7 @@ function Footer() {
     const auth = useAuth()
 
     return (
-        <div className={`main-footer ${auth.user ? 'footer-private' : 'footer-public'}`}>
+        <div className={`main-footer ${auth.isLogged() ? 'footer-private' : 'footer-public'}`}>
             <div className='container-fluid'>
                 <div className='row'>
                     <p className='col-sm '>
