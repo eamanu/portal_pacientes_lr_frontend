@@ -665,6 +665,7 @@
   p {
     display: flex;
     font-size: 0.8rem;
+    text-align: center;
   }
 }
 .status-container:hover {
@@ -712,3 +713,46 @@
 .rotate-img {
   transform: rotate(90deg);
 }
+// datos institucionales
+.main-telefonos{   
+  color: rgb(0, 0, 0);
+  position: relative;
+  bottom: 0;
+  width: 100%;
+
+  .container{
+    box-shadow: 0 0.1rem 0.4rem rgb(0, 0, 0,0.3);
+    border-radius: 00.25rem;
+  }
+  section article{
+    background-color:#8b8a8a;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+  
+  }
+  
+  .encabezado{
+    font-size: 6rem;
+    color: rgb(244, 246, 248);
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    background-color: $primary;
+    padding: 0.25rem 1rem;
+    box-shadow: 0 0.1rem 0.4rem rgb(0, 0, 0,0.3);
+  
+  }
+  
+  .list-unstyled{
+    transition: all 0.3s ease;
+    font-size: 4rem;
+    background-color: rgb(247, 242, 238);
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    padding: 0.50rem 1rem;
+    box-shadow: 0 0.1rem 0.4rem rgb(0, 0, 0, 0.3);
+    cursor: pointer;
+  
+  }
+}
+
