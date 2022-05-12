@@ -98,10 +98,15 @@ const AuthProvider = ({ children }) => {
           return tokenUser;
         })
         .catch((err) => {
-          console.log("error: ", err);
           switch (err.message) {
             case 'Mail not validated.':
-              Swal.fire(error('El email no fue validado'));
+              Swal.fire(error('Email no validado'));
+              break;
+              case 'Incorrect username or password...':
+              Swal.fire(error('Email o password incorrecto'));
+              break;
+              case 'Wait for approval.':
+              Swal.fire(error('El usuario aún o ha sido habilitado para ingresar'));
               break;
             default:
               Swal.fire(error('Ha ocurrido un error'));
