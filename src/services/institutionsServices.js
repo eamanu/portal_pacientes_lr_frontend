@@ -1,15 +1,22 @@
-import axios from "axios";
-import { API_ENDPOINTS_INSTITUCIONES, AUTH_HEADER } from "../constants/api.constants";
+import { API_ENDPOINT_INSTITUCIONES, API_HEADER } from "../constants/api.constants";
+import { get } from "./httpServices";
 
-export default async function institutionsServices(tokenUser) {
-  const authAxios = axios.create({
-    headers: AUTH_HEADER(tokenUser)
-  })
+export default async function institutionsServices() {
   try {
-    const result = await authAxios.get(API_ENDPOINTS_INSTITUCIONES);
-    return result.data;
-  } 
+    const promise = await get(API_ENDPOINT_INSTITUCIONES, API_HEADER())
+   return promise
+  }
   catch (err) {
     console.log('Error al cargar las instituciones: ', err);
   }
 }
+
+// export async function getInstitutions () {
+//     try {
+//       const promise = await institutionsServices()
+//       return promise
+//     }
+//     catch ( err ) {    
+//       console.log('Error al cargar las instituciones: ', err);
+//     }
+// }

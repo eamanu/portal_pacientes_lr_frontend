@@ -2,7 +2,7 @@ import React from 'react';
 
 function TurnoVacunacion() {
     return (
-        <div>
+        <div className='in'>
             <p>
                 No hay datos disponibles TurnoVacunacion
             </p>

@@ -8,8 +8,8 @@ registerLocale("es", es);
 
 const DatePickerComponent = React.forwardRef((props, ref) => {
 
-    const { nameForm, maxDate, handleChange, selectValue, onBlur, disabled } = props
-    const [startDate, setStartDate] = useState(false);
+    const { name, maxDate, handleChange, selectValue, onBlur, disabled } = props
+    const [startDate, setStartDate] = useState(selectValue ? selectValue : false);
 
     const change = (date) => {
         handleChange(date)
@@ -19,9 +19,8 @@ const DatePickerComponent = React.forwardRef((props, ref) => {
     return (
         <>
             <DatePicker 
-                name={nameForm}
+                name={name}
                 className='form-control'
-                autocomplete="off"
                 selected={startDate ? startDate : selectValue}
                 onChange={(date) => change(date)}
                 onBlur={onBlur}
@@ -32,7 +31,7 @@ const DatePickerComponent = React.forwardRef((props, ref) => {
                 showMonthDropdown
                 showYearDropdown
                 dropdownMode="select"
-                maxDate={maxDate}
+                maxDate={maxDate ? maxDate : false}
                 popperClassName="some-custom-class"
                 popperPlacement="top-end"
                 popperModifiers={[

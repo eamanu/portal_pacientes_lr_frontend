@@ -1,7 +1,7 @@
 
 export default function Guardias() {
     return (
-        <div>
+        <div className='in'>
             Guardias
         </div>
     )
