@@ -11,10 +11,8 @@ jobs:
     steps:
       - name: Create .env file
         run: |
-          touch .env
-          echo REACT_APP_API_URL_DEV = ${{ secrets.SERVER_IP }} >> .env
-          cat .env
-          ls
+          touch .env2
+          echo REACT_APP_API_URL_DEV = ${{ secrets.SERVER_IP }} >> .env2
 
       - name: Check out the repo
         uses: actions/checkout@v2
