@@ -48,7 +48,6 @@ function Profile({ show, handleClose, type }) {
         }
     }
     useEffect(() => {
-        // console.log('newvalue', newValue,values[newValue] )
         setValue(`${newValue}`, values[newValue]);
     }, [newValue, values])
 
@@ -80,7 +79,6 @@ function Profile({ show, handleClose, type }) {
         (body) => {
             updatePerson(body)
                 .then((res) => {
-                    console.log(res)
                     if (res.ok) {
                         return res.text().then(text => {
                             let readeble = JSON.parse(text)
