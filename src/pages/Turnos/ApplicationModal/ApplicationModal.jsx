@@ -9,7 +9,7 @@ import SelectType from '../../../components/SelectType';
 import { confirm, error, success } from '../../../components/SwalAlertData';
 import usePatient from '../../../hooks/usePatient'
 
-function AplicationModal({ show, handleClose, }) {
+function ApplicationModal({ show, handleClose, }) {
 
 
     const [loading, setLoading] = useState(false)
@@ -23,7 +23,7 @@ function AplicationModal({ show, handleClose, }) {
         miercoles: true,
         jueves: true,
         viernes: true,
-        sábado: true,
+        sabado: true,
         domingo: true
     })
     const [values, setValues] = useState({
@@ -63,14 +63,27 @@ function AplicationModal({ show, handleClose, }) {
         }
     }
 
-    const buildAplication = (days, specialty) => {
+    const buildApplication = (days, specialty) => {
         let body = values
-        body.weekly_availability = days
+        body.weekly_availability = days.toString()
         body.specialty = specialty
+        let application = 
+        `\r 
+        DATOS DEL PACIENTE\r 
+        Paciente: ${body.person} \r 
+        Número de documento: ${body.identification_number} \r
+        Email: ${body.email} \r
+        Teléfono: ${body.phone_number} \r\n
+        TURNO SOLICITADO \r
+        Especialidad médica: ${body.specialty ? body.specialty : '-' } \r
+        Disponibilidad semanal: ${body.weekly_availability} \r
+        Disponibilidad horaria: ${body.time_availability ? body.time_availability : '-'} \r
+        Detalle de solicitud: ${body.details ? body.details : '-'}
+        `
         Swal.fire(confirm(`¿Enviar solicitud de turno?`)).then((result) => {
             if (result.isConfirmed) {
                 // send()
-                console.log('body', body)
+                console.log(application)
             }
         })
     }
@@ -101,8 +114,11 @@ function AplicationModal({ show, handleClose, }) {
                 let k = key.toString()
                 daysSelected.push(k)
                 if (Object.is(obj.length - 1, i)) {
-                    // setValues({ ...values, ['weekly_availability']: daysSelected })
-                    buildAplication(daysSelected, specialtySelected.name)
+                    buildApplication(daysSelected, specialtySelected?.name)
+                }
+            } else {
+                if (Object.is(obj.length - 1, i)) {
+                    buildApplication(daysSelected, specialtySelected?.name)
                 }
             }
         })
@@ -245,4 +261,4 @@ function AplicationModal({ show, handleClose, }) {
     )
 }
 
-export default AplicationModal;
+export default ApplicationModal;
