@@ -106,7 +106,7 @@ const AuthProvider = ({ children }) => {
               Swal.fire(error('Email o password incorrecto'));
               break;
               case 'Wait for approval.':
-              Swal.fire(error('El usuario aún o ha sido habilitado para ingresar'));
+              Swal.fire(error('El usuario aún no ha sido habilitado para ingresar'));
               break;
             default:
               Swal.fire(error('Ha ocurrido un error'));
