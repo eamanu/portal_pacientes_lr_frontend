@@ -50,7 +50,6 @@ export default function EnablePatient({ show, handleClose, id }) {
         (idType) => {
             identificationsTypeServices()
                 .then((res) => {
-                    // console.log(res)
                     if (res?.length > 0) {
                         const type = res.find(t => t.id === idType)
                         setIdnType(type)
