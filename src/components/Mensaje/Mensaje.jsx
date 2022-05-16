@@ -34,7 +34,7 @@ export const Mensaje = (props) => {
       (person_id, message_id) => {
         setMessageRead(person_id, message_id)
         .then((res) => {
-            console.log(res)
+            return res
         })
         .catch(err => console.log(err))
       },
