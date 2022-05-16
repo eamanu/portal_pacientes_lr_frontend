@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import SelectType from "../../../../components/SelectType";
-import AplicationModal from '../../AplicationModal';
+import ApplicationModal from '../../ApplicationModal';
 
 function SolicitarTurnos() {
 
@@ -16,7 +16,7 @@ function SolicitarTurnos() {
                 solicitud. A la brevedad, una persona del área de Salud se
                 contactará para ofrecerte turnos disponibles. </p>
             <Button variant="danger" onClick={() => handleShow()}>Completar formulario</Button>
-            {show && <AplicationModal type={'patient'} show={show} handleClose={handleClose} />}
+            {show && <ApplicationModal type={'patient'} show={show} handleClose={handleClose} />}
         </div>
     )
 }
