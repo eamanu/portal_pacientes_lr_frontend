@@ -24,7 +24,6 @@ export default function Notificaciones() {
             getMessagesByPerson(person_id, only_unread) 
                 .then((res) => {
                     if (res.length) {
-                        console.log(res)
                         setMessages(res);
                         setLoading(false)
                         return messages
