@@ -25,6 +25,7 @@ export default function EnablePatient({ show, handleClose, id }) {
             getPersonById(id)
                 .then((res) => {
                     if (res.id) {
+                        console.log(res)
                         setPatient(res)
                     } else {
                         Swal.fire(error('Error al cargar datos de paciente'));
@@ -194,19 +195,19 @@ export default function EnablePatient({ show, handleClose, id }) {
                                 <Col xs={12} lg={6}>
                                     <h5>Datos de paciente </h5>
                                     <ul className="ps-0 fw-lighter admin-patient__list">
-                                        <li>Nombre: <strong>{patient.name}</strong></li>
-                                        <li>Apellido: <strong>{patient.surname}</strong></li>
-                                        <li>Tipo de documento: <strong>{idnType.description}</strong></li>
-                                        <li>Número de documento: <strong>{patient.identification_number}</strong></li>
-                                        <li>Fecha de nacimiento: <strong>{birthdate}</strong></li>
-                                        <li>Sexo: <strong>{genderType.name}</strong></li>
-                                        <li>Domicilio: <strong>{patient.address_street} {patient.address_number} , {patient.department} , {patient.locality} </strong></li>
-                                        <li>Email: <strong>{patient.email}</strong></li>
-                                        <li>Teléfono: <strong>{patient.phone_number}</strong></li>
+                                        <li>Nombre: <strong>{patient.name || ' - '}</strong></li>
+                                        <li>Apellido: <strong>{patient.surname || ' - '}</strong></li>
+                                        <li>Tipo de documento: <strong>{idnType?.description || ' - '}</strong></li>
+                                        <li>Número de documento: <strong>{patient.identification_number || ' - '}</strong></li>
+                                        <li>Fecha de nacimiento: <strong>{birthdate || ' - '}</strong></li>
+                                        <li>Sexo: <strong>{genderType?.name || ' - '}</strong></li>
+                                        <li>Domicilio: <strong>{patient.address_street || ' - '} {patient.address_number || ' - '} , {patient.department || ' - '} , {patient.locality || ' - '} </strong></li>
+                                        <li>Email: <strong>{patient.email || ' - '}</strong></li>
+                                        <li>Teléfono: <strong>{patient.phone_number || ' - '}</strong></li>
                                     </ul>
                                     <h5>Grupo familiar </h5>
                                     <ul className="admin-patient__list">
-                                        <li>ID grupo familiar: <strong>{patient.identification_number_master}</strong> </li>
+                                        <li>ID grupo familiar: <strong>{patient.identification_number_master || ' - '}</strong> </li>
                                     </ul>
                                 </Col>
                                 <Col xs={12} lg={6}>

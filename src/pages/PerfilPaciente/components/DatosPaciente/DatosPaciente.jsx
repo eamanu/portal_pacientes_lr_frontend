@@ -51,27 +51,27 @@ function DatosPaciente() {
                 <h6 className='datos-paciente__title'>Datos personales</h6>
                 <p className='datos-paciente__label'>Nombre y apellido:
                     <span className='ps-1 text-uppercase fw-normal'>
-                        {p.patient.name} {p.patient.surname}
+                        {p.patient.name || ' - '} {p.patient.surname || ' - '}
                     </span>
                 </p>
                 <p className='datos-paciente__label'>DNI:
                     <span className='ps-1 text-uppercase fw-normal'>
-                        {p.patient.identification_number}
+                        {p.patient.identification_number || ' - '}
                     </span>
                 </p>
                 <p className='datos-paciente__label'>Fecha de nacimiento:
                     <span className='ps-1 text-uppercase fw-normal'>
-                        {birthdate}
+                        {birthdate || ' - '}
                     </span>
                 </p>
                 <p className='datos-paciente__label'>EDAD:
                     <span className='ps-1 text-uppercase fw-normal'>
-                        {age}
+                        {age || ' - '}
                     </span>
                 </p>
                 <p className='datos-paciente__label'>genero:
                     <span className='ps-1 text-uppercase fw-normal'>
-                        {gender}
+                        {gender || ' - '}
                     </span>
                 </p>
             </Col>
@@ -80,17 +80,17 @@ function DatosPaciente() {
                 <h6 className='datos-paciente__title'>Datos de contacto</h6>
                 <p className='datos-paciente__label'>email de usuario:
                     <span className='ps-1 text-lowercase fw-normal'>
-                        {p.patient.email}
+                        {p.patient.email || ' - '}
                     </span>
                 </p>
                 <p className='datos-paciente__label'>teléfono de usuario:
                     <span className='ps-1 text-uppercase fw-normal'>
-                        {p.patient.phone_number}
+                        {p.patient.phone_number || ' - '}
                     </span>
                 </p>
                 <p className='datos-paciente__label'>domicilio de usuario:
                     <span className='ps-1 text-uppercase fw-normal'>
-                        {p.patient.address_street} {p.patient.address_number}, {p.patient.locality}, {p.patient.department}
+                        {p.patient.address_street || ' - '} {p.patient.address_number || ' - '}, {p.patient.locality || ' - '}, {p.patient.department || ' - '}
                     </span>
                 </p>
             </Col>
@@ -99,7 +99,7 @@ function DatosPaciente() {
                 <h6 className='datos-paciente__title'>Datos de atención</h6>
                 <p className='datos-paciente__label'>centro de atención:
                     <span className='ps-1 text-uppercase fw-normal'>
-                        {institution}
+                        {institution || ' - '}
                     </span>
                 </p>
                 <p className='datos-paciente__label'>Afecciones crónicas:
@@ -107,7 +107,7 @@ function DatosPaciente() {
                         <span className='ps-1 text-uppercase fw-normal'>
                            Diabetes -
                         </span>
-                    }
+                        }
                     {p.patient.is_hypertensive &&
                         <span className='ps-1 text-uppercase fw-normal'>
                             Hipertensión -
