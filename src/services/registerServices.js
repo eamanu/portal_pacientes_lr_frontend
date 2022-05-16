@@ -25,7 +25,6 @@ export async function registerPersonAndUserService(body) {
 export async function registerPersonService(body) {
   try {
     const data = JSON.stringify(body);
-    console.log("data person", data);
     const promise = await post(API_ENDPOINT_CREATEPERSON, API_HEADER(), data);
     return promise;
   } catch (err) {

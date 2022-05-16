@@ -271,7 +271,7 @@ export const LabelsFormData = {
     register: {
       required: {
         value: true,
-        message: 'El campo es requerido.'
+        message: "El campo es requerido.",
       },
     },
   },
@@ -389,6 +389,6 @@ export const ValuesRegisterForm = {
   id_person: null, //hardcode
   id_patient: null, //hardcode
   id_admin_status: 1, //note - table db =>  1: pending , 2: validated , 3: refused
-  id_user_status: 1, //note - table db =>  1: pending , 2: validated , 3: refused
+  id_person_status: 1, //note - table db =>  1: pending , 2: validated , 3: refused
   is_deleted: false, //hardcode
 };
