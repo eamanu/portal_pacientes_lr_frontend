@@ -24,7 +24,6 @@ function AvisoVerificacion() {
             validateEmailServices(token)
                 .then((res) => {
                     if (res.status) {
-                        console.log(res.status)
                         setIsValidated(true)
                         setLoading(false)
                     } else {
