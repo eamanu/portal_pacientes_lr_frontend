@@ -8,6 +8,7 @@ import Loader from '../../../components/Loader';
 import SelectType from '../../../components/SelectType';
 import { confirm, error, success } from '../../../components/SwalAlertData';
 import usePatient from '../../../hooks/usePatient'
+import { sendApplicationEmailService } from '../../../services/applicactionService';
 
 function ApplicationModal({ show, handleClose, }) {
 
@@ -64,43 +65,47 @@ function ApplicationModal({ show, handleClose, }) {
     }
 
     const buildApplication = (days, specialty) => {
+        setLoading(true)
         let body = values
+        let subject = `Solicitud de turno: ${specialty || ''} - Paciente ${body.person}, DNI ${body.identification_number}`
         body.weekly_availability = days.toString()
         body.specialty = specialty
-        let application = 
-        `\r 
-        DATOS DEL PACIENTE\r 
-        Paciente: ${body.person} \r 
+        let application =
+            `\r 
+        DATOS DE PACIENTE\r 
+        Nombre y apellido: ${body.person} \r 
         Número de documento: ${body.identification_number} \r
         Email: ${body.email} \r
         Teléfono: ${body.phone_number} \r\n
         TURNO SOLICITADO \r
-        Especialidad médica: ${body.specialty ? body.specialty : '-' } \r
+        Especialidad médica: ${body.specialty ? body.specialty : '-'} \r
         Disponibilidad semanal: ${body.weekly_availability} \r
         Disponibilidad horaria: ${body.time_availability ? body.time_availability : '-'} \r
         Detalle de solicitud: ${body.details ? body.details : '-'}
         `
         Swal.fire(confirm(`¿Enviar solicitud de turno?`)).then((result) => {
             if (result.isConfirmed) {
-                // send()
+                send(p.patient.id, subject, application)
                 console.log(application)
             }
         })
     }
 
     const send = useCallback(
-        () => {
-            // service()
-            // .then((res) => {
-            //     console.lof(res)
-            //     Swal.fire(success('La solicitud fue enviada con éxito'))
-            handleClose()
-            // })
-            // .catch((err) => {
-            //     console.log('erro', err)
-            //     Swal.fire(error('Hubo un error al enviar la solicitud'))
-
-            // })
+        (id, subject, body) => {
+            sendApplicationEmailService(id, subject, body)
+                .then((res) => {
+                    if(res.ok){
+                        Swal.fire(success('La solicitud fue enviada con éxito'))
+                        setLoading(false)
+                        handleClose()
+                    }
+                })
+                .catch((err) => {
+                    console.log('error', err)
+                    Swal.fire(error('Hubo un error al enviar la solicitud'))
+                    handleClose()
+                })
         },
         [],
     )
