@@ -9,14 +9,14 @@ import { getAdminStatus, getPersonById, setAdminStatusToPerson } from '../../../
 import { downloadIdentificationImagesService } from '../../../services/registerServices';
 import { variantsGender } from '../../../components/ComponentsData';
 
-export default function EnablePatient({ show, handleClose, id }) {
+export default function EnablePatient({ show, handleClose, id, action }) {
 
     const [loading, setLoading] = useState(true);
     const [patient, setPatient] = useState(null);
     const [idnType, setIdnType] = useState(1);
     const [genderType, setGenderType] = useState(null);
     const [birthdate, setBirthdate] = useState(null);
-    const [adminStatus, setAdminStatus ] = useState([]);
+    const [adminStatus, setAdminStatus] = useState([]);
     const [imgFront, setImgFront] = useState("")
     const [imgBack, setImgBack] = useState("")
 
@@ -25,7 +25,6 @@ export default function EnablePatient({ show, handleClose, id }) {
             getPersonById(id)
                 .then((res) => {
                     if (res.id) {
-                        console.log(res)
                         setPatient(res)
                     } else {
                         Swal.fire(error('Error al cargar datos de paciente'));
@@ -102,14 +101,14 @@ export default function EnablePatient({ show, handleClose, id }) {
     const getAdminStatusToSetPerson = useCallback(
         () => {
             getAdminStatus()
-            .then((res) => {
-                setAdminStatus(res)
-            })
-            .catch((err) => {
-                console.log('Error', err)
-                Swal.fire(error('Error al obtenter estados'))
-                handleClose()
-            })
+                .then((res) => {
+                    setAdminStatus(res)
+                })
+                .catch((err) => {
+                    console.log('Error', err)
+                    Swal.fire(error('Error al obtenter estados'))
+                    handleClose()
+                })
 
         }, []
     )
@@ -138,6 +137,7 @@ export default function EnablePatient({ show, handleClose, id }) {
                             let readeble = JSON.parse(text)
                             if (readeble.status) {
                                 Swal.fire(success(`Estado ${status.name}`))
+                                action()
                                 handleClose()
                             } else {
                                 Swal.fire(error('Hubo un error al intentar cambiar el estado'))
@@ -159,7 +159,7 @@ export default function EnablePatient({ show, handleClose, id }) {
         Swal.fire(confirm('¿Validar solicitud?')).then((result) => {
             if (result.isConfirmed) {
                 let status = adminStatus.find(s => s.name === "VALIDADO")
-                changeAdminStatusToPerson(id, status) 
+                changeAdminStatusToPerson(id, status)
             }
         })
     }

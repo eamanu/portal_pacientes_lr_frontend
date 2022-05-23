@@ -77,7 +77,7 @@ export default function PendingPatients() {
                     <h5 className="mt-5 mb-3">Pacientes rechazados <span className="fw-light text-danger">({patientsPending.length})</span></h5>
                     {patientsPending.length > 0 ? patientsPending.map((p, i) => {
                         return (
-                            <PendingPatient key={i} name={p.name + " " + p.surname} status_id={p.id_admin_status} status_name={statusName} id={p.id}></PendingPatient>
+                            <PendingPatient key={i} name={p.name + " " + p.surname} status_id={p.id_admin_status} status_name={statusName} id={p.id} action={getData}></PendingPatient>
                         )
                     })
                         :
