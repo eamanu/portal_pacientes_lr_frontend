@@ -99,7 +99,7 @@ const AuthProvider = ({ children }) => {
         })
         .catch((err) => {
           switch (err.message) {
-            case 'Mail not validated.':
+            case 'Mail not email_validated.':
               Swal.fire(error('Email no validado'));
               break;
               case 'Incorrect username or password...':
