@@ -23,12 +23,10 @@ export default function Notificaciones() {
         (person_id, only_unread) => {
             getMessagesByPerson(person_id, only_unread) 
                 .then((res) => {
-                    if (res.length) {
+                    if (res) {
                         setMessages(res);
                         setLoading(false)
                         return messages
-                    } else {
-                        setLoading(false)
                     }
                 })
                 .catch((err) => { 
@@ -42,7 +40,7 @@ export default function Notificaciones() {
 
     useEffect(() => {
         initMessages()
-    }, [])
+    }, [idPerson])
 
     const initMessages = () => {
         setLoading(true)
@@ -55,7 +53,7 @@ export default function Notificaciones() {
             ? <Loader isActive={loading} />
             : <Container className='notificaciones p-3'>
                 <h5 className='section-title'>Notificaciones</h5>
-                {messages ? messages.map((m, i) => {
+                {messages.length > 0 ? messages.map((m, i) => {
                     return <Mensaje 
                     key={m.message.id + i} 
                     idMessage={m.message.id}
