@@ -165,7 +165,7 @@ export const API_ENDPOINT_DELETEMESSAGE = (query) => {
 
 // sumar ---------------------------------------
 export const API_ENDPOINT_SUMAR = (idn) => {
-  let url = `${baseUrl}/sumar/data/${idn}`;
+  let url = `${baseUrl}/data/${idn}`;
   return url;
 };
 
