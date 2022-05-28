@@ -8,7 +8,7 @@ import { Row, Col } from 'react-bootstrap';
 export const Paciente = (props) => {
 
     const p = usePatient();
-    const { patientId, patientNombre, patientApellido, verHistoriaClinica, handlePatient } = props
+    const { patientIdn, patientNombre, patientApellido, verHistoriaClinica, handlePatient } = props
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -19,11 +19,11 @@ export const Paciente = (props) => {
                 <h6 className='mb-0 text-capitalize'>{`${patientNombre} ${patientApellido}`}</h6>
             </Col>
             <Col xs={12} md={4} className='patient-actions'>
-                <div className={`status-container ${patientId === p.patient.identification_number ? 'bg-primary' : 'bg-secondary'}`} onClick={() => { handlePatient(patientId) }}>
-                    <p className="mb-0 text-ligth">{patientId === p.patient.identification_number ? 'Perfil activo' : 'Activar perfil'}</p>
+                <div className={`status-container ${patientIdn === p.patient.identification_number ? 'bg-primary' : 'bg-secondary'}`} onClick={() => { handlePatient(patientIdn) }}>
+                    <p className="mb-0 text-ligth">{patientIdn === p.patient.identification_number ? 'Perfil activo' : 'Activar perfil'}</p>
                 </div>
                 <div className="my-tooltip">
-                    <button className='btn text-secondary btn-icon' onClick={() => { verHistoriaClinica(patientId) }}><MdIcon.MdFolderShared style={{ fontSize: '1.5rem' }} /></button>
+                    <button className='btn text-secondary btn-icon' onClick={() => { verHistoriaClinica(patientIdn) }}><MdIcon.MdFolderShared style={{ fontSize: '1.5rem' }} /></button>
                     <span className="tiptext">
                         Ver historia clínica
                     </span>

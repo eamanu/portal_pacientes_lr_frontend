@@ -12,13 +12,13 @@ function GrupoFamiliar() {
     const [loading, setLoading] = useState(true)
     const p = usePatient();
     const [dniPatient, setDniPatient] = useState(p.patient.identification_number);
-    const handlePatient = (id) => {
-        setDniPatient(id)
+    const handlePatient = (idn) => {
+        setDniPatient(idn)
     }
 
     const history = useHistory();
-    const verHistoriaClinica = (id) => {
-        setDniPatient(id);
+    const verHistoriaClinica = (idn) => {
+        setDniPatient(idn);
         setTimeout(() => {
             history.push('/usuario/historia-clinica/alergias');
         }, 300);
@@ -46,7 +46,7 @@ function GrupoFamiliar() {
                         return (
                             <Paciente
                                 key={patient.identification_number + i}
-                                patientId={patient.identification_number}
+                                patientIdn={patient.identification_number}
                                 patientNombre={patient.name}
                                 patientApellido={patient.surname}
                                 verHistoriaClinica={verHistoriaClinica}
