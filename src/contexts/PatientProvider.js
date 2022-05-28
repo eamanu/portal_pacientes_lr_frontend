@@ -60,10 +60,7 @@ const PatientProvider = ({ children }) => {
             let body = {
               gender_id: p.id_gender,
               identification_number: p.identification_number,
-              type_id: p.id_identification_type,
-              // gender_id: 2, //hardcode
-               // identification_number: 36436060, //hardcode
-              // type_id: 1, //hardcode
+              type_id: p.id_identification_type
             };
             getPatientBasicData(p, body);
             Toast.fire(toastPatient(`${p.name} ${p.surname}`));
