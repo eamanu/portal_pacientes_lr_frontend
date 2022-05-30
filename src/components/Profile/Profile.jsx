@@ -62,6 +62,7 @@ function Profile({ show, handleClose, type }) {
         delete body.photo_dni_back //note - is necesary, but not now
         delete body.username
         delete body.password
+        delete body.id
         body.is_diabetic = body.is_diabetic.toString() == 'true' ? true : false
         body.is_hypertensive = body.is_hypertensive.toString() == 'true' ? true : false
         body.is_chronic_kidney_disease = body.is_chronic_kidney_disease.toString() == 'true' ? true : false
@@ -135,22 +136,6 @@ function Profile({ show, handleClose, type }) {
             <Col xs={12} >
                 <FormGroup inputType={f.email.inputType} label={f.email.label} name={f.email.form_name} value={values.email} disabled />
             </Col>
-            {/* <Col xs={12} sm={6} >
-                <FormGroup inputType={f.password.inputType} label={f.password.label} name={f.password.form_name} value={values.password} type={f.password.type}
-                    {...register(`${f.password.form_name}`, f.password.register)}
-                    onChange={handleChange}
-                />
-                {errors[f.password.form_name] && <ErrorMessage><p>{errors[f.password.form_name].message}</p></ErrorMessage>}
-            </Col>
-            <Col xs={12} sm={6} >
-                <FormGroup inputType={f.confirmPassword.inputType} label={f.confirmPassword.label} name={f.confirmPassword.form_name} value={values.confirmPassword} type={f.confirmPassword.type}
-                    {...register(`${f.confirmPassword.form_name}`, {
-                        validate: (value) => value === getValues("password") || 'Las direcciones de correo no coinciden'
-                    })}
-                    onChange={handleChange}
-                />
-                {errors[f.confirmPassword.form_name] && <ErrorMessage><p>{errors[f.confirmPassword.form_name].message}</p></ErrorMessage>}
-            </Col> */}
             <Col xs={12} sm={8}>
                 <FormGroup inputType={f.address_street.inputType} label={f.address_street.label} name={f.address_street.form_name} value={values.address_street}
                     {...register(`${f.address_street.form_name}`, f.address_street.register)}
