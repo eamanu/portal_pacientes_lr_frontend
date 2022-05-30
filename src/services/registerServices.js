@@ -6,6 +6,7 @@ import {
   API_ENDPOINT_DOWNLOADIDENTIFICATIONIMAGES,
   API_HEADER,
   UPLOAD_HEADER,
+  AUTH_HEADER
 } from "../constants/api.constants";
 
 export async function registerPersonAndUserService(body) {
@@ -58,7 +59,7 @@ export async function  downloadIdentificationImagesService(id, is_front) {
     let query = searchParams.toString();
     const promise = await post(
       API_ENDPOINT_DOWNLOADIDENTIFICATIONIMAGES(query),
-      API_HEADER(),
+      AUTH_HEADER(),
     );
     return promise;
   } catch (err) {
