@@ -32,7 +32,7 @@ function Login() {
     }, [])
 
     const onSubmit = () => {
-        setLoading(true)
+        // setLoading(true)
         auth.loginAdmin(email, password);
         if (saveData) {
             localStorage.setItem("loginDataEmail", JSON.stringify(email));

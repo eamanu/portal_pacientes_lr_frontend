@@ -27,7 +27,7 @@ function LoginPerson() {
     }, [auth, history, previousObjetURL])
 
     const onSubmit = () => {
-        setLoading(true)
+        // setLoading(true)
         auth.loginPerson(email, password);
         if (saveData) {
             localStorage.setItem("loginDataEmail", JSON.stringify(email));
@@ -38,7 +38,6 @@ function LoginPerson() {
     useEffect(() => {
         setNumber(Math.floor(Math.random() * (5 - 0)) + 1);
     }, [])
-
 
     return (
         <>
