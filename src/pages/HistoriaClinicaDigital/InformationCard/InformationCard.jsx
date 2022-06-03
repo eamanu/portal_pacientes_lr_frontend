@@ -6,7 +6,7 @@ const InformationCard = (props) => {
     const formatDate = date.split('T')[0]
 
     return (
-        <Card className="mb-3 shadow-sm">
+        <Card key={i} className="mb-3 shadow-sm">
             <Card.Header>
                 <span className='fw-lighter mb-0'>Fecha: {formatDate || ' - '}</span> | <span className="mb-0">{group || ' - '}</span>
             </Card.Header>

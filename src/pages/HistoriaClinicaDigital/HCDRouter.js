@@ -11,6 +11,7 @@ import Medicacion from './pages/Medicacion';
 import ProblemasActivos from './pages/ProblemasActivos';
 import RegistrosDentales from './pages/RegistrosDentales';
 import NotFound from '../NotFound';
+import ProblemasResueltos from './pages/ProblemasResueltos';
 
 export default function HCDRouter() {
     return (
@@ -25,6 +26,7 @@ export default function HCDRouter() {
                 <Route path='/usuario/historia-clinica/inmunizacion' component={Inmunizacion }/>
                 <Route path='/usuario/historia-clinica/medicacion' component={Medicacion }/>
                 <Route path='/usuario/historia-clinica/problemas-activos' component={ProblemasActivos }/>
+                <Route path='/usuario/historia-clinica/problemas-resueltos' component={ProblemasResueltos }/>
                 <Route path='/usuario/historia-clinica/registros-dentales' component={RegistrosDentales }/>
                 <Route path='/usuario/historia-clinica/404' component={NotFound}/>   
                 <Route path='/usuario/historia-clinica/*'><Redirect to='/404'/></Route> 

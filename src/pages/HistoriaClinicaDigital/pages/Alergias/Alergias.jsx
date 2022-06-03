@@ -18,21 +18,23 @@ function Alergias() {
     const getData = useCallback(
         (institution, id_patient) => {
             allergiesServices(institution, id_patient)
-            .then((res) => {
-                if (res.length > 0) {
-                    res.map((d, i) => {
-                        iterateObject(d)
-                    })
-                } else {
-                    setNotFound(true);
+                .then((res) => {
+                    data.pop()
+                    if (res.length > 0) {
+                        res.map((d, i) => {
+                            iterateObject(d)
+                            setNotFound(false);
+                        })
+                    } else {
+                        setNotFound(true);
+                        setLoading(false);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                    Swal.fire(error('Hubo un error al solicitar datos'))
                     setLoading(false);
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                Swal.fire(error('Hubo un error al solicitar datos'))
-                setLoading(false);
-            })
+                })
         },
         [data],
     )
@@ -58,12 +60,11 @@ function Alergias() {
     const setNewData = (enteredInfo) => {
         data.push(enteredInfo);
         setLoading(false);
-        // console.log(data)
     }
 
     useEffect(() => {
         setLoading(true);
-        // console.log(p.patientInstitution)
+        // setData([])
         getData(p.patientInstitution, p.idPatient);
     }, [p.patientInstitution]);
 
@@ -75,14 +76,14 @@ function Alergias() {
                 <>
                     {data.map((d, i) => {
                         return (
-                            <Card className="mb-3 shadow-sm">
+                            <Card key={i} className="mb-3 shadow-sm">
                                 <Card.Header>
                                     <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span>
                                 </Card.Header>
                                 <Card.Body>
                                     <blockquote className="blockquote mb-0">
-                                        {d.map((itemData) => {
-                                            return (<p>{itemData}</p>)
+                                        {d.map((itemData, i) => {
+                                            return (<p key={i}>{itemData}</p>)
                                         })
                                         }
                                     </blockquote>

@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import usePatient from '../../../../hooks/usePatient';
 import Loader from '../../../../components/Loader';
 import DataNotFound from '../../../../components/DataNotFound';
-import activeProblemsServices from '../../../../services/hceServices/activeProblemsServices';
 import Swal from 'sweetalert2';
 import { error } from '../../../../components/SwalAlertData';
 import { Card } from 'react-bootstrap';
+import solvedProblemsServices from '../../../../services/hceServices/solvedProblemSevices';
 
-function ProblemasActivos() {
+function ProblemasResueltos() {
 
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
@@ -17,7 +17,7 @@ function ProblemasActivos() {
 
     const getData = useCallback(
         (institution, id_patient) => {
-            activeProblemsServices(institution, id_patient)
+            solvedProblemsServices(institution, id_patient)
                 .then((res) => {
                     data.pop()
                     if (!res.detail && res.length > 0) {
@@ -110,4 +110,4 @@ function ProblemasActivos() {
     )
 }
 
-export default ProblemasActivos;
+export default ProblemasResueltos;
