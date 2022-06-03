@@ -117,6 +117,10 @@ export const SidebarData = {
           path: "/usuario/historia-clinica/problemas-activos"
         },
         {
+          title: "Problemas resueltos",
+          path: "/usuario/historia-clinica/problemas-resueltos"
+        },
+        {
           title: "Registros dentales",
           path: "/usuario/historia-clinica/registros-dentales"
         },
