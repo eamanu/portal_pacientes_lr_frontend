@@ -3,20 +3,10 @@ import { get } from "./httpServices";
 
 export default async function institutionsServices() {
   try {
-    const promise = await get(API_ENDPOINT_INSTITUCIONES, API_HEADER())
+    const promise = await get(API_ENDPOINT_INSTITUCIONES, API_HEADER()) 
    return promise
   }
   catch (err) {
     console.log('Error al cargar las instituciones: ', err);
   }
 }
-
-// export async function getInstitutions () {
-//     try {
-//       const promise = await institutionsServices()
-//       return promise
-//     }
-//     catch ( err ) {    
-//       console.log('Error al cargar las instituciones: ', err);
-//     }
-// }
