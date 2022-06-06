@@ -22,11 +22,11 @@ const ImgRotate = ({ img }) => {
     return (
         <div className="mb-3 d-flex flex-column align-items-center">
         <div className="d-flex w-100 justify-content-end">
-                <a className='text-secondary btn-icon' onClick={(e) => rotateLeft()}><MdIcon.MdRotateLeft /></a>
-                <a className='text-secondary btn-icon' onClick={(e) => rotateRigth()}><MdIcon.MdRotateRight /></a>
+                <a  role="button" className='text-secondary btn-icon' onClick={(e) => rotateLeft()}><MdIcon.MdRotateLeft /></a>
+                <a  role="button" className='text-secondary btn-icon' onClick={(e) => rotateRigth()}><MdIcon.MdRotateRight /></a>
         </div>
             <div className="admin-patient__img-container">
-                <img className={`admin-patient__img ${rotate ? 'rotate-img' : ''}`} style={{ transform: `rotate(${deg}deg)` }} src={img ? `${baseUrl+img}` : nImg } alt={`document patient`} />
+                <img className={`admin-patient__img ${rotate ? 'rotate-img' : ''}`} style={{ transform: `rotate(${deg}deg)` }} src={img ? img : nImg } alt={`document patient`} />
             </div>
         </div>
     )

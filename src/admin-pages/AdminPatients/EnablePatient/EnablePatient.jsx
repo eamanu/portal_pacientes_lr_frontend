@@ -6,12 +6,14 @@ import ImgRotate from '../../../components/ImgRotate';
 import { confirm, error, success } from '../../../components/SwalAlertData';
 import identificationsTypeServices from '../../../services/parametricServices';
 import { getAdminStatus, getPersonById, setAdminStatusToPerson } from '../../../services/personServices';
-import { downloadIdentificationImagesService } from '../../../services/registerServices';
+import { downloadIdentificationImagesService, getImageService } from '../../../services/registerServices';
 import { variantsGender } from '../../../components/ComponentsData';
+import useAuth from '../../../hooks/useAuth';
 
 export default function EnablePatient({ show, handleClose, id, action }) {
 
     const [loading, setLoading] = useState(true);
+    const auth = useAuth()
     const [patient, setPatient] = useState(null);
     const [idnType, setIdnType] = useState(1);
     const [genderType, setGenderType] = useState(null);
@@ -19,6 +21,7 @@ export default function EnablePatient({ show, handleClose, id, action }) {
     const [adminStatus, setAdminStatus] = useState([]);
     const [imgFront, setImgFront] = useState("")
     const [imgBack, setImgBack] = useState("")
+
 
     const getPatient = useCallback(
         (id) => {
@@ -67,7 +70,7 @@ export default function EnablePatient({ show, handleClose, id, action }) {
         let gender = variantsGender.find(g => g.id === id_gender)
         setGenderType(gender)
     }
-    const getImage = useCallback(
+    const downloadImage = useCallback(
         (id, is_front) => {
             downloadIdentificationImagesService(id, is_front)
                 .then((res) => {
@@ -76,11 +79,10 @@ export default function EnablePatient({ show, handleClose, id, action }) {
                             let readeble = JSON.parse(text)
                             if (readeble.status) {
                                 if (is_front) {
-                                    setImgFront(readeble.value)
-                                    getImage(id, false)
+                                    getImage(readeble.value, is_front)
+                                    downloadImage(id, false)
                                 } else {
-                                    setImgBack(readeble.value)
-                                    setLoading(false)
+                                    getImage(readeble.value, is_front)
                                 }
                             } else {
                                 throw new Error(text)
@@ -98,6 +100,43 @@ export default function EnablePatient({ show, handleClose, id, action }) {
         },
         [],
     )
+
+    const getImage = useCallback(
+        (imgName, is_front) => {
+            getImageService(imgName, auth.tokenUser)
+                .then((res) => {
+                    if(res && is_front) {
+                        setImgFront(res)
+                    } else if (res && !is_front) {
+                        setImgBack(res)
+                        setLoading(false)
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        [],
+    )
+
+    // const getImageService = (imgName) => {
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.responseType = 'blob'; //so you can access the response like a normal URL
+    //     xhr.onreadystatechange = function () {
+    //         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+    //             // var img = document.createElement('img');
+    //             let src = URL.createObjectURL(xhr.response); //src set to the blob
+    //             setImgFront(src)
+    //             console.log(src)
+    //             setLoading(false)
+
+    //         }
+    //     };
+    //     xhr.open('GET', `http://128.201.239.7:8000/portalpaciente/api/v1${imgName}`, true);
+    //     xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1NDU1Mzc1MX0.lwFDTZ37hPHRHrjIeIaI_EcK_TZqU88suBIBvwMnIb8');
+    //     xhr.send();
+    // }
+
     const getAdminStatusToSetPerson = useCallback(
         () => {
             getAdminStatus()
@@ -124,7 +163,7 @@ export default function EnablePatient({ show, handleClose, id, action }) {
             getDNIVariants(patient.id_identification_type)
             getBirthdate(patient.birthdate);
             getGender(patient.id_gender);
-            getImage(patient.id, true);
+            downloadImage(patient.id, true);
         }
     }, [show, patient, getDNIVariants])
 

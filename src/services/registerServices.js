@@ -73,3 +73,37 @@ export async function downloadIdentificationImagesService(id, is_front) {
   }
 }
 
+function getImageRequest (imgName, token) {
+  return new Promise(function (resolve, reject) {
+    let src
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = "blob"; //so you can access the response like a normal URL
+        xhr.open(
+          "GET",
+          `${baseUrl + imgName}`,
+          true
+        );
+        xhr.setRequestHeader(
+          'Authorization',
+          `Bearer ${token}`
+        );
+        xhr.onload = function () {
+          if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            src = URL.createObjectURL(xhr.response); 
+            resolve(src)
+          } else {
+            reject(xhr.status);
+          }
+        };
+        xhr.send();
+});
+}
+
+export async function getImageService(imgName, token){
+  try {
+      const promise = await getImageRequest(imgName, token);
+      return promise
+  } catch(error) {
+      console.log("Error fetching remote HTML: ", error);
+  }              
+}
