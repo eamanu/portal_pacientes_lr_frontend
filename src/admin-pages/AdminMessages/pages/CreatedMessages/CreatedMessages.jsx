@@ -26,7 +26,8 @@ export default function CreatedMessages() {
                     if (res.length > 0) {
                         // console.log(res)
                         let notSent = res.filter(m => m.sent_datetime === null)
-                        setMessages(notSent)
+                        let order = notSent.reverse()
+                        setMessages(order)
                         setLoading(false)
                     } else {
                         Swal.fire(error('Error al obtener mensajes'))
