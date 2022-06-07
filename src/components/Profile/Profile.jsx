@@ -62,7 +62,6 @@ function Profile({ show, handleClose, type }) {
         delete body.photo_dni_back //note - is necesary, but not now
         delete body.username
         delete body.password
-        delete body.id
         body.is_diabetic = body.is_diabetic.toString() == 'true' ? true : false
         body.is_hypertensive = body.is_hypertensive.toString() == 'true' ? true : false
         body.is_chronic_kidney_disease = body.is_chronic_kidney_disease.toString() == 'true' ? true : false
