@@ -29,6 +29,9 @@ function UserHeader() {
         setDniPatient(p.patient.identification_number);
     }, [p.patient]);
 
+    useEffect(() => {
+        p.getPatient(p.patient.identification_number);
+    }, []);
 
     //are there messages?
     const [messages, setMessages] = useState([])
