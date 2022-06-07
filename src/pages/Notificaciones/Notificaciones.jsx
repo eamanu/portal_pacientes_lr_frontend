@@ -24,7 +24,8 @@ export default function Notificaciones() {
             getMessagesByPerson(person_id, only_unread) 
                 .then((res) => {
                     if (res) {
-                        setMessages(res);
+                        let order = res.reverse()
+                        setMessages(order);
                         setLoading(false)
                         return messages
                     }
@@ -55,7 +56,7 @@ export default function Notificaciones() {
                 <h5 className='section-title'>Notificaciones</h5>
                 {messages.length > 0 ? messages.map((m, i) => {
                     return <Mensaje 
-                    key={m.message.id + i} 
+                    key={`${m.message.id}-${i}`} 
                     idMessage={m.message.id}
                     asunto={m.message.header} 
                     from='Portal del paciente | La Rioja' 
