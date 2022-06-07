@@ -96,7 +96,7 @@ function LoginPerson() {
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Label>
-                                            <Link to="/recuperar-contraseña">¿Olvidaste tu contraseña?</Link>
+                                            <Link to="/recuperar-clave">¿Olvidaste tu contraseña?</Link>
                                         </Form.Label>
                                     </Form.Group>
                                     <div className="d-flex flex-column align-items-center align-items-sm-end mt-3">
