@@ -24,6 +24,7 @@ function AntecedentesPersonales() {
                         iterateObject(d)
                     })
                 } else {
+                    setData([]);
                     setNotFound(true);
                     setLoading(false);
                 }
@@ -65,7 +66,7 @@ function AntecedentesPersonales() {
         setLoading(true);
         // console.log(p.patientInstitution)
         getData(p.patientInstitution, p.idPatient);
-    }, [p.patientInstitution]);
+    }, [p.patientInstitution, p.idPatient]);
 
     return (
         <div className='in'>

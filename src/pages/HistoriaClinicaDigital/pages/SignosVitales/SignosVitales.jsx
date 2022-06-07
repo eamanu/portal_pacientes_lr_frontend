@@ -23,6 +23,7 @@ function SignosVitales() {
                     if (!res.detail && res.length > 0) {
                         iterateObject(res)
                     } else {
+                        setData([]);
                         setNotFound(true);
                         setLoading(false);
                     }
@@ -77,7 +78,7 @@ function SignosVitales() {
     useEffect(() => {
         setLoading(true);
         getData(p.patientInstitution, p.idPatient);
-    }, [p.patientInstitution]);
+    }, [p.patientInstitution, p.idPatient]);
 
     return (
         <div className='in'>

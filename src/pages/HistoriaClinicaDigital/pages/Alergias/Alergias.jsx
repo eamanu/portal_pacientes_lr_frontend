@@ -26,6 +26,7 @@ function Alergias() {
                             setNotFound(false);
                         })
                     } else {
+                        setData([]);
                         setNotFound(true);
                         setLoading(false);
                     }
@@ -66,7 +67,7 @@ function Alergias() {
         setLoading(true);
         // setData([])
         getData(p.patientInstitution, p.idPatient);
-    }, [p.patientInstitution]);
+    }, [p.patientInstitution, p.idPatient]);
 
     return (
         <div className='in'>

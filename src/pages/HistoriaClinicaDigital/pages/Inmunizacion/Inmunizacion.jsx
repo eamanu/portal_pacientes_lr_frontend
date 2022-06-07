@@ -23,6 +23,7 @@ function Inmunizacion() {
                 if (!res.detail && res.length > 0) {
                     iterateObject(res)
                 } else {
+                    setData([]);
                     setNotFound(true);
                     setLoading(false);
                 }
@@ -67,15 +68,14 @@ const iterateObject = (info) => {
 }
 
 const setNewData = (enteredInfo) => {
-    setData(enteredInfo)
+    setData(enteredInfo)    
     setLoading(false);
 }
-
 
 useEffect(() => {
     setLoading(true);
     getData(p.patientInstitution, p.idPatient);
-}, [p.patientInstitution]);
+}, [p.patientInstitution, p.idPatient]);
 
 return (
     <div className='in'>
