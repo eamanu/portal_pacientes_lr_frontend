@@ -1,9 +1,6 @@
 import { environment } from "../environments/environments.demo";
 
 const baseUrl = environment.baseURL;
-const tokenId = localStorage.getItem('tokenUser') 
-? localStorage.getItem('tokenUser').split('"')[1] 
-: null
 
 export let LOGIN_HEADER = () => {
   let header = {
@@ -14,14 +11,20 @@ export let LOGIN_HEADER = () => {
 };
 
 export let API_HEADER = () => {
-  //note - could be Content-type: application/json
+  let header = {
+    "accept": "application/json",
+  };
+  return header;
+};
+
+export let REGISTER_HEADER = () => {
   let header = {
     "Content-Type": "application/json",
   };
   return header;
 };
 
-export let UPLOAD_HEADER = () => {
+export let NONE_HEADER = () => {
   let header = {
     // "Content-Type": "multipart/form-data",
   };
@@ -29,9 +32,12 @@ export let UPLOAD_HEADER = () => {
 };
 
 export let AUTH_HEADER = () => {
+  const jwt = localStorage.getItem("tokenUser")
+    ? JSON.parse(localStorage.getItem("tokenUser"))
+    : null;
   let header = {
-    "Content-Type": "application/json",
-    // Authorization: `Bearer ${tokenId}`,
+    "accept": "application/json",
+    "Authorization": `Bearer ${jwt}`,
   };
   return header;
 };
@@ -83,7 +89,7 @@ export const API_ENDPOINT_SETADMINSTATUSTOPERSON = (query) => {
   return url;
 };
 
-export const API_ENDPOINT_GETADMINSTATUS =  `${baseUrl}/getadminstatus`;
+export const API_ENDPOINT_GETADMINSTATUS = `${baseUrl}/getadminstatus`;
 
 export const API_ENDPOINT_GETPERSONS = `${baseUrl}/persons`;
 
@@ -175,10 +181,7 @@ export const API_ENDPOINT_ALLERGIES = (institution_id, patient_id) => {
   return url;
 };
 
-export const API_ENDPOINT_ANTHROPOMETRICDATA = (
-  institution_id,
-  patient_id
-) => {
+export const API_ENDPOINT_ANTHROPOMETRICDATA = (institution_id, patient_id) => {
   let url = `${baseUrl}/hcegeneral/${institution_id}/anthropometricData/${patient_id}`;
   return url;
 };
@@ -236,4 +239,3 @@ export const API_ENDPOINT_PERSONALHYSTORIES = (institution_id, patient_id) => {
   let url = `${baseUrl}/hcegeneral/${institution_id}/personalHistories/${patient_id}`;
   return url;
 };
-
