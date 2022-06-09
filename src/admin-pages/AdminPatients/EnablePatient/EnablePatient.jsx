@@ -119,24 +119,6 @@ export default function EnablePatient({ show, handleClose, id, action }) {
         [],
     )
 
-    // const getImageService = (imgName) => {
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.responseType = 'blob'; //so you can access the response like a normal URL
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-    //             // var img = document.createElement('img');
-    //             let src = URL.createObjectURL(xhr.response); //src set to the blob
-    //             setImgFront(src)
-    //             console.log(src)
-    //             setLoading(false)
-
-    //         }
-    //     };
-    //     xhr.open('GET', `http://128.201.239.7:8000/portalpaciente/api/v1${imgName}`, true);
-    //     xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1NDU1Mzc1MX0.lwFDTZ37hPHRHrjIeIaI_EcK_TZqU88suBIBvwMnIb8');
-    //     xhr.send();
-    // }
-
     const getAdminStatusToSetPerson = useCallback(
         () => {
             getAdminStatus()
