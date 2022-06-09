@@ -44,10 +44,10 @@ export const error = (error) => {
   return content;
 };
 
-export const confirm = (text) => {
+export const confirm = (text, is_success) => {
   let content = {
     title: text,
-    icon: "warning",
+    icon: is_success ? "success" : "warning",
     showCancelButton: true,
     cancelButtonText: "Cancelar",
     confirmButtonText: "Confirmar",

@@ -83,7 +83,7 @@ function Profile({ show, handleClose, type }) {
                         return res.text().then(text => {
                             let readeble = JSON.parse(text)
                             if (readeble.status) {
-                                Swal.fire(success('El usuario ha sido actualizado con éxito'))
+                                Swal.fire(confirm('El usuario ha sido actualizado. Verás los cambios cuando vuelvas a iniciar sesión.', true))
                                 setLoading(false)
                                 handleClose()
                             } else {
