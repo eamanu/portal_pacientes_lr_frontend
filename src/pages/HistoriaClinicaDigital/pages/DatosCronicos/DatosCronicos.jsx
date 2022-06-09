@@ -8,7 +8,7 @@ import { error } from '../../../../components/SwalAlertData';
 import { Card } from 'react-bootstrap';
 
 function DatosCronicos() {
- 
+
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
 
@@ -18,54 +18,67 @@ function DatosCronicos() {
     const getData = useCallback(
         (institution, id_patient) => {
             chronicServices(institution, id_patient)
-            .then((res) => {
-                if (res.length > 0) {
-                    res.map((d, i) => {
-                        iterateObject(d)
-                    })
-                } else {
-                    setNotFound(true);
+                .then((res) => {
+                    data.pop()
+                    if (!res.detail && res.length > 0) {
+                        iterateObject(res)
+                    } else {
+                        setData([]);
+                        setNotFound(true);
+                        setLoading(false);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                    Swal.fire(error('Hubo un error al solicitar datos'))
                     setLoading(false);
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                Swal.fire(error('Hubo un error al solicitar datos'))
-                setLoading(false);
-            })
+                })
         },
         [data],
     )
 
     const iterateObject = (info) => {
         let patientData = []
-        Object.entries(info).forEach(([key, value], i, obj) => {
-            if (typeof value === 'string' || typeof value === 'number') {
-                patientData.push(`${key}: ${value}`)
-            }
-            if (typeof value === 'object') {
-                Object.entries(value).forEach(([k, v]) => {
-                    patientData.push(`${k}: ${v}`)
-                })
-            }
-            if (Object.is(obj.length - 1, i)) {
+        info.map((inf, index) => {
+            var content = new Object
+            content.data = []
+            Object.entries(inf).forEach(([key, value], i, obj) => {
+                if (key !== 'id' && value !== 'NULL' && value !== null) {
+                    if (typeof value === 'string' || typeof value === 'number') {
+                        content.data.push(`${key}: ${value}`)
+                    }
+                    if (typeof value === 'object') {
+                        if (value) {
+                            Object.entries(value).forEach(([k, v]) => {
+                                if(k !== 'id' && v !== 'NULL' &&  v !== null) {
+                                    content.data.push(`${k}: ${v}`)
+                                } 
+                            })
+                        } else {
+                            content.data.push(`${key}: ${value}`)
+                        }
+                    }
+                    if (Object.is(obj.length - 1, i)) {
+                        patientData.push(content)
+                    }
+                }
+            })
+            if (Object.is(info.length - 1, index)) {
                 setNewData(patientData)
             }
         })
-
     }
 
     const setNewData = (enteredInfo) => {
-        data.push(enteredInfo);
+        setData(enteredInfo)
         setLoading(false);
-        // console.log(data)
     }
+
 
     useEffect(() => {
         setLoading(true);
-        // console.log(p.patientInstitution)
         getData(p.patientInstitution, p.idPatient);
-    }, [p.patientInstitution]);
+    }, [p.patientInstitution, p.idPatient]);
 
     return (
         <div className='in'>
@@ -75,14 +88,14 @@ function DatosCronicos() {
                 <>
                     {data.map((d, i) => {
                         return (
-                            <Card className="mb-3 shadow-sm">
+                            <Card key={i} className="mb-3 shadow-sm">
                                 <Card.Header>
-                                    <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span>
+                                    {/* <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span> */}
                                 </Card.Header>
                                 <Card.Body>
                                     <blockquote className="blockquote mb-0">
-                                        {d.map((itemData) => {
-                                            return (<p>{itemData}</p>)
+                                        {d.data.map((itemData, i) => {
+                                            return (<p key={i}>{itemData}</p>)
                                         })
                                         }
                                     </blockquote>
@@ -91,7 +104,7 @@ function DatosCronicos() {
                         )
                     })
                     }
-                    {notFound && <DataNotFound text="datos crónicos" />}
+                    {notFound && <DataNotFound text="problemas activos" />}
                 </>
             }
         </div>

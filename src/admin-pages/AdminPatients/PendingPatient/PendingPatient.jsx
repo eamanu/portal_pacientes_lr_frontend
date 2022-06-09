@@ -5,9 +5,9 @@ import { error } from "../../../components/SwalAlertData";
 import EnablePatient from "../EnablePatient/EnablePatient";
 // import DataNotFound from "../../components/DataNotFound";
 
-export default function PendingPatient({ name, status_id, status_name, id }) {
+export default function PendingPatient({ name, status_id, status_name, id, action }) {
 
-    const [show, setShow] = useState(false);  //hardcode
+    const [show, setShow] = useState(false); 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
    
@@ -23,7 +23,7 @@ export default function PendingPatient({ name, status_id, status_name, id }) {
                         </div>
                     </Col>
             </Row>
-            <EnablePatient show={show} handleClose={handleClose} id={id} />
+            {show && <EnablePatient show={show} handleClose={handleClose} id={id} action={action} />}
         </>
     )
 }

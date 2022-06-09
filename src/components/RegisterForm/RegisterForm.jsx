@@ -130,7 +130,6 @@ export default function RegisterForm(formType) {
             body.department = user.department
             body.phone_number = user.phone_number
             body.email = user.email
-            console.log('body', body)
             sendRegisterNewPatientForm(body);
         }
     }
@@ -144,15 +143,11 @@ export default function RegisterForm(formType) {
     }
 
     const onSubmit = (length, i) => {
-        console.log(length, i)
         if (length === i + 1) { //last step 
-            console.log('imagenes')
             onSubmitImages()
         } else if (length - 1 === i + 1) {  //penultimate step 
-            console.log('registra ')
             buildBody()
         } else {
-            console.log('siguiente paso')
             next(i)
         }
     }
@@ -160,7 +155,6 @@ export default function RegisterForm(formType) {
     const sendRegisterNewUserForm = useCallback((body) => {
         registerPersonAndUserService(body)
             .then((res) => {
-                console.log(res)
                 if (res.ok) {
                     return res.text().then(text => {
                         let readeble = JSON.parse(text)
@@ -175,7 +169,6 @@ export default function RegisterForm(formType) {
                         }
                     })
                 } else {
-                    console.log('res', res.body)
                     Swal.fire(error('Hubo un error al confirmar datos'))
                     setLoading(false)
                 }
@@ -189,7 +182,6 @@ export default function RegisterForm(formType) {
 
 
     const sendRegisterNewPatientForm = useCallback((body) => {
-        console.log('body patient', body);
         registerPersonService(body)
             .then((res) => {
                 if (res.ok) {
@@ -205,7 +197,7 @@ export default function RegisterForm(formType) {
                         }
                     })
                 } else {
-                    console.log('res', res.body)
+                    console.log('error', res.body)
                     Swal.fire(error('Hubo un error al confirmar datos'))
                 }
             })

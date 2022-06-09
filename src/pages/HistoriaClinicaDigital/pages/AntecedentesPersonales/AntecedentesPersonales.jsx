@@ -24,6 +24,7 @@ function AntecedentesPersonales() {
                         iterateObject(d)
                     })
                 } else {
+                    setData([]);
                     setNotFound(true);
                     setLoading(false);
                 }
@@ -65,7 +66,7 @@ function AntecedentesPersonales() {
         setLoading(true);
         // console.log(p.patientInstitution)
         getData(p.patientInstitution, p.idPatient);
-    }, [p.patientInstitution]);
+    }, [p.patientInstitution, p.idPatient]);
 
     return (
         <div className='in'>
@@ -75,14 +76,14 @@ function AntecedentesPersonales() {
                 <>
                     {data.map((d, i) => {
                         return (
-                            <Card className="mb-3 shadow-sm">
+                            <Card key={i} className="mb-3 shadow-sm">
                                 <Card.Header>
                                     <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span>
                                 </Card.Header>
                                 <Card.Body>
                                     <blockquote className="blockquote mb-0">
-                                        {d.map((itemData) => {
-                                            return (<p>{itemData}</p>)
+                                        {d.map((itemData, i) => {
+                                            return (<p key={i}>{itemData}</p>)
                                         })
                                         }
                                     </blockquote>

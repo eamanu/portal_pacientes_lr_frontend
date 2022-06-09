@@ -12,7 +12,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
-  ); //hardcode
+  ); 
   const [tokenUser, setTokenUser] = useState(
     JSON.parse(localStorage.getItem("tokenUser")) || null
   );
@@ -56,7 +56,7 @@ const AuthProvider = ({ children }) => {
           }
         })
         .then((data) => {
-          setTypeUser(1); //hardcode
+          setTypeUser(1); //hardcode - 1 = user-admin. 2 = user-person
           setUser(data);
           setTokenUser(data.access_token);
           return tokenUser;
@@ -94,19 +94,19 @@ const AuthProvider = ({ children }) => {
         .then((data) => {
           setUser(data.data);
           setTokenUser(data.access_token);
-          setTypeUser(2); //hardcode
+          setTypeUser(2); //hardcode //hardcode - 1 = user-admin. 2 = user-person
           return tokenUser;
         })
         .catch((err) => {
           switch (err.message) {
-            case 'Mail not validated.':
+            case 'Mail not email_validated.':
               Swal.fire(error('Email no validado'));
               break;
               case 'Incorrect username or password...':
               Swal.fire(error('Email o password incorrecto'));
               break;
               case 'Wait for approval.':
-              Swal.fire(error('El usuario aún o ha sido habilitado para ingresar'));
+              Swal.fire(error('El usuario aún no ha sido habilitado para ingresar'));
               break;
             default:
               Swal.fire(error('Ha ocurrido un error'));
@@ -117,9 +117,7 @@ const AuthProvider = ({ children }) => {
   );
 
   function getLocalStorage(key) {
-    //note - debería suceder al hacer el login??
-    let exp = 60 * 60 * 24 * 1000; //hardcode - milisegundo en un día
-    // let exp = 10000;
+    let exp = 60 * 60 * 24 * 1000; //hardcode - milliseconds in a day
     if (localStorage.getItem(key)) {
       let vals = localStorage.getItem(key);
       let data = JSON.parse(vals);

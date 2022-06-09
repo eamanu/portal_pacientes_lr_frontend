@@ -20,10 +20,11 @@ function DatosAntropometricos() {
         (institution, id_patient) => {
             anthropometricDataServices(institution, id_patient)
                 .then((res) => {
-                    if (res.status) {
-                        // console.log('res', res)
-                      iterateObject(res)
+                    data.pop()
+                    if (!res.detail && res.length > 0) {
+                        iterateObject(res)
                     } else {
+                        setData([]);
                         setNotFound(true);
                         setLoading(false);
                     }
@@ -39,33 +40,33 @@ function DatosAntropometricos() {
 
     const iterateObject = (info) => {
         let patientData = []
-        Object.entries(info).forEach(([key, value], i, obj) => {
-            if (typeof value === 'string' || typeof value === 'number') {
-                patientData.push(`${key}: ${value}`)
-            }
-            if (typeof value === 'object') {
-                Object.entries(value).forEach(([k, v]) => {
-                    patientData.push(`${k}: ${v}`)
+        info.map((inf, index) => {
+            var content = new Object
+            Object.entries(inf).forEach(([key, values], i, obj) => {
+                content.name = key
+                content.data = []
+                Object.keys(values).map((k) => {
+                    content.data.push(`${k}: ${values[k]}`)
                 })
-            }
-            if (Object.is(obj.length - 1, i)) {
+                if (Object.is(obj.length - 1, i)) {
+                    patientData.push(content)
+                }
+            })
+            if (Object.is(info.length - 1, index)) {
                 setNewData(patientData)
             }
         })
-
     }
 
     const setNewData = (enteredInfo) => {
-        data.push(enteredInfo);
+        setData(enteredInfo)
         setLoading(false);
-        // console.log(data)
     }
 
     useEffect(() => {
         setLoading(true);
-        // console.log(p.patientInstitution)
         getData(p.patientInstitution, p.idPatient);
-    }, [p.patientInstitution]);
+    }, [p.patientInstitution, p.idPatient]);
 
     return (
         <div className='in'>
@@ -75,16 +76,17 @@ function DatosAntropometricos() {
                 <>
                     {data.map((d, i) => {
                         return (
-                            <Card className="mb-3 shadow-sm">
+                            <Card key={i} className="mb-3 shadow-sm">
                                 <Card.Header>
-                                    <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span>
+                                    {/* <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span> */}
+                                    <strong className='text-capitalize'>{d.name}</strong>
                                 </Card.Header>
                                 <Card.Body>
                                     <blockquote className="blockquote mb-0">
-                                        {d.map((itemData) => {
-                                            return (<p>{itemData}</p>)
-                                        })
-                                        }
+
+                                        {d.data.map((v, i) => (
+                                            <p key={i} className="mb-0">{v}</p>
+                                        ))}
                                     </blockquote>
                                 </Card.Body>
                             </Card>

@@ -32,8 +32,7 @@ function Login() {
     }, [])
 
     const onSubmit = () => {
-        // auth.loginFetch()
-        // auth.login(email, password)
+        // setLoading(true)
         auth.loginAdmin(email, password);
         if (saveData) {
             localStorage.setItem("loginDataEmail", JSON.stringify(email));
@@ -50,7 +49,7 @@ function Login() {
                             <h2>Iniciar sesión / administrador</h2>
                             <Form className="form-group in" onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                                    <Form.Label>Email</Form.Label>
+                                    <Form.Label>Username</Form.Label>
                                     <Form.Control
                                         name="email"
                                         type="text"
@@ -61,10 +60,10 @@ function Login() {
                                                 value: true,
                                                 message: "El campo es requerido."
                                             },
-                                            pattern: {
-                                                value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-                                                message: "El formato ingresado no es válido"
-                                            }
+                                            // pattern: {
+                                            //     value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+                                            //     message: "El formato ingresado no es válido"
+                                            // }
                                         })}
                                         onChange={(e) => { setEmail(e.target.value) }}
                                     />
@@ -96,7 +95,7 @@ function Login() {
                                 </Form.Group>
                                 <Form.Group>
                                     {/* <Form.Label>
-                                    <Link to="/recuperar-contraseña">¿Olvidaste tu contraseña?</Link>
+                                    <Link to="/recuperar-clave">¿Olvidaste tu contraseña?</Link>
                                 </Form.Label> */}
                                 </Form.Group>
                                 <div className="d-flex flex-column align-items-center align-items-sm-end mt-3">

@@ -18,7 +18,7 @@ export default function RecuperarContraseña() {
     // get token
     const location = useLocation()
     const pathname = location.pathname
-    const key = pathname.split('/recuperar-contraseña/')
+    const key = pathname.split('/recuperar-clave/')
     const preToken = key[1] ? key[1].split('/') : []
     const [token, setToken] = useState(preToken[0]?.length > 15 ? preToken[0] : null)
     //useform
@@ -85,7 +85,7 @@ export default function RecuperarContraseña() {
 
     const restart = () => {
         setStep(1)
-        history.push('/recuperar-contraseña')
+        history.push('/recuperar-clave')
     }
 
     // Background

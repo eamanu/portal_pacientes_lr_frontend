@@ -13,7 +13,7 @@ export default function ProgramaSumar() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([])
     const p = usePatient()
-    const idnPatient = p.patient.identification_number //46410766 //hardcode 
+    const idnPatient = p.patient.identification_number 
 
     const getData = useCallback(
         (idn) => {

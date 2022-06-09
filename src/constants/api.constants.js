@@ -1,9 +1,6 @@
 import { environment } from "../environments/environments.demo";
 
 const baseUrl = environment.baseURL;
-const tokenId = localStorage.getItem('tokenUser') 
-? localStorage.getItem('tokenUser').split('"')[1] 
-: null
 
 export let LOGIN_HEADER = () => {
   let header = {
@@ -14,14 +11,20 @@ export let LOGIN_HEADER = () => {
 };
 
 export let API_HEADER = () => {
-  //note - could be Content-type: application/json
+  let header = {
+    "accept": "application/json",
+  };
+  return header;
+};
+
+export let REGISTER_HEADER = () => {
   let header = {
     "Content-Type": "application/json",
   };
   return header;
 };
 
-export let UPLOAD_HEADER = () => {
+export let NONE_HEADER = () => {
   let header = {
     // "Content-Type": "multipart/form-data",
   };
@@ -29,19 +32,24 @@ export let UPLOAD_HEADER = () => {
 };
 
 export let AUTH_HEADER = () => {
+  const jwt = localStorage.getItem("tokenUser")
+    ? JSON.parse(localStorage.getItem("tokenUser"))
+    : null;
   let header = {
-    "Content-Type": "application/json",
-    // Authorization: `Bearer ${tokenId}`,
+    "accept": "application/json",
+    "Authorization": `Bearer ${jwt}`,
   };
   return header;
 };
 
-// login
+// login ---------------------------------------
+
 export const API_ENDPOINT_LOGINADMIN = `${baseUrl}/login-admin`;
 
 export const API_ENDPOINT_LOGINPERSON = `${baseUrl}/login`;
 
-// validate
+// validate ---------------------------------------
+
 export const API_ENDPOINT_VALIDATEEMAIL = (token) => {
   let url = `${baseUrl}/validate-email/${token}`;
   return url;
@@ -57,7 +65,8 @@ export const API_ENDPOINT_CHANGEPASSWORD = (query) => {
   return url;
 };
 
-// PERSON
+// PERSON ---------------------------------------
+
 export const API_ENDPOINT_CREATEPERSONANDUSER = `${baseUrl}/createpersonanduser`;
 
 export const API_ENDPOINT_CREATEPERSON = `${baseUrl}/createperson`;
@@ -73,13 +82,14 @@ export const API_ENDPOINT_DOWNLOADIDENTIFICATIONIMAGES = (query) => {
   let url = `${baseUrl}/downloadidentificationimage?${query}`;
   return url;
 };
-//admin
+//admin ---------------------------------------
+
 export const API_ENDPOINT_SETADMINSTATUSTOPERSON = (query) => {
   let url = `${baseUrl}/setadminstatustoperson?${query}`;
   return url;
 };
 
-export const API_ENDPOINT_GETADMINSTATUS =  `${baseUrl}/getadminstatus`;
+export const API_ENDPOINT_GETADMINSTATUS = `${baseUrl}/getadminstatus`;
 
 export const API_ENDPOINT_GETPERSONS = `${baseUrl}/persons`;
 
@@ -112,6 +122,11 @@ export const API_ENDPOINT_PATIENTCOMPLETEDATA = (query) => {
 };
 
 export const API_ENDPOINT_CATEGORIES = `${baseUrl}/categories`;
+
+export const API_ENDPOINT_SEND_TURNO_MAIL = (query) => {
+  let url = `${baseUrl}/send-turno-mail?${query}`;
+  return url;
+};
 
 // formData---------------------------------------
 export const API_ENDPOINT_INSTITUCIONES = `${baseUrl}/institutions/all`;
@@ -156,7 +171,7 @@ export const API_ENDPOINT_DELETEMESSAGE = (query) => {
 
 // sumar ---------------------------------------
 export const API_ENDPOINT_SUMAR = (idn) => {
-  let url = `${baseUrl}/sumar/data/${idn}`;
+  let url = `${baseUrl}/data/${idn}`;
   return url;
 };
 
@@ -166,10 +181,7 @@ export const API_ENDPOINT_ALLERGIES = (institution_id, patient_id) => {
   return url;
 };
 
-export const API_ENDPOINT_ANTHROPOMETRICDATA = (
-  institution_id,
-  patient_id
-) => {
+export const API_ENDPOINT_ANTHROPOMETRICDATA = (institution_id, patient_id) => {
   let url = `${baseUrl}/hcegeneral/${institution_id}/anthropometricData/${patient_id}`;
   return url;
 };
@@ -227,13 +239,3 @@ export const API_ENDPOINT_PERSONALHYSTORIES = (institution_id, patient_id) => {
   let url = `${baseUrl}/hcegeneral/${institution_id}/personalHistories/${patient_id}`;
   return url;
 };
-
-// export const API_ENDPOINT_BASICDATA = (gender_id, identification_number, type_id) =>{
-//   let url = `${baseUrl}/patient/basicData?gender_id=${gender_id}&identification_number=${identification_number}&type_id=${type_id}`;
-//   return url;
-// }
-
-// export const API_ENDPOINT_COMPLETEDATA = (gender_id, identification_number, type_id) =>{
-//   let url = `${baseUrl}/patient/completeData?gender_id=${gender_id}&identification_number=${identification_number}&type_id=${type_id}`;
-//   return url;
-// }

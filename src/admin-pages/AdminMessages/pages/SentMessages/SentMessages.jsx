@@ -8,7 +8,7 @@ import DataNotFound from '../../../../components/DataNotFound'
 import CreateMessage from "../../CreateMessage";
 import { Message } from "../../Message/Message";
 
-export default function ActiveMessages() {
+export default function SentMessages() {
 
     const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
@@ -26,7 +26,8 @@ export default function ActiveMessages() {
                     if (res.length > 0) {
                         // console.log(res)
                         let sent = res.filter(m => m.sent_datetime !== null)
-                        setMessages(sent)
+                        let order = sent.reverse()
+                        setMessages(order)
                         setLoading(false)
                     } else {
                         Swal.fire(error('Error al obtener mensajes'))
@@ -52,7 +53,7 @@ export default function ActiveMessages() {
             </div>
             {loading ? <Loader isActive={loading} />
                 : <Container>
-                    <h5>Mensajes activos <span className="fw-light text-danger">({messages.length})</span></h5>
+                    <h5>Mensajes Enviados <span className="fw-light text-danger">({messages.length})</span></h5>
                     {messages.length > 0 ? messages.map((m, i) => {
                         return (
                             <Message key={m.id + i} header={m.header} body={m.body} idMessage={m.id} status={m.sent_datetime} initMessages={initMessages}></Message>

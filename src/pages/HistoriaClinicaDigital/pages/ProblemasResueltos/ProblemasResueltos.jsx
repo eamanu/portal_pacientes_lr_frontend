@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import usePatient from '../../../../hooks/usePatient';
 import Loader from '../../../../components/Loader';
 import DataNotFound from '../../../../components/DataNotFound';
-import allergiesServices from '../../../../services/hceServices/allergieServices';
 import Swal from 'sweetalert2';
 import { error } from '../../../../components/SwalAlertData';
 import { Card } from 'react-bootstrap';
+import solvedProblemsServices from '../../../../services/hceServices/solvedProblemSevices';
 
-function Alergias() {
+function ProblemasResueltos() {
 
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
@@ -17,14 +17,11 @@ function Alergias() {
 
     const getData = useCallback(
         (institution, id_patient) => {
-            allergiesServices(institution, id_patient)
+            solvedProblemsServices(institution, id_patient)
                 .then((res) => {
                     data.pop()
-                    if (res.length > 0) {
-                        res.map((d, i) => {
-                            iterateObject(d)
-                            setNotFound(false);
-                        })
+                    if (!res.detail && res.length > 0) {
+                        iterateObject(res)
                     } else {
                         setData([]);
                         setNotFound(true);
@@ -42,30 +39,44 @@ function Alergias() {
 
     const iterateObject = (info) => {
         let patientData = []
-        Object.entries(info).forEach(([key, value], i, obj) => {
-            if (typeof value === 'string' || typeof value === 'number') {
-                patientData.push(`${key}: ${value}`)
-            }
-            if (typeof value === 'object') {
-                Object.entries(value).forEach(([k, v]) => {
-                    patientData.push(`${k}: ${v}`)
-                })
-            }
-            if (Object.is(obj.length - 1, i)) {
+        info.map((inf, index) => {
+            var content = new Object
+            content.data = []
+            Object.entries(inf).forEach(([key, value], i, obj) => {
+                if (key !== 'id' && value !== 'NULL' && value !== null) {
+                    if (typeof value === 'string' || typeof value === 'number') {
+                        content.data.push(`${key}: ${value}`)
+                    }
+                    if (typeof value === 'object') {
+                        if (value) {
+                            Object.entries(value).forEach(([k, v]) => {
+                                if(k !== 'id' && v !== 'NULL' &&  v !== null) {
+                                    content.data.push(`${k}: ${v}`)
+                                } 
+                            })
+                        } else {
+                            content.data.push(`${key}: ${value}`)
+                        }
+                    }
+                    if (Object.is(obj.length - 1, i)) {
+                        patientData.push(content)
+                    }
+                }
+            })
+            if (Object.is(info.length - 1, index)) {
                 setNewData(patientData)
             }
         })
-
     }
 
     const setNewData = (enteredInfo) => {
-        data.push(enteredInfo);
+        setData(enteredInfo)
         setLoading(false);
     }
 
+
     useEffect(() => {
         setLoading(true);
-        // setData([])
         getData(p.patientInstitution, p.idPatient);
     }, [p.patientInstitution, p.idPatient]);
 
@@ -79,11 +90,11 @@ function Alergias() {
                         return (
                             <Card key={i} className="mb-3 shadow-sm">
                                 <Card.Header>
-                                    <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span>
+                                    {/* <span className='fw-lighter mb-0'>Fecha: {' - ' || ' - '}</span> | <span className="mb-0">{' - '}</span> */}
                                 </Card.Header>
                                 <Card.Body>
                                     <blockquote className="blockquote mb-0">
-                                        {d.map((itemData, i) => {
+                                        {d.data.map((itemData, i) => {
                                             return (<p key={i}>{itemData}</p>)
                                         })
                                         }
@@ -93,11 +104,11 @@ function Alergias() {
                         )
                     })
                     }
-                    {notFound && <DataNotFound text="alergias" />}
+                    {notFound && <DataNotFound text="problemas activos" />}
                 </>
             }
         </div>
     )
 }
 
-export default Alergias;
+export default ProblemasResueltos;

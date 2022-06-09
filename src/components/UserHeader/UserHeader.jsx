@@ -14,14 +14,24 @@ function UserHeader() {
     const thisLocation = location.pathname
     // Person
     const p = usePatient();
-    const idPerson = p.patient.id 
+    const idPerson = p.patient.id
     const [dniPatient, setDniPatient] = useState(p.patient.identification_number);
     function handleChange() {
         p.getPatient(dniPatient)
     }
     useEffect(() => {
-        handleChange();
+        if(dniPatient !== p.patient.identification_number){
+            handleChange();
+        }
     }, [dniPatient]);
+
+    useEffect(() => {
+        setDniPatient(p.patient.identification_number);
+    }, [p.patient]);
+
+    useEffect(() => {
+        p.getPatient(p.patient.identification_number);
+    }, []);
 
     //are there messages?
     const [messages, setMessages] = useState([])
@@ -43,7 +53,7 @@ function UserHeader() {
     )
 
     useEffect(() => {
-        getMessages(idPerson, true) 
+        getMessages(idPerson, true)
     }, [idPerson])
 
     return (
@@ -52,14 +62,9 @@ function UserHeader() {
                 <div className='user-header__name  pe-2'>
                     <div className='d-flex align-items-center w-100 w-md-0 justify-content-between '>
                         <p className='mb-0 ms-3 fw-lighter'>Paciente: <span className='fw-normal text-uppercase'>{p.patient.name} {p.patient.surname} </span></p>
-                        <div className="my-tooltip">
-                            <NavLink to={"/usuario/notificaciones"}>
-                                <div className='icon_container me-4 me-md-0'><FaIcon.FaRegBell className='notification_icon' />{messages.length > 0 && <div className='notification_circle in'></div>}</div>
-                            </NavLink>
-                            <span className="tiptext">
-                                Notificaciones
-                            </span>
-                        </div>
+                        <NavLink to={"/usuario/notificaciones"}>
+                            <div className='icon_container me-4 me-md-0'><FaIcon.FaRegBell className='notification_icon' />{messages.length > 0 && <div className='notification_circle in'></div>}</div>
+                        </NavLink>
                     </div>
                     <div className='d-flex align-items-center  me-4'>
                         {thisLocation !== '/usuario/grupo-familiar' &&

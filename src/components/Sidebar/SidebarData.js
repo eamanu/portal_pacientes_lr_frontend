@@ -117,6 +117,10 @@ export const SidebarData = {
           path: "/usuario/historia-clinica/problemas-activos"
         },
         {
+          title: "Problemas resueltos",
+          path: "/usuario/historia-clinica/problemas-resueltos"
+        },
+        {
           title: "Registros dentales",
           path: "/usuario/historia-clinica/registros-dentales"
         },
@@ -241,7 +245,7 @@ export const SidebarData = {
     {
       id: 15,
       title: "Mensajería",
-      path: "/admin/mensajeria/mensajes-activos",
+      path: "/admin/mensajeria/mensajes-enviados",
       icon: <MdIcon.MdOutlineMessage className="menu-icon" />,
       acordeon: false,
       a: false,
@@ -249,8 +253,8 @@ export const SidebarData = {
       aIcon: <MdIcon.MdKeyboardArrowDown className="menu-icon" />,
       options: [
         {
-          title: "Mensajes Activos",
-          path: "/admin/mensajeria/mensajes-activos"
+          title: "Mensajes Enviados",
+          path: "/admin/mensajeria/mensajes-enviados"
         },
         {
           title: "Borradores",

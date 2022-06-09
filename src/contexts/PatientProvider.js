@@ -3,10 +3,7 @@ import { createContext } from "react";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import patientBasicDataServices from "../services/patientService";
-import {
-  errorActivePatient,
-  toastPatient,
-} from "../components/SwalAlertData";
+import { errorActivePatient, toastPatient } from "../components/SwalAlertData";
 import { getPersonByIdentificationNumber } from "../services/personServices";
 
 export const PatientContext = createContext();
@@ -21,7 +18,7 @@ const PatientProvider = ({ children }) => {
     patient.id_usual_institution
   );
   const [idPatient, setIdPatient] = useState(
-    JSON.parse(localStorage.getItem("idPatient")) || null
+    JSON.parse(localStorage.getItem("idPatient")) || patient.id_patient || null
   );
 
   useEffect(() => {
@@ -52,7 +49,7 @@ const PatientProvider = ({ children }) => {
   }, [allPatients]);
 
   const getPatient = useCallback((identification_number) => {
-    getPersonByIdentificationNumber(identification_number )
+    getPersonByIdentificationNumber(identification_number)
       .then((res) => {
         if (res.id) {
           let p = res;
@@ -61,16 +58,13 @@ const PatientProvider = ({ children }) => {
               gender_id: p.id_gender,
               identification_number: p.identification_number,
               type_id: p.id_identification_type,
-              // gender_id: 2, //hardcode
-               // identification_number: 36436060, //hardcode
-              // type_id: 1, //hardcode
             };
             getPatientBasicData(p, body);
             Toast.fire(toastPatient(`${p.name} ${p.surname}`));
             return patient;
           }
         } else {
-          throw new Error('No se encontró información del paciente')
+          throw new Error("No se encontró información del paciente");
         }
       })
       .catch((err) => {
@@ -90,6 +84,11 @@ const PatientProvider = ({ children }) => {
           setPatientInstitution(p.id_usual_institution);
           setPatient(p);
           if (res.detail) {
+            if (p.id_patient) {
+              setIdPatient(p.id_patient);
+            } else {
+              setIdPatient(null);
+            }
             throw new Error("Error al obtener datos de paciente en HSI");
           } else {
             if(res.id){
@@ -99,7 +98,7 @@ const PatientProvider = ({ children }) => {
         }
       })
       .catch((err) => {
-        console.log('error', err);
+        console.log("error", err);
       });
   }, []);
 

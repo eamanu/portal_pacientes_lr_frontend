@@ -14,7 +14,7 @@ export default function PendingPatients() {
     const [reload, setReload] = useState(1)
     const [patientsPending, setPendingPatients] = useState([]);
     const [adminStatus, setAdminStatus] = useState([])
-    const status = adminStatus.find(s => s.id === 1)
+    const status = adminStatus.find(s => s.name === 'PENDIENTE DE VALIDACIÓN')
     const statusName = status ? status.name : 'pendiente'
 
     const getData = useCallback(
@@ -22,7 +22,8 @@ export default function PendingPatients() {
             getPersons()
                 .then((res) => {
                     if (res) {
-                        setPendingPatients(res)
+                        let patients = res.filter(p => p.id_admin_status === 1)//note - table db =>  1: pending , 2: validated , 3: refused
+                        setPendingPatients(patients)
                         setLoading(false)
                     } else {
                         throw new Error(res)
@@ -76,7 +77,7 @@ export default function PendingPatients() {
                     <h5 className="mt-5 mb-3">Pacientes pendientes <span className="fw-light text-danger">({patientsPending.length})</span></h5>
                     {patientsPending.length > 0 ? patientsPending.map((p, i) => {
                         return (
-                            <PendingPatient key={i} name={p.name + " " + p.surname} status_id={1} status_name={statusName} id={p.id}></PendingPatient>
+                            <PendingPatient key={i} name={p.name + " " + p.surname} status_id={p.id_admin_status} status_name={statusName} id={p.id} action={getData}></PendingPatient>
                         )
                     })
                         :

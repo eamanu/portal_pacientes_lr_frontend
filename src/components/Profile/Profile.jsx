@@ -48,7 +48,6 @@ function Profile({ show, handleClose, type }) {
         }
     }
     useEffect(() => {
-        // console.log('newvalue', newValue,values[newValue] )
         setValue(`${newValue}`, values[newValue]);
     }, [newValue, values])
 
@@ -80,7 +79,6 @@ function Profile({ show, handleClose, type }) {
         (body) => {
             updatePerson(body)
                 .then((res) => {
-                    console.log(res)
                     if (res.ok) {
                         return res.text().then(text => {
                             let readeble = JSON.parse(text)
@@ -137,22 +135,6 @@ function Profile({ show, handleClose, type }) {
             <Col xs={12} >
                 <FormGroup inputType={f.email.inputType} label={f.email.label} name={f.email.form_name} value={values.email} disabled />
             </Col>
-            {/* <Col xs={12} sm={6} >
-                <FormGroup inputType={f.password.inputType} label={f.password.label} name={f.password.form_name} value={values.password} type={f.password.type}
-                    {...register(`${f.password.form_name}`, f.password.register)}
-                    onChange={handleChange}
-                />
-                {errors[f.password.form_name] && <ErrorMessage><p>{errors[f.password.form_name].message}</p></ErrorMessage>}
-            </Col>
-            <Col xs={12} sm={6} >
-                <FormGroup inputType={f.confirmPassword.inputType} label={f.confirmPassword.label} name={f.confirmPassword.form_name} value={values.confirmPassword} type={f.confirmPassword.type}
-                    {...register(`${f.confirmPassword.form_name}`, {
-                        validate: (value) => value === getValues("password") || 'Las direcciones de correo no coinciden'
-                    })}
-                    onChange={handleChange}
-                />
-                {errors[f.confirmPassword.form_name] && <ErrorMessage><p>{errors[f.confirmPassword.form_name].message}</p></ErrorMessage>}
-            </Col> */}
             <Col xs={12} sm={8}>
                 <FormGroup inputType={f.address_street.inputType} label={f.address_street.label} name={f.address_street.form_name} value={values.address_street}
                     {...register(`${f.address_street.form_name}`, f.address_street.register)}

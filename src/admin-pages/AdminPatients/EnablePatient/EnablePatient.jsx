@@ -6,19 +6,22 @@ import ImgRotate from '../../../components/ImgRotate';
 import { confirm, error, success } from '../../../components/SwalAlertData';
 import identificationsTypeServices from '../../../services/parametricServices';
 import { getAdminStatus, getPersonById, setAdminStatusToPerson } from '../../../services/personServices';
-import { downloadIdentificationImagesService } from '../../../services/registerServices';
+import { downloadIdentificationImagesService, getImageService } from '../../../services/registerServices';
 import { variantsGender } from '../../../components/ComponentsData';
+import useAuth from '../../../hooks/useAuth';
 
-export default function EnablePatient({ show, handleClose, id }) {
+export default function EnablePatient({ show, handleClose, id, action }) {
 
     const [loading, setLoading] = useState(true);
+    const auth = useAuth()
     const [patient, setPatient] = useState(null);
     const [idnType, setIdnType] = useState(1);
     const [genderType, setGenderType] = useState(null);
     const [birthdate, setBirthdate] = useState(null);
-    const [adminStatus, setAdminStatus ] = useState([]);
+    const [adminStatus, setAdminStatus] = useState([]);
     const [imgFront, setImgFront] = useState("")
     const [imgBack, setImgBack] = useState("")
+
 
     const getPatient = useCallback(
         (id) => {
@@ -50,7 +53,6 @@ export default function EnablePatient({ show, handleClose, id }) {
         (idType) => {
             identificationsTypeServices()
                 .then((res) => {
-                    // console.log(res)
                     if (res?.length > 0) {
                         const type = res.find(t => t.id === idType)
                         setIdnType(type)
@@ -68,7 +70,7 @@ export default function EnablePatient({ show, handleClose, id }) {
         let gender = variantsGender.find(g => g.id === id_gender)
         setGenderType(gender)
     }
-    const getImage = useCallback(
+    const downloadImage = useCallback(
         (id, is_front) => {
             downloadIdentificationImagesService(id, is_front)
                 .then((res) => {
@@ -77,11 +79,10 @@ export default function EnablePatient({ show, handleClose, id }) {
                             let readeble = JSON.parse(text)
                             if (readeble.status) {
                                 if (is_front) {
-                                    setImgFront(readeble.value)
-                                    getImage(id, false)
+                                    getImage(readeble.value, is_front)
+                                    downloadImage(id, false)
                                 } else {
-                                    setImgBack(readeble.value)
-                                    setLoading(false)
+                                    getImage(readeble.value, is_front)
                                 }
                             } else {
                                 throw new Error(text)
@@ -99,17 +100,54 @@ export default function EnablePatient({ show, handleClose, id }) {
         },
         [],
     )
+
+    const getImage = useCallback(
+        (imgName, is_front) => {
+            getImageService(imgName, auth.tokenUser)
+                .then((res) => {
+                    if(res && is_front) {
+                        setImgFront(res)
+                    } else if (res && !is_front) {
+                        setImgBack(res)
+                        setLoading(false)
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        [],
+    )
+
+    // const getImageService = (imgName) => {
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.responseType = 'blob'; //so you can access the response like a normal URL
+    //     xhr.onreadystatechange = function () {
+    //         if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+    //             // var img = document.createElement('img');
+    //             let src = URL.createObjectURL(xhr.response); //src set to the blob
+    //             setImgFront(src)
+    //             console.log(src)
+    //             setLoading(false)
+
+    //         }
+    //     };
+    //     xhr.open('GET', `http://128.201.239.7:8000/portalpaciente/api/v1${imgName}`, true);
+    //     xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1NDU1Mzc1MX0.lwFDTZ37hPHRHrjIeIaI_EcK_TZqU88suBIBvwMnIb8');
+    //     xhr.send();
+    // }
+
     const getAdminStatusToSetPerson = useCallback(
         () => {
             getAdminStatus()
-            .then((res) => {
-                setAdminStatus(res)
-            })
-            .catch((err) => {
-                console.log('Error', err)
-                Swal.fire(error('Error al obtenter estados'))
-                handleClose()
-            })
+                .then((res) => {
+                    setAdminStatus(res)
+                })
+                .catch((err) => {
+                    console.log('Error', err)
+                    Swal.fire(error('Error al obtenter estados'))
+                    handleClose()
+                })
 
         }, []
     )
@@ -125,7 +163,7 @@ export default function EnablePatient({ show, handleClose, id }) {
             getDNIVariants(patient.id_identification_type)
             getBirthdate(patient.birthdate);
             getGender(patient.id_gender);
-            getImage(patient.id, true);
+            downloadImage(patient.id, true);
         }
     }, [show, patient, getDNIVariants])
 
@@ -138,6 +176,7 @@ export default function EnablePatient({ show, handleClose, id }) {
                             let readeble = JSON.parse(text)
                             if (readeble.status) {
                                 Swal.fire(success(`Estado ${status.name}`))
+                                action()
                                 handleClose()
                             } else {
                                 Swal.fire(error('Hubo un error al intentar cambiar el estado'))
@@ -159,7 +198,7 @@ export default function EnablePatient({ show, handleClose, id }) {
         Swal.fire(confirm('¿Validar solicitud?')).then((result) => {
             if (result.isConfirmed) {
                 let status = adminStatus.find(s => s.name === "VALIDADO")
-                changeAdminStatusToPerson(id, status) 
+                changeAdminStatusToPerson(id, status)
             }
         })
     }
@@ -195,19 +234,19 @@ export default function EnablePatient({ show, handleClose, id }) {
                                 <Col xs={12} lg={6}>
                                     <h5>Datos de paciente </h5>
                                     <ul className="ps-0 fw-lighter admin-patient__list">
-                                        <li>Nombre: <strong>{patient.name}</strong></li>
-                                        <li>Apellido: <strong>{patient.surname}</strong></li>
-                                        <li>Tipo de documento: <strong>{idnType.description}</strong></li>
-                                        <li>Número de documento: <strong>{patient.identification_number}</strong></li>
-                                        <li>Fecha de nacimiento: <strong>{birthdate}</strong></li>
-                                        <li>Sexo: <strong>{genderType.name}</strong></li>
-                                        <li>Domicilio: <strong>{patient.address_street} {patient.address_number} , {patient.department} , {patient.locality} </strong></li>
-                                        <li>Email: <strong>{patient.email}</strong></li>
-                                        <li>Teléfono: <strong>{patient.phone_number}</strong></li>
+                                        <li>Nombre: <strong>{patient.name || ' - '}</strong></li>
+                                        <li>Apellido: <strong>{patient.surname || ' - '}</strong></li>
+                                        <li>Tipo de documento: <strong>{idnType?.description || ' - '}</strong></li>
+                                        <li>Número de documento: <strong>{patient.identification_number || ' - '}</strong></li>
+                                        <li>Fecha de nacimiento: <strong>{birthdate || ' - '}</strong></li>
+                                        <li>Sexo: <strong>{genderType?.name || ' - '}</strong></li>
+                                        <li>Domicilio: <strong>{patient.address_street || ' - '} {patient.address_number || ' - '} , {patient.department || ' - '} , {patient.locality || ' - '} </strong></li>
+                                        <li>Email: <strong>{patient.email || ' - '}</strong></li>
+                                        <li>Teléfono: <strong>{patient.phone_number || ' - '}</strong></li>
                                     </ul>
                                     <h5>Grupo familiar </h5>
                                     <ul className="admin-patient__list">
-                                        <li>ID grupo familiar: <strong>{patient.identification_number_master}</strong> </li>
+                                        <li>ID grupo familiar: <strong>{patient.identification_number_master || ' - '}</strong> </li>
                                     </ul>
                                 </Col>
                                 <Col xs={12} lg={6}>
