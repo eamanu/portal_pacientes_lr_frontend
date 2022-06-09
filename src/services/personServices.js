@@ -5,6 +5,7 @@ import {
   API_ENDPOINT_SETADMINSTATUSTOPERSON,
   AUTH_HEADER,
   API_ENDPOINT_GETADMINSTATUS,
+  UPDATE_HEADER,
 } from "../constants/api.constants";
 import { get, put } from "./httpServices";
 
@@ -44,7 +45,7 @@ export async function updatePerson(body) {
   try {
     const data = JSON.stringify(body);
     // console.log('data person', data)
-    const promise = await put(API_ENDPOINT_UPDATEPEROSN, AUTH_HEADER(), data);
+    const promise = await put(API_ENDPOINT_UPDATEPEROSN, UPDATE_HEADER(), data);
     return promise;
   } catch (err) {
     console.log("Error al crear persona: ", err);
