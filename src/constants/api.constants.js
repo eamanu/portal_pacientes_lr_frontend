@@ -42,6 +42,17 @@ export let AUTH_HEADER = () => {
   return header;
 };
 
+export let UPDATE_HEADER = () => {
+  const jwt = localStorage.getItem("tokenUser")
+    ? JSON.parse(localStorage.getItem("tokenUser"))
+    : null;
+  let header = {
+    "Content-type": "application/json",
+    "Authorization": `Bearer ${jwt}`,
+  };
+  return header;
+};
+
 // login ---------------------------------------
 
 export const API_ENDPOINT_LOGINADMIN = `${baseUrl}/login-admin`;
