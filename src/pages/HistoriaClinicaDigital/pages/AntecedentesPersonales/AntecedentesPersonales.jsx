@@ -16,24 +16,28 @@ function AntecedentesPersonales() {
     const [data, setData] = useState([]);
 
     const getData = useCallback(
+        // ENDPOINT NO DESARROLLADO EN BACK
         (institution, id_patient) => {
-            personalHistoriesServices(institution, id_patient)
-            .then((res) => {
-                if (res.length > 0) {
-                    res.map((d, i) => {
-                        iterateObject(d)
-                    })
-                } else {
                     setData([]);
                     setNotFound(true);
                     setLoading(false);
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                Swal.fire(error('Hubo un error al solicitar datos'))
-                setLoading(false);
-            })
+            // personalHistoriesServices(institution, id_patient)
+            // .then((res) => {
+            //     if (res.length > 0) {
+            //         res.map((d, i) => {
+            //             iterateObject(d)
+            //         })
+            //     } else {
+            //         setData([]);
+            //         setNotFound(true);
+            //         setLoading(false);
+            //     }
+            // })
+            // .catch((err) => {
+            //     console.log(err)
+            //     Swal.fire(error('Hubo un error al solicitar datos'))
+            //     setLoading(false);
+            // })
         },
         [data],
     )

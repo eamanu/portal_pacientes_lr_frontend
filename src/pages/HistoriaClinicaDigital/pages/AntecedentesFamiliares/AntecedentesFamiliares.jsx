@@ -8,8 +8,8 @@ import { error } from '../../../../components/SwalAlertData';
 import { Card } from 'react-bootstrap';
 
 
-function AntecedentesFamiliares() { 
-    
+function AntecedentesFamiliares() {
+
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
 
@@ -18,23 +18,27 @@ function AntecedentesFamiliares() {
 
     const getData = useCallback(
         (institution, id_patient) => {
-            familyHistoriesServices(institution, id_patient)
-            .then((res) => {
-                if (res.length > 0) {
-                    res.map((d, i) => {
-                        iterateObject(d)
-                    })
-                } else {
-                    setData([]);
-                    setNotFound(true);
-                    setLoading(false);
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                Swal.fire(error('Hubo un error al solicitar datos'))
-                setLoading(false);
-            })
+            // ENDPOINT NO DESARROLLADO EN BACK
+            setData([]);
+            setNotFound(true);
+            setLoading(false);
+            // familyHistoriesServices(institution, id_patient)
+            // .then((res) => {
+            //     if (res.length > 0) {
+            //         res.map((d, i) => {
+            //             iterateObject(d)
+            //         })
+            //     } else {
+            //         setData([]);
+            //         setNotFound(true);
+            //         setLoading(false);
+            //     }
+            // })
+            // .catch((err) => {
+            //     console.log(err)
+            //     Swal.fire(error('Hubo un error al solicitar datos'))
+            //     setLoading(false);
+            // })
         },
         [data],
     )
