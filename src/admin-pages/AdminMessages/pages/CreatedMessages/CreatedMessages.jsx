@@ -56,7 +56,7 @@ export default function CreatedMessages() {
                     <h5>Borradores <span className="fw-light text-danger">({messages.length})</span></h5>
                     {messages.length > 0 ? messages.map((m, i) => {
                         return (
-                            <Message key={m.id + i} header={m.header} body={m.body} idMessage={m.id} status={m.sent_datetime} initMessages={initMessages}></Message>
+                            <Message key={m.id} header={m.header} body={m.body} idMessage={m.id} status={m.sent_datetime} initMessages={initMessages}></Message>
                         )
                     })
                         :
