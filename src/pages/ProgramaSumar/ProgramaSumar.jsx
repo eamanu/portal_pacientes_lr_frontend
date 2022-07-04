@@ -30,6 +30,7 @@ export default function ProgramaSumar() {
                 })
                 .catch((err) => {
                     console.log('err', err)
+                    setLoading(false)
                     Swal.fire(error('Error al solicitar datos de programa SUMAR'))
                 })
         },
