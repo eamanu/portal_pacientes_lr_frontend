@@ -17,23 +17,27 @@ function Hospitalizacion() {
 
     const getData = useCallback(
         (institution, id_patient) => {
-            hospitalizationServices(institution, id_patient)
-            .then((res) => {
-                if (res.length > 0) {
-                    res.map((d, i) => {
-                        iterateObject(d)
-                    })
-                } else {
-                    setData([]);
-                    setNotFound(true);
-                    setLoading(false);
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                Swal.fire(error('Hubo un error al solicitar datos'))
+            // ENDPOINT NO CONFIGURADO EN BACK
+                setData([]);
+                setNotFound(true);
                 setLoading(false);
-            })
+            // hospitalizationServices(institution, id_patient)
+            // .then((res) => {
+            //     if (res.length > 0) {
+            //         res.map((d, i) => {
+            //             iterateObject(d)
+            //         })
+            //     } else {
+            //         setData([]);
+            //         setNotFound(true);
+            //         setLoading(false);
+            //     }
+            // })
+            // .catch((err) => {
+            //     console.log(err)
+            //     Swal.fire(error('Hubo un error al solicitar datos'))
+            //     setLoading(false);
+            // })
         },
         [data],
     )

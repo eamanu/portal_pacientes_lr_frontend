@@ -8,6 +8,7 @@ import {
   API_ENDPOINT_SETMESSAGEREAD,
   API_ENDPOINT_UPDATEMESSAGE,
   AUTH_HEADER,
+  UPDATE_HEADER,
 } from "../constants/api.constants";
 import { get, post, put } from "./httpServices";
 
@@ -107,7 +108,7 @@ export async function setMessageRead(person_id, message_id) {
 export async function updateMessage(body) {
   try {
     const data = JSON.stringify(body);
-    const promise = await put(API_ENDPOINT_UPDATEMESSAGE, AUTH_HEADER(), data);
+    const promise = await put(API_ENDPOINT_UPDATEMESSAGE, UPDATE_HEADER(), data);
     return promise;
   } catch (err) {
     console.log("Error al marcar mensaje como leido: ", err);
