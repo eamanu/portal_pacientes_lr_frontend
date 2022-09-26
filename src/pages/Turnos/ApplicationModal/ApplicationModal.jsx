@@ -9,6 +9,7 @@ import SelectType from '../../../components/SelectType';
 import { confirm, error, success } from '../../../components/SwalAlertData';
 import usePatient from '../../../hooks/usePatient'
 import { sendApplicationEmailService } from '../../../services/applicactionService';
+import institutionsServices from '../../../services/institutionsServices';
 
 function ApplicationModal({ show, handleClose, }) {
 
@@ -36,7 +37,32 @@ function ApplicationModal({ show, handleClose, }) {
         details: "",
         email: p.patient.email,
         phone_number: p.patient.phone_number,
+        establishment: p.patientInstitution
     })
+
+    const [institutions, setInstitutions] = useState([]);
+
+    const getInstitutions = useCallback(
+        () => {
+            institutionsServices()
+                .then((res) => {
+                    const allInstitutions = res
+                    return allInstitutions;
+                })
+                .then((res) => {
+                    if(res.length > 0){
+                        setInstitutions(res);
+                        return institutions
+                    } 
+                })
+                .catch((err) => { console.log(err) })
+        },
+        [institutions]
+    )
+
+    useEffect(() => {
+        getInstitutions()
+    }, [])
 
     let days = []
     Object.keys(weekdays).forEach((key) => {
@@ -67,6 +93,7 @@ function ApplicationModal({ show, handleClose, }) {
     const buildApplication = (days, specialty) => {
         setLoading(true)
         let body = values
+        let patientInstitution = institutions.find((item) => item.id === body.establishment)?.name ?? 'Sin datos'
         let subject = `Solicitud de turno: ${specialty || ''} - Paciente ${body.person}, DNI ${body.identification_number}`
         body.weekly_availability = days.toString()
         body.specialty = specialty
@@ -77,6 +104,7 @@ function ApplicationModal({ show, handleClose, }) {
         Número de documento: ${body.identification_number} \r
         Email: ${body.email} \r
         Teléfono: ${body.phone_number} \r\n
+        Estableciemitno de atención usual: ${patientInstitution} \r\n
         TURNO SOLICITADO \r
         Especialidad médica: ${body.specialty ? body.specialty : '-'} \r
         Disponibilidad semanal: ${body.weekly_availability} \r
