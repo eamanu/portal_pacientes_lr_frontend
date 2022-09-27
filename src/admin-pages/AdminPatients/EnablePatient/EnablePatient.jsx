@@ -9,6 +9,7 @@ import { getAdminStatus, getPersonById, setAdminStatusToPerson } from '../../../
 import { downloadIdentificationImagesService, getImageService } from '../../../services/registerServices';
 import { variantsGender } from '../../../components/ComponentsData';
 import useAuth from '../../../hooks/useAuth';
+import institutionsServices from '../../../services/institutionsServices';
 
 export default function EnablePatient({ show, handleClose, id, action }) {
 
@@ -19,6 +20,7 @@ export default function EnablePatient({ show, handleClose, id, action }) {
     const [genderType, setGenderType] = useState(null);
     const [birthdate, setBirthdate] = useState(null);
     const [adminStatus, setAdminStatus] = useState([]);
+    const [institutions, setInstitutions] = useState([]);
     const [imgFront, setImgFront] = useState("")
     const [imgBack, setImgBack] = useState("")
 
@@ -133,6 +135,20 @@ export default function EnablePatient({ show, handleClose, id, action }) {
 
         }, []
     )
+
+    const getInstitutions = useCallback(
+        () => {
+            institutionsServices()
+                .then((res) => {
+                    const allInstitutions = res
+                    setInstitutions(allInstitutions);
+                    return allInstitutions;
+                })
+                .catch((err) => { console.log(err) })
+        },
+        [institutions],
+    )
+
     useEffect(() => {
         if (show) {
             getPatient(id)
@@ -142,6 +158,7 @@ export default function EnablePatient({ show, handleClose, id, action }) {
     useEffect(() => {
         if (show && patient) {
             getAdminStatusToSetPerson();
+            getInstitutions();
             getDNIVariants(patient.id_identification_type)
             getBirthdate(patient.birthdate);
             getGender(patient.id_gender);
@@ -229,6 +246,10 @@ export default function EnablePatient({ show, handleClose, id, action }) {
                                     <h5>Grupo familiar </h5>
                                     <ul className="admin-patient__list">
                                         <li>ID grupo familiar: <strong>{patient.identification_number_master || ' - '}</strong> </li>
+                                    </ul>
+                                    <h5>Establecimiento </h5>
+                                    <ul className="admin-patient__list">
+                                        <li>{institutions.find((item) => item.id === patient.id_usual_institution)?.name || ' - '}</li>
                                     </ul>
                                 </Col>
                                 <Col xs={12} lg={6}>
