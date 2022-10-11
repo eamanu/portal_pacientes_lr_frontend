@@ -94,7 +94,7 @@ function ApplicationModal({ show, handleClose, }) {
         setLoading(true)
         let body = values
         let patientInstitution = institutions.find((item) => item.id === body.establishment)?.name ?? 'Sin datos'
-        let subject = `Solicitud de turno: ${specialty || ''} - Paciente ${body.person}, DNI ${body.identification_number}`
+        let subject = `Solicitud de turno: ${specialty || ''} - ${patientInstitution} - Paciente ${body.person}, DNI ${body.identification_number}`
         body.weekly_availability = days.toString()
         body.specialty = specialty
         let application =
@@ -168,7 +168,7 @@ function ApplicationModal({ show, handleClose, }) {
             <Modal.Header closeButton>
                 <Modal.Title>Solicitar turno médico</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{ minHeight: '300px'}}>
                 {loading ? <Loader isActive={loading} />
                     : <Container fluid>
                         <Form className="form-group" onSubmit={handleSubmit(onSubmit)}>
