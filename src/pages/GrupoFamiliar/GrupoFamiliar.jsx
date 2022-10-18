@@ -32,13 +32,13 @@ function GrupoFamiliar() {
     return (
         <Container className='p-3'>
             <h5 className='section-title mb-3'>Grupo familiar</h5>
-            <Row className="w-100 mb-3 ms-0">
+            {/* <Row className="w-100 mb-3 ms-0">
                 <Col className="w-100 d-flex justify-content-end pe-0">
                     <Link to="/usuario/agregar-paciente">
                         <button className='btn btn-danger'><FaIcon.FaUserPlus className='me-2' style={{ fontSize: '1.5rem' }} />Agregar miembro</button>
                     </Link>
                 </Col>
-            </Row>
+            </Row> */}
             {loading
                 ? <Loader isActive={loading} />
                 : <Container>

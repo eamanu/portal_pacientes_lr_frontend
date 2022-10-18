@@ -19,7 +19,7 @@ function LoginPerson() {
     const history = useHistory();
     const location = useLocation();
     const previousObjetURL = location.state?.from
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const [number, setNumber] = useState(2) // Background
 
     useEffect(() => {
@@ -27,13 +27,18 @@ function LoginPerson() {
     }, [auth, history, previousObjetURL])
 
     const onSubmit = () => {
-        // setLoading(true)
+        setLoading(true)
         auth.loginPerson(email, password);
         if (saveData) {
             localStorage.setItem("loginDataEmail", JSON.stringify(email));
             localStorage.setItem("loginDataPassword", JSON.stringify(password));
         }
     }
+
+    const handlePassword = (value) => {
+        setPassword(value)
+        setValue('password', value)
+    } 
 
     useEffect(() => {
         setNumber(Math.floor(Math.random() * (5 - 0)) + 1);
@@ -87,7 +92,7 @@ function LoginPerson() {
                                                     message: "La contraseña debe tener al menos 3 caracteres",
                                                 }
                                             })}
-                                            onChange={(e) => { setPassword(e.target.value) }}
+                                            onChange={(e) => { handlePassword(e.target.value) }}
                                         />
                                         {errors.password && <ErrorMessage><p>{errors.password.message}</p></ErrorMessage>}
                                     </Form.Group>
