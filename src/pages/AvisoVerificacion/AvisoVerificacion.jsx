@@ -84,9 +84,9 @@ function AvisoVerificacion() {
                                 <>
                                     <div className="w-100 d-flex flex-column flex-sm-row align-items-center mb-5">
                                         <MdIcon.MdOutlineCheckCircleOutline className="text-success me-3" style={{ fontSize: "5rem" }}></MdIcon.MdOutlineCheckCircleOutline>
-                                        <p className='mb-0'>Hemos enviado un correo a la casilla <b>{auth.newUser.email}</b>. Haz click en el link que figura en el correo para confirmar tu usuario.</p>
+                                        <p className='mb-0'>Hemos enviado un correo a la casilla <b>{auth.newUser.email}</b>. <br /> Haz click en el link que figura en el correo para confirmar tu usuario. <br /> El mimso tiene una <strong>validez de 24 hs.</strong></p>
                                     </div>
-                                    <p>Si no encuentras el correo en tu bandeja de entrada, <strong>no olvides verificar en la carpeta de spam.</strong></p>
+                                    <p>Si el correo no se encuentra bandeja de entrada, <strong>no olvides verificar en la carpeta de spam.</strong></p>
                                     <Link to="/login">¿Ya tenés una cuenta? ¡Iniciá sesión!</Link>
                                 </>
                                 :
